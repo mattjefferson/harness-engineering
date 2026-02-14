@@ -15,17 +15,23 @@ Run this skill periodically to keep docs accurate and aligned with shipped behav
 
 ## Scan Targets
 
+**Launch parallel subagents to scan each target area concurrently:**
+
 1. Repeated review findings and regressions
 2. Stale or contradictory docs
 3. Dead links or outdated references
 4. High-churn or complexity hotspots
 5. Flaky test patterns
+6. Stale generated context in `docs/generated/` (check `last_updated` timestamps)
+
+Each subagent scans one area and returns a list of drift findings with priority. The main thread consolidates and queues fix-up work.
 
 ## Outputs
 
 1. Update `docs/plans/tech-debt-tracker.md`
 2. Update `docs/QUALITY_SCORE.md` trend notes
-3. Create one or more doc-fix specs and plans:
+3. Refresh stale generated context files in `docs/generated/`
+4. Create one or more doc-fix specs and plans:
    - `docs/specs/<slug>.md`
    - `docs/plans/active/<slug>.md`
 
@@ -44,11 +50,8 @@ Record drift findings with explicit priority.
 - Cleanup initiatives are queued as normal slug-based specs/plans
 - Docs commit gate passes
 
-## Transition Options (Required)
+## Transition Options
 
-At every transition point, present 2-3 explicit options and a recommended default before continuing.
+Present 2-3 explicit next-step options with a recommended default. Use `request_user_input` (Codex) or `AskUserQuestion` (Claude Code) in Plan mode; otherwise ask in chat. Wait for user selection before proceeding.
 
-- Use the plan question tool (`request_user_input`) when in Plan mode.
-- If the plan question tool is unavailable, ask in chat with the same option structure.
-- At least one option must explicitly be `Next step: he-intake` for a cleanup initiative slug.
-- Wait for the user's selection before proceeding to the next phase.
+At least one option must be `Next step: he-intake` for a cleanup initiative slug.

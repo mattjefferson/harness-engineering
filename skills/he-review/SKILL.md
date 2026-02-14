@@ -13,14 +13,33 @@ Run structured, parallel code review before verify/release.
 - `docs/plans/active/<slug>.md` (`plan_mode: lightweight|execution`)
 - Implementation evidence from diffs/tests and generated reference context in `docs/generated/`
 
+## Generated Context
+
+Refresh generated context before review if stale:
+
+- `docs/generated/db-schema.md` (if present)
+- `docs/generated/api-schema.md` (if present)
+- `docs/generated/component-tree.md` (if present)
+- `docs/generated/dependency-graph.md` (if present)
+
 ## Review Fanout (Parallel)
 
-Run these reviewers concurrently:
+**Launch one subagent per reviewer.** Run all four concurrently:
 
-1. correctness reviewer
-2. architecture/invariants reviewer
-3. security/data reviewer
-4. simplicity reviewer
+1. correctness reviewer subagent
+2. architecture/invariants reviewer subagent
+3. security/data reviewer subagent
+4. simplicity reviewer subagent
+
+Each subagent receives the plan, the diffs, and the relevant generated context. Each returns a list of findings in the standard format. The main thread consolidates results — do not do review work in the main thread.
+
+## Review Dimensions
+
+Each reviewer checks against:
+
+- The plan's acceptance criteria and `done_when` conditions
+- Golden principles defined in AGENTS.md (flag violations as findings)
+- Testing philosophy: flag any mock-based tests as a `high` priority finding
 
 ## Findings Format
 
@@ -52,17 +71,24 @@ When the same class of finding repeats:
 - propose mechanical guardrail (lint/test/structural check)
 - record it in `docs/plans/tech-debt-tracker.md`
 
+## Re-entry on Fundamental Issues
+
+When review reveals a fundamental design issue (not just a bug fix):
+
+- Return to `he-plan` with a Decision Log entry explaining the issue.
+- Re-validate affected tasks before resuming implementation.
+- Create a Progress Log entry explaining the loop-back.
+
 ## Exit Gate
 
 - Review findings recorded in active plan
 - Critical/high findings resolved or explicitly escalated
+- No mock-based tests in the implementation
+- If fundamental design issue found: re-entry to `he-plan` identified
 - Docs commit gate passes
 
-## Transition Options (Required)
+## Transition Options
 
-At every transition point, present 2-3 explicit options and a recommended default before continuing.
+Present 2-3 explicit next-step options with a recommended default. Use `request_user_input` (Codex) or `AskUserQuestion` (Claude Code) in Plan mode; otherwise ask in chat. Wait for user selection before proceeding.
 
-- Use the plan question tool (`request_user_input`) when in Plan mode.
-- If the plan question tool is unavailable, ask in chat with the same option structure.
-- At least one option must explicitly be `Next step: he-verify-release`.
-- Wait for the user's selection before proceeding to the next phase.
+At least one option must be `Next step: he-verify-release`. If a fundamental design issue requires re-entry, offer `Next step: he-plan` instead.

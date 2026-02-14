@@ -16,32 +16,42 @@ Validate release readiness and record a go/no-go decision.
 
 ## Verification Checklist
 
-1. Required tests pass.
-2. Architecture and safety invariants pass.
-3. No unresolved critical/high findings.
+**Launch parallel subagents to verify independent checklist items concurrently:**
+
+1. Required tests pass (subagent: run test suites and collect results).
+2. Architecture and safety invariants pass (subagent: check invariants against codebase).
+3. No unresolved critical/high findings (check review findings in plan).
 4. Rollback steps are documented and feasible.
 5. Monitoring and post-release checks are defined.
 
+The main thread collects subagent results and records the GO/NO-GO decision.
+
 ## Plan Update
 
-Add section from `templates/verify-release-decision-section.md`.
+Fill in the `## Verify/Release Decision` section in `docs/plans/active/<slug>.md`.
 
 ## Decision Rules
 
 - `NO-GO` if any blocking gate fails.
 - `GO` only with complete evidence and explicit rollback path.
 
+## Re-entry on NO-GO
+
+When the decision is `NO-GO`:
+
+- For minor fixes (test failures, small bugs): return to `he-implement` with the specific tasks to fix.
+- For design-level issues (architecture problems, missing requirements): return to `he-plan` with a Decision Log entry.
+- Always create a Progress Log entry explaining the NO-GO reason and the target re-entry phase.
+
 ## Exit Gate
 
 - Decision recorded in active plan
 - Evidence references included
+- If NO-GO: re-entry target phase identified with rationale
 - Docs commit gate passes
 
-## Transition Options (Required)
+## Transition Options
 
-At every transition point, present 2-3 explicit options and a recommended default before continuing.
+Present 2-3 explicit next-step options with a recommended default. Use `request_user_input` (Codex) or `AskUserQuestion` (Claude Code) in Plan mode; otherwise ask in chat. Wait for user selection before proceeding.
 
-- Use the plan question tool (`request_user_input`) when in Plan mode.
-- If the plan question tool is unavailable, ask in chat with the same option structure.
-- At least one option must explicitly be `Next step: he-learn`.
-- Wait for the user's selection before proceeding to the next phase.
+At least one option must be `Next step: he-learn` (for GO) or the re-entry phase (for NO-GO).

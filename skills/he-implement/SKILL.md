@@ -14,25 +14,35 @@ Execute plan tasks with DAG-batch parallelism.
 
 ## Generated Context
 
+Before starting execution, refresh generated context if stale:
+
 - `docs/generated/db-schema.md` (if present)
-- other generated reference docs in `docs/generated/` (if present)
+- `docs/generated/api-schema.md` (if present)
+- `docs/generated/component-tree.md` (if present)
+- `docs/generated/dependency-graph.md` (if present)
+- Other generated reference docs in `docs/generated/` (if present)
+
+Each generated file should include a `last_updated` timestamp.
 
 ## Execution Model
 
-1. Parse task DAG/checklist from active plan and load concrete execution details from `Task Details` (`files_to_change`, `tests_to_run`, `verify_commands`).
+1. Parse task DAG/checklist from active plan and load concrete execution details from `Task Details`.
+   - For `execution` mode: load `files_to_change`, `tests_to_run`, `verify_commands`.
+   - For `lightweight` mode: load `files`, `steps`, `test_type`, `verify`, `done_when`.
 2. Build next ready batch (all dependencies satisfied).
-3. Spawn one worker per task in batch.
-4. Execute workers concurrently.
-5. Integrate batch outputs.
-6. Repeat until no remaining tasks.
+3. **Launch one subagent per task in the batch.** Each subagent receives the task details, target files, and relevant generated context. Run all subagents in the batch concurrently.
+4. Collect subagent results and integrate batch outputs.
+5. Repeat until no remaining tasks.
 
-## Worker Contract
+Use subagents aggressively — every independent task in a batch should be its own subagent. Keep the main context clean by offloading implementation work to subagents and only handling integration and plan updates in the main thread.
 
-Each worker returns:
+## Subagent Return Contract
+
+Each subagent returns:
 
 - changed files
-- planned target files and whether each was touched (or explicit no-change reason)
-- tests run and results
+- planned target files (`files_to_change` or `files`) and whether each was touched (or explicit no-change reason)
+- tests run and results (must match task's `test_type` — unit or e2e, no mocks)
 - unresolved risks with `priority`
 - integration notes
 
@@ -41,17 +51,22 @@ Each worker returns:
 - Integrate one batch at a time.
 - If conflicts occur, split tasks or sequence conflicting tasks.
 - Re-run targeted tests for integrated batch.
-- If a task/subtask is missing concrete `files_to_change` or `verify_commands` in `Task Details`, send it back to planning before execution.
+- If a task is missing concrete file paths or verify commands in `Task Details`, send it back to planning before execution.
+
+## Branch and PR Convention
+
+- Work on the initiative's branch (one branch per slug).
+- Use worktree-per-task for parallel execution when blast radius is non-trivial.
+- Create PR at the implement-to-review boundary.
 
 ## Plan Progress Updates
 
 Update `docs/plans/active/<slug>.md` after each batch:
 
-- completed tasks
-- blocked tasks
-- notes for retry or reassignment
-- append `Progress Log` entry with evidence
-- append `Decision Log` entry when scope/approach changes
+- Update `Task DAG` statuses (`todo|in_progress|blocked|done`) — this is the single source of truth
+- Check/uncheck step checkboxes (`implementation_steps` in execution mode, `steps` in lightweight mode) to reflect executed work
+- Append `Progress Log` entry with evidence
+- Append `Decision Log` entry when scope/approach changes
 
 ## Exit Gate
 
@@ -59,11 +74,8 @@ Update `docs/plans/active/<slug>.md` after each batch:
 - Plan progress is current
 - Docs commit gate passes
 
-## Transition Options (Required)
+## Transition Options
 
-At every transition point, present 2-3 explicit options and a recommended default before continuing.
+Present 2-3 explicit next-step options with a recommended default. Use `request_user_input` (Codex) or `AskUserQuestion` (Claude Code) in Plan mode; otherwise ask in chat. Wait for user selection before proceeding.
 
-- Use the plan question tool (`request_user_input`) when in Plan mode.
-- If the plan question tool is unavailable, ask in chat with the same option structure.
-- At least one option must explicitly be `Next step: he-review`.
-- Wait for the user's selection before proceeding to the next phase.
+At least one option must be `Next step: he-review`.

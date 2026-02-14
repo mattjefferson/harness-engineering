@@ -5,4 +5,7 @@
 - root cause:
 - prevention:
 - guardrail candidate:
+- agents_md_update: yes|no (should this update AGENTS.md?)
+- golden_principle: yes|no (should this become a golden principle?)
+- lesson_applied: pending|applied
 - owner:
