@@ -1,18 +1,31 @@
 # harness-engineering
 
-Harness Engineering skills for running a spec-to-release workflow with phase gates, slug-based artifacts, and generated reference context.
+## Philosophy
 
-This repository packages reusable `he-*` skills and templates that can be installed into local agent environments (via `.agents`) and used across projects.
+Ultimate philosophy:
 
-This project is based on the article and learnings from:
-- https://openai.com/index/harness-engineering/
+Turn software delivery into a versioned, evidence-backed control system that both humans and agents can run reliably.
 
-It is also based on ideas from:
-- https://github.com/EveryInc/compound-engineering-plugin
-- https://github.com/tmchow/tmc-marketplace/tree/main/plugins/iterative-engineering
+How this is different:
+
+- Artifact-first, not meeting-first: the source of truth is committed specs, plans, logs, and decisions, not standups or tribal memory.
+- Two planning modes by intent: lightweight plans for small work, execution plans for complex work.
+- Progressive disclosure: small stable entry point, then deeper context only when needed.
+- Gate-driven flow: movement across phases requires explicit evidence, not subjective "looks good."
+- Agent-native by design: tasks are structured so parallel agents can execute, review, and verify consistently.
+- Compounding learning loop: failures become permanent guardrails (docs, tests, principles), so the system improves over time.
+
+In short: most methodologies optimize coordination; this optimizes reproducible execution with durable context.
+
+This approach is influenced by:
+
+- OpenAI Harness Engineering: https://openai.com/index/harness-engineering/
+- Every Compound Engineering Plugin: https://github.com/EveryInc/compound-engineering-plugin
+- TMC Iterative Engineering Plugin: https://github.com/tmchow/tmc-marketplace/tree/main/plugins/iterative-engineering
 
 ## Table of Contents
 
+- [Philosophy](#philosophy)
 - [What This Repo Provides](#what-this-repo-provides)
 - [Tech Stack](#tech-stack)
 - [Repository Layout](#repository-layout)
