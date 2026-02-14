@@ -10,7 +10,7 @@ Validate release readiness and record a go/no-go decision.
 
 ## Inputs
 
-- `docs/plans/active/<slug>.md`
+- `docs/plans/active/<slug>.md` (`plan_mode: lightweight|execution`)
 - Review findings
 - Test and integration evidence
 

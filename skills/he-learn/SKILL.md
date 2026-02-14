@@ -10,8 +10,8 @@ Turn execution outcomes into durable improvements.
 
 ## Inputs
 
-- `docs/plans/active/<slug>.md`
-- runtime events and review/verify outcomes
+- `docs/plans/active/<slug>.md` (`plan_mode: lightweight|execution`)
+- implementation/review/verify outcomes plus generated context updates (if any)
 - incident or friction notes (if any)
 
 ## Required Outputs
@@ -47,5 +47,5 @@ At every transition point, present 2-3 explicit options and a recommended defaul
 
 - Use the plan question tool (`request_user_input`) when in Plan mode.
 - If the plan question tool is unavailable, ask in chat with the same option structure.
-- At least one option must explicitly be `Next step: he-entropy` (or `he-intake` for the next initiative).
+- At least one option must explicitly be `Next step: he-doc-gardening` (or `he-intake` for the next initiative).
 - Wait for the user's selection before proceeding to the next phase.

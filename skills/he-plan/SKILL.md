@@ -18,23 +18,34 @@ Convert a spec into a decision-complete execution plan.
 
 ## Planning Requirements
 
-1. Define architecture and interface decisions.
-2. Define task DAG with explicit dependencies.
-3. Define acceptance criteria per task.
-4. Define test scenarios and verification commands.
-5. Define rollout and rollback strategy.
-6. Define escalation conditions.
+1. Read `plan_mode` from `docs/specs/<slug>.md`.
+2. For `execution` mode:
+   - Define architecture and interface decisions.
+   - Define task DAG with explicit dependencies using sequence IDs (`1`, `1.1`, `1.2`).
+   - Keep DAG entries high-level (task summary, dependency, parallel safety, priority, status).
+3. For `lightweight` mode:
+   - Keep plan concise (typically <= 3 tasks).
+   - Use sequence IDs (`1`, `1.1`, `1.2`) only as needed.
+   - Keep one short decision log and progress log section in the same template.
+4. Define priority level (`critical|high|medium|low`) per task.
+5. Define concrete target files per task/subtask in Task Details (exact repo-relative paths).
+6. Define concrete tests and verification commands per task/subtask in Task Details.
+7. Define rollout and rollback strategy.
+8. Define escalation conditions.
+9. Initialize `Decision Log` and `Progress Log` sections.
 
 ## Plan Template
 
-Use `templates/active-plan-template.md`.
+Use `templates/active-plan-template.md` for both `lightweight` and `execution`.
 
 ## Exit Gate
 
 - Plan exists in `docs/plans/active/<slug>.md`
-- Every task has dependencies and acceptance criteria
-- Test matrix exists
+- Every task has acceptance criteria
+- Every task/subtask lists concrete file paths and tests
 - Rollback path exists
+- `Decision Log` exists
+- `Progress Log` exists
 - Docs commit gate passes
 
 ## Transition Options (Required)

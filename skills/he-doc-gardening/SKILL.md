@@ -1,12 +1,12 @@
 ---
-name: he-entropy
-description: Performs periodic entropy cleanup by scanning for drift, opening small cleanup initiatives, and updating debt and quality tracking artifacts.
+name: he-doc-gardening
+description: Recurring doc-gardening agent that scans for stale or obsolete documentation that no longer matches real code behavior, then queues fix-up work.
 argument-hint: "[optional area, subsystem, or repo-wide]"
 ---
 
-# HE Entropy
+# HE Doc Gardening
 
-Run this skill periodically to reduce drift and maintain throughput.
+Run this skill periodically to keep docs accurate and aligned with shipped behavior.
 
 ## Frequency
 
@@ -25,15 +25,17 @@ Run this skill periodically to reduce drift and maintain throughput.
 
 1. Update `docs/plans/tech-debt-tracker.md`
 2. Update `docs/QUALITY_SCORE.md` trend notes
-3. Create one or more cleanup specs and plans:
+3. Create one or more doc-fix specs and plans:
    - `docs/specs/<slug>.md`
    - `docs/plans/active/<slug>.md`
 
-Keep each cleanup plan small and independently shippable.
+Keep each doc-fix plan small and independently shippable.
 
-## Entropy Rule
+Record drift findings with explicit priority.
 
-- Entropy work should not block feature delivery unless a critical invariant is broken.
+## Doc-Gardening Rule
+
+- Doc-gardening work should not block feature delivery unless a critical invariant is broken.
 - Critical invariant violations must be escalated and prioritized immediately.
 
 ## Exit Gate

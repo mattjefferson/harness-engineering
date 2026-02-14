@@ -23,8 +23,21 @@ Create a decision-ready spec artifact for a new initiative.
 2. Define measurable success criteria.
 3. Define constraints (time, risk, compatibility, performance).
 4. Define scope and non-goals.
-5. Classify risk (`critical`, `high`, `medium`, `low`).
-6. Draft initial task graph candidates with rough dependencies.
+5. Classify overall priority (`critical`, `high`, `medium`, `low`).
+6. Draft initial task graph candidates with rough dependencies using sequence IDs (`1`, `1.1`, `1.2`) and include priority for each task.
+
+## Plan Path Selection (Required)
+
+Select `plan_mode` in the spec metadata:
+
+- `lightweight` when all are true:
+  - Change is small (typically <= 3 tasks and <= 3 files)
+  - No schema migration, auth change, security boundary change, or public API contract break
+  - Overall risk is not `critical`
+  - Verification can be covered by a short targeted test set
+- `execution` for all other work
+
+Write `plan_mode: <lightweight|execution>` in `docs/specs/<slug>.md`.
 
 ## Fuzzy-Idea Loop
 
@@ -44,7 +57,8 @@ Use `templates/spec-template.md`.
 - Spec exists at `docs/specs/<slug>.md`
 - Success criteria are measurable
 - Scope and non-goals are explicit
-- Risk level assigned
+- Priority assigned
+- `plan_mode` is assigned (`lightweight` or `execution`)
 - Docs commit gate passes
 
 ## Transition Options (Required)

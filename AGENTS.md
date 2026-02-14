@@ -4,6 +4,14 @@
 
 This file routes agents to the project's source of truth for harness-engineered execution.
 
+## Core Principles
+
+- Plans are first-class artifacts.
+- Use ephemeral lightweight plans for small changes.
+- Capture complex work in execution plans with progress logs and decision logs, committed to the repository.
+- Keep active plans, completed plans, and technical debt versioned and co-located so agents do not depend on external context.
+- Enable progressive disclosure: agents start from a small, stable entry point and follow explicit pointers to deeper context as needed.
+
 ## Source of Truth Order
 
 1. `AGENTS.md`
@@ -20,25 +28,24 @@ This file routes agents to the project's source of truth for harness-engineered 
 4. review
 5. verify/release
 6. learn
-7. entropy (periodic)
+7. doc-gardening (periodic)
 
 ## Conventions
 
 - Slug format: `YYYY-MM-DD-kebab-topic`
-- One slug per initiative across specs, plans, and generated state
-- Runtime state path: `docs/generated/runs/<slug>/`
+- One slug per initiative across specs and plans
+- Generated context path: `docs/generated/`
 
 ## Gates
 
 1. Doc commit gate between phases
-2. Severity gate: unresolved critical/high findings block progression
+2. Priority gate: unresolved critical/high-priority findings block progression
 3. Dependency gate: tasks execute only when dependencies are satisfied
 
 ## Paths
 
 - Specs: `docs/specs/`
-- Active plans: `docs/plans/active/`
-- Completed plans: `docs/plans/completed/`
+- Active plans: `docs/plans/active/<slug>.md` (`plan_mode: lightweight|execution`)
+- Completed plans: `docs/plans/completed/<slug>.md`
 - Debt tracker: `docs/plans/tech-debt-tracker.md`
-- Generated state: `docs/generated/runs/`
-
+- Generated context: `docs/generated/`

@@ -1,6 +1,6 @@
 ---
 name: he-review
-description: Runs agent-first review fanout across correctness, architecture, security/data, and simplicity, then enforces severity gates before release verification.
+description: Runs agent-first review fanout across correctness, architecture, security/data, and simplicity, then enforces priority gates before release verification.
 argument-hint: "[slug or docs/plans/active/<slug>.md]"
 ---
 
@@ -10,8 +10,8 @@ Run structured, parallel code review before verify/release.
 
 ## Inputs
 
-- `docs/plans/active/<slug>.md`
-- Implementation evidence from generated runtime state
+- `docs/plans/active/<slug>.md` (`plan_mode: lightweight|execution`)
+- Implementation evidence from diffs/tests and generated reference context in `docs/generated/`
 
 ## Review Fanout (Parallel)
 
@@ -26,7 +26,7 @@ Run these reviewers concurrently:
 
 Each finding includes:
 
-- severity: `critical|high|medium|low`
+- priority: `critical|high|medium|low`
 - location: file/path + context
 - issue summary
 - required action
@@ -40,10 +40,10 @@ Write consolidated findings into plan:
 - include unresolved and accepted items
 - include explicit rationale for accepted medium/low items
 
-## Severity Gate
+## Priority Gate
 
-- Any unresolved `critical` or `high` finding blocks progression.
-- `medium` and `low` can proceed only if accepted in writing in the active plan.
+- Any unresolved `critical` or `high` priority finding blocks progression.
+- `medium` and `low` priorities can proceed only if accepted in writing in the active plan.
 
 ## Guardrail Promotion
 

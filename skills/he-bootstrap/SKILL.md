@@ -6,7 +6,7 @@ argument-hint: "[optional target repo path; defaults to current directory]"
 
 # HE Bootstrap
 
-Initialize the minimum docs structure required by the `he-*` workflow.
+Initialize the docs structure required by the `he-*` workflow while preserving this repo's `docs/specs` and `docs/plans` conventions.
 
 ## Inputs
 
@@ -18,7 +18,8 @@ Initialize the minimum docs structure required by the `he-*` workflow.
 - `docs/specs/`
 - `docs/plans/active/`
 - `docs/plans/completed/`
-- `docs/generated/runs/`
+- `docs/design-docs/`
+- `docs/generated/`
 - `docs/references/`
 
 ## Baseline Files
@@ -28,9 +29,52 @@ Create these only if missing:
 - `AGENTS.md`
 - `docs/plans/tech-debt-tracker.md`
 - `docs/specs/README.md`
+- `docs/specs/index.md`
 - `docs/plans/README.md`
 - `docs/generated/README.md`
+- `docs/generated/db-schema.md`
 - `docs/references/README.md`
+- `docs/design-docs/index.md`
+- `docs/design-docs/core-beliefs.md`
+- `docs/DESIGN.md`
+- `docs/FRONTEND.md`
+- `docs/PLANS.md`
+- `docs/PRODUCT_SENSE.md`
+- `docs/QUALITY_SCORE.md`
+- `docs/RELIABILITY.md`
+- `docs/SECURITY.md`
+
+## Templates
+
+Each created file has a source template in `templates/`:
+
+- `AGENTS.md` <- `templates/AGENTS.md`
+- `ARCHITECTURE.md` <- `templates/ARCHITECTURE.md` (optional with `--with-architecture`)
+- `docs/plans/tech-debt-tracker.md` <- `templates/docs/plans/tech-debt-tracker.md`
+- `docs/specs/README.md` <- `templates/docs/specs/README.md`
+- `docs/specs/index.md` <- `templates/docs/specs/index.md`
+- `docs/plans/README.md` <- `templates/docs/plans/README.md`
+- `docs/generated/README.md` <- `templates/docs/generated/README.md`
+- `docs/generated/db-schema.md` <- `templates/docs/generated/db-schema.md`
+- `docs/references/README.md` <- `templates/docs/references/README.md`
+- `docs/design-docs/index.md` <- `templates/docs/design-docs/index.md`
+- `docs/design-docs/core-beliefs.md` <- `templates/docs/design-docs/core-beliefs.md`
+- `docs/DESIGN.md` <- `templates/docs/DESIGN.md`
+- `docs/FRONTEND.md` <- `templates/docs/FRONTEND.md`
+- `docs/PLANS.md` <- `templates/docs/PLANS.md`
+- `docs/PRODUCT_SENSE.md` <- `templates/docs/PRODUCT_SENSE.md`
+- `docs/QUALITY_SCORE.md` <- `templates/docs/QUALITY_SCORE.md`
+- `docs/RELIABILITY.md` <- `templates/docs/RELIABILITY.md`
+- `docs/SECURITY.md` <- `templates/docs/SECURITY.md`
+
+Plan templates provided by this skill set:
+
+- `skills/he-intake/templates/spec-template.md` (intake output)
+- `skills/he-plan/templates/active-plan-template.md` (`plan_mode: lightweight|execution`)
+
+Optional reference examples (not auto-created by bootstrap):
+
+- `templates/docs/references/template-llms.txt`
 
 Optional:
 
@@ -58,10 +102,14 @@ bash skills/he-bootstrap/templates/bootstrap.sh --with-architecture
 test -d docs/specs &&
 test -d docs/plans/active &&
 test -d docs/plans/completed &&
-test -d docs/generated/runs &&
+test -d docs/design-docs &&
+test -d docs/generated &&
 test -d docs/references &&
 test -f AGENTS.md &&
-test -f docs/plans/tech-debt-tracker.md
+test -f docs/plans/tech-debt-tracker.md &&
+test -f docs/generated/db-schema.md &&
+test -f docs/design-docs/core-beliefs.md &&
+test -f docs/QUALITY_SCORE.md
 ```
 
 ## Next Step

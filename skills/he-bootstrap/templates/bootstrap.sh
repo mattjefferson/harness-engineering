@@ -4,6 +4,13 @@ set -euo pipefail
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 WITH_ARCHITECTURE=0
 
+copy_if_missing() {
+  local target="$1"
+  local template_rel="$2"
+
+  [ -f "$target" ] || cat "$SCRIPT_DIR/$template_rel" > "$target"
+}
+
 usage() {
   cat <<'EOF'
 Usage: bootstrap.sh [--with-architecture]
@@ -31,42 +38,24 @@ for arg in "$@"; do
   esac
 done
 
-mkdir -p docs/specs docs/plans/active docs/plans/completed docs/generated/runs docs/references
+mkdir -p docs/specs docs/plans/active docs/plans/completed docs/design-docs docs/generated docs/references
 
-[ -f AGENTS.md ] || cat "$SCRIPT_DIR/AGENTS.md" > AGENTS.md
-[ "$WITH_ARCHITECTURE" -eq 0 ] || [ -f ARCHITECTURE.md ] || cat "$SCRIPT_DIR/ARCHITECTURE.md" > ARCHITECTURE.md
+copy_if_missing AGENTS.md "AGENTS.md"
+[ "$WITH_ARCHITECTURE" -eq 0 ] || copy_if_missing ARCHITECTURE.md "ARCHITECTURE.md"
 
-[ -f docs/plans/tech-debt-tracker.md ] || cat > docs/plans/tech-debt-tracker.md <<'EOF'
-# Tech Debt Tracker
-
-| date | slug | issue pattern | impact | prevention action | priority | owner | status |
-|---|---|---|---|---|---|---|---|
-EOF
-
-[ -f docs/specs/README.md ] || cat > docs/specs/README.md <<'EOF'
-# Specs
-
-Store initiative specs here using one file per slug.
-EOF
-
-[ -f docs/plans/README.md ] || cat > docs/plans/README.md <<'EOF'
-# Plans
-
-Active plans: docs/plans/active/<slug>.md
-Completed plans: docs/plans/completed/<slug>.md
-EOF
-
-[ -f docs/generated/README.md ] || cat > docs/generated/README.md <<'EOF'
-# Generated State
-
-Machine-written runtime state:
-- docs/generated/runs/<slug>/run.json
-- docs/generated/runs/<slug>/tasks/<task-id>.json
-- docs/generated/runs/<slug>/events.ndjson
-EOF
-
-[ -f docs/references/README.md ] || cat > docs/references/README.md <<'EOF'
-# References
-
-Place concise, agent-friendly framework/tool references here.
-EOF
+copy_if_missing docs/specs/index.md "docs/specs/index.md"
+copy_if_missing docs/plans/tech-debt-tracker.md "docs/plans/tech-debt-tracker.md"
+copy_if_missing docs/specs/README.md "docs/specs/README.md"
+copy_if_missing docs/plans/README.md "docs/plans/README.md"
+copy_if_missing docs/generated/README.md "docs/generated/README.md"
+copy_if_missing docs/generated/db-schema.md "docs/generated/db-schema.md"
+copy_if_missing docs/design-docs/index.md "docs/design-docs/index.md"
+copy_if_missing docs/design-docs/core-beliefs.md "docs/design-docs/core-beliefs.md"
+copy_if_missing docs/references/README.md "docs/references/README.md"
+copy_if_missing docs/DESIGN.md "docs/DESIGN.md"
+copy_if_missing docs/FRONTEND.md "docs/FRONTEND.md"
+copy_if_missing docs/PLANS.md "docs/PLANS.md"
+copy_if_missing docs/PRODUCT_SENSE.md "docs/PRODUCT_SENSE.md"
+copy_if_missing docs/QUALITY_SCORE.md "docs/QUALITY_SCORE.md"
+copy_if_missing docs/RELIABILITY.md "docs/RELIABILITY.md"
+copy_if_missing docs/SECURITY.md "docs/SECURITY.md"

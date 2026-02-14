@@ -1,6 +1,6 @@
 # harness-engineering
 
-Harness Engineering skills for running a spec-to-release workflow with phase gates, slug-based artifacts, and generated runtime state.
+Harness Engineering skills for running a spec-to-release workflow with phase gates, slug-based artifacts, and generated reference context.
 
 This repository packages reusable `he-*` skills and templates that can be installed into local agent environments (via `.agents`) and used across projects.
 
@@ -36,7 +36,7 @@ It is also based on ideas from:
   - `he-review`
   - `he-verify-release`
   - `he-learn`
-  - `he-entropy`
+  - `he-doc-gardening`
   - `he-workflow` (orchestrator)
 - Template documents for specs, plans, learnings, and verify/release decisions.
 - `scripts/install.sh` to copy these skills into `.agents` and sync into Claude/extra skill directories.
@@ -48,7 +48,7 @@ It is also based on ideas from:
 - **Install Targets**:
   - `~/.agents/skills` (source-of-truth staging, used by Codex)
   - `~/.claude/skills` (default extra target)
-- **Workflow Artifacts**: Markdown docs + JSON/NDJSON generated run state in consuming repos
+- **Workflow Artifacts**: Markdown docs for specs/plans and generated reference context
 
 ## Repository Layout
 
@@ -64,7 +64,7 @@ It is also based on ideas from:
     │       ├── AGENTS.md
     │       ├── ARCHITECTURE.md
     │       └── bootstrap.sh
-    ├── he-entropy/SKILL.md
+    ├── he-doc-gardening/SKILL.md
     ├── he-implement/SKILL.md
     ├── he-intake/
     │   ├── SKILL.md
@@ -186,11 +186,11 @@ Use custom source and agents home:
 | `he-bootstrap` | Initialize workflow docs structure in a project | Creates `docs/specs`, `docs/plans`, `docs/generated`, `docs/references` |
 | `he-intake` | Convert request into a concrete initiative spec | `docs/specs/<slug>.md` |
 | `he-plan` | Convert spec into executable active plan with DAG | `docs/plans/active/<slug>.md` |
-| `he-implement` | Execute tasks in dependency-aware parallel batches | Updates `docs/generated/runs/<slug>/...` |
-| `he-review` | Run parallel review fanout + severity gating | Review findings in active plan |
+| `he-implement` | Execute tasks in dependency-aware parallel batches | Updates plan progress and uses `docs/generated/*` context |
+| `he-review` | Run parallel review fanout + priority gating | Review findings in active plan |
 | `he-verify-release` | Check release readiness and record GO/NO-GO | Verify/release decision section in plan |
 | `he-learn` | Capture post-release lessons + archive plan | Move plan to `docs/plans/completed/<slug>.md` |
-| `he-entropy` | Periodic drift/debt cleanup initiatives | New cleanup specs/plans + tracker updates |
+| `he-doc-gardening` | Periodic doc-gardening for stale/obsolete docs | New doc-fix specs/plans + tracker updates |
 | `he-workflow` | End-to-end orchestrator across all phases | Enforces phase order + gates |
 
 ## Harness Workflow Model
@@ -218,25 +218,31 @@ Example:
 5. verify-release
 6. learn
 
-`entropy` is periodic/optional.
+`doc-gardening` is periodic/optional.
+
+### Plan modes
+
+- `lightweight`: small, low-complexity work captured in `docs/plans/active/<slug>.md` with concise sections
+- `execution`: complex work captured in `docs/plans/active/<slug>.md` with full DAG and logs
 
 ### Source of truth hierarchy (in consuming repos)
 
 1. Human intent: `docs/specs/<slug>.md`
-2. Execution plan: `docs/plans/active/<slug>.md`
-3. Runtime state: `docs/generated/runs/<slug>/`
+2. Execution plan: `docs/plans/active/<slug>.md` (`plan_mode: lightweight|execution`)
+3. Generated context: `docs/generated/` (for example `docs/generated/db-schema.md`)
 
 ### Hard gates
 
 - **Doc commit gate** between phase transitions
-- **Severity gate**: unresolved `critical`/`high` blocks progression
+- **Priority gate**: unresolved `critical`/`high` findings block progression
 - **Dependency gate**: tasks run only when dependencies are satisfied
+- **Task numbering**: use hierarchical sequence IDs (`1`, `1.1`, `1.2`) for tasks/subtasks
+- **Plan log gate**: active plans include both `Decision Log` and `Progress Log`
 
-### Runtime state files
+### Generated context files
 
-- `docs/generated/runs/<slug>/run.json`
-- `docs/generated/runs/<slug>/tasks/<task-id>.json`
-- `docs/generated/runs/<slug>/events.ndjson`
+- `docs/generated/db-schema.md`
+- Additional generated reference docs in `docs/generated/` as needed
 
 ## Using The Skills In A Project
 
@@ -260,16 +266,21 @@ bash path/to/harness-engineering/skills/he-bootstrap/templates/bootstrap.sh --wi
 test -d docs/specs &&
 test -d docs/plans/active &&
 test -d docs/plans/completed &&
-test -d docs/generated/runs &&
+test -d docs/design-docs &&
+test -d docs/generated &&
 test -d docs/references &&
 test -f AGENTS.md &&
-test -f docs/plans/tech-debt-tracker.md
+test -f docs/plans/tech-debt-tracker.md &&
+test -f docs/generated/db-schema.md &&
+test -f docs/design-docs/core-beliefs.md &&
+test -f docs/QUALITY_SCORE.md
 ```
 
 ### Step 3: Run an initiative
 
 - Use `he-intake` to create the spec.
-- Use `he-plan` to create the active plan.
+- Set `plan_mode` in the spec (`lightweight` or `execution`).
+- Use `he-plan` to create the matching active plan file.
 - Use `he-implement` for execution batches.
 - Use `he-review` and resolve blocking findings.
 - Use `he-verify-release` for GO/NO-GO.

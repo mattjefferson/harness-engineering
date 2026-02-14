@@ -5,6 +5,7 @@
 - status: intake-complete
 - date: <YYYY-MM-DD>
 - owner: <name or team>
+- plan_mode: <lightweight|execution>
 
 ## Problem
 ...
@@ -21,10 +22,13 @@
 ### Out
 - ...
 
-## Risks
+## Priority
 - level: <critical|high|medium|low>
-- notes: ...
+- rationale: ...
 
 ## Initial Task Candidates
-1. T1 - ...
-2. T2 - ...
+| task_seq | summary | priority | depends_on |
+|---|---|---|---|
+| 1 | ... | medium | none |
+| 1.1 | ... | high | 1 |
+| 1.2 | ... | low | 1 |
