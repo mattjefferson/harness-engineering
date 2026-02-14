@@ -9,6 +9,7 @@ This project is based on the article and learnings from:
 
 It is also based on ideas from:
 - https://github.com/EveryInc/compound-engineering-plugin
+- https://github.com/tmchow/tmc-marketplace/tree/main/plugins/iterative-engineering
 
 ## Table of Contents
 
@@ -31,6 +32,7 @@ It is also based on ideas from:
 - A complete `he-*` skill set for harness-oriented delivery:
   - `he-bootstrap`
   - `he-intake`
+  - `he-spike`
   - `he-plan`
   - `he-implement`
   - `he-review`
@@ -76,9 +78,8 @@ It is also based on ideas from:
     │   ├── SKILL.md
     │   └── templates/active-plan-template.md
     ├── he-review/SKILL.md
-    ├── he-verify-release/
-    │   ├── SKILL.md
-    │   └── templates/verify-release-decision-section.md
+    ├── he-spike/SKILL.md
+    ├── he-verify-release/SKILL.md
     └── he-workflow/SKILL.md
 ```
 
@@ -185,6 +186,7 @@ Use custom source and agents home:
 |---|---|---|
 | `he-bootstrap` | Initialize workflow docs structure in a project | Creates `docs/specs`, `docs/plans`, `docs/generated`, `docs/references` |
 | `he-intake` | Convert request into a concrete initiative spec | `docs/specs/<slug>.md` |
+| `he-spike` | Time-boxed investigation for unclear/high-risk work | `docs/specs/<slug>-spike.md` |
 | `he-plan` | Convert spec into executable active plan with DAG | `docs/plans/active/<slug>.md` |
 | `he-implement` | Execute tasks in dependency-aware parallel batches | Updates plan progress and uses `docs/generated/*` context |
 | `he-review` | Run parallel review fanout + priority gating | Review findings in active plan |
@@ -212,11 +214,12 @@ Example:
 ### Phase order
 
 1. intake
-2. plan
-3. implement
-4. review
-5. verify-release
-6. learn
+2. spike (optional — for unclear or high-risk work)
+3. plan
+4. implement
+5. review
+6. verify-release
+7. learn
 
 `doc-gardening` is periodic/optional.
 
@@ -237,12 +240,18 @@ Example:
 - **Priority gate**: unresolved `critical`/`high` findings block progression
 - **Dependency gate**: tasks run only when dependencies are satisfied
 - **Task numbering**: use hierarchical sequence IDs (`1`, `1.1`, `1.2`) for tasks/subtasks
+- **Task detail gate**: each task detail uses `#### [ ] <task_seq> [Action-oriented title]` with concrete files/tests/verification
+- **Testing gate**: every task specifies `test_type` (unit or e2e) — no mocks
+- **Completion visibility gate**: Task DAG status is the single source of truth; implementation step checkboxes track local progress
 - **Plan log gate**: active plans include both `Decision Log` and `Progress Log`
 
 ### Generated context files
 
 - `docs/generated/db-schema.md`
-- Additional generated reference docs in `docs/generated/` as needed
+- `docs/generated/api-schema.md`
+- `docs/generated/component-tree.md`
+- `docs/generated/dependency-graph.md`
+- Each generated file includes a `last_updated` timestamp
 
 ## Using The Skills In A Project
 
@@ -279,6 +288,7 @@ test -f docs/QUALITY_SCORE.md
 ### Step 3: Run an initiative
 
 - Use `he-intake` to create the spec.
+- If feasibility is unclear, use `he-spike` for a time-boxed investigation.
 - Set `plan_mode` in the spec (`lightweight` or `execution`).
 - Use `he-plan` to create the matching active plan file.
 - Use `he-implement` for execution batches.
