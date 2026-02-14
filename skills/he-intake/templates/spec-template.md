@@ -22,7 +22,7 @@
 - ...
 
 ## Risks
-- level: <low|medium|high>
+- level: <critical|high|medium|low>
 - notes: ...
 
 ## Initial Task Candidates

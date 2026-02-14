@@ -23,7 +23,7 @@ Create a decision-ready spec artifact for a new initiative.
 2. Define measurable success criteria.
 3. Define constraints (time, risk, compatibility, performance).
 4. Define scope and non-goals.
-5. Classify risk (`low`, `medium`, `high`).
+5. Classify risk (`critical`, `high`, `medium`, `low`).
 6. Draft initial task graph candidates with rough dependencies.
 
 ## Fuzzy-Idea Loop

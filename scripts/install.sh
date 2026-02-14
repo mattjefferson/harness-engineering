@@ -6,8 +6,8 @@ REPO_ROOT="$(cd -- "$SCRIPT_DIR/.." && pwd)"
 SOURCE_DIR="$REPO_ROOT/skills"
 AGENTS_HOME="${AGENTS_HOME:-$HOME/.agents}"
 AGENTS_SKILLS_DIR="$AGENTS_HOME/skills"
+LEGACY_CODEX_SKILLS_DIR="$HOME/.codex/skills"
 DRY_RUN=0
-INCLUDE_CODEX=1
 INCLUDE_CLAUDE=1
 
 declare -a EXTRA_TARGETS=()
@@ -23,17 +23,47 @@ usage() {
   cat <<'USAGE'
 Usage: ./install.sh [options]
 
-Sync repo skills into ~/.agents/skills, then install them into tool skill dirs.
+Sync repo skills into ~/.agents/skills, then install them into extra tool dirs.
+Codex uses ~/.agents/skills directly; legacy ~/.codex/skills is removed.
 
 Options:
   --source <dir>        Source skills directory (default: ./skills)
   --agents-home <dir>   Base .agents directory (default: ~/.agents)
   --target <dir>        Additional install target directory (repeatable)
-  --no-codex            Skip ~/.codex/skills
   --no-claude           Skip ~/.claude/skills
   --dry-run             Print actions without copying
   -h, --help            Show this help
 USAGE
+}
+
+remove_legacy_codex_skills() {
+  local timestamp
+  local trash_path
+
+  if [[ ! -d "$LEGACY_CODEX_SKILLS_DIR" ]]; then
+    return
+  fi
+
+  if [[ "$DRY_RUN" -eq 1 ]]; then
+    echo "[dry-run] remove legacy Codex skills dir '$LEGACY_CODEX_SKILLS_DIR'"
+    return
+  fi
+
+  if command -v trash >/dev/null 2>&1; then
+    echo "Removing legacy Codex skills dir with trash: $LEGACY_CODEX_SKILLS_DIR"
+    trash "$LEGACY_CODEX_SKILLS_DIR"
+    return
+  fi
+
+  if [[ -d "$HOME/.Trash" ]]; then
+    timestamp="$(date +%Y%m%d-%H%M%S)"
+    trash_path="$HOME/.Trash/codex-skills-$timestamp"
+    echo "Moving legacy Codex skills dir to: $trash_path"
+    mv "$LEGACY_CODEX_SKILLS_DIR" "$trash_path"
+    return
+  fi
+
+  die "Cannot remove legacy Codex skills dir safely (missing 'trash' and ~/.Trash): $LEGACY_CODEX_SKILLS_DIR"
 }
 
 copy_tree() {
@@ -82,10 +112,6 @@ while [[ $# -gt 0 ]]; do
       EXTRA_TARGETS+=("$2")
       shift 2
       ;;
-    --no-codex)
-      INCLUDE_CODEX=0
-      shift
-      ;;
     --no-claude)
       INCLUDE_CLAUDE=0
       shift
@@ -105,20 +131,14 @@ while [[ $# -gt 0 ]]; do
 done
 
 [[ -d "$SOURCE_DIR" ]] || die "Source directory not found: $SOURCE_DIR"
+remove_legacy_codex_skills
 
-if [[ "$INCLUDE_CODEX" -eq 1 ]]; then
-  TARGETS+=("$HOME/.codex/skills")
-fi
 if [[ "$INCLUDE_CLAUDE" -eq 1 ]]; then
   TARGETS+=("$HOME/.claude/skills")
 fi
 for t in "${EXTRA_TARGETS[@]}"; do
   TARGETS+=("$t")
 done
-
-if [[ ${#TARGETS[@]} -eq 0 ]]; then
-  die "No install targets selected"
-fi
 
 shopt -s nullglob
 SKILL_DIRS=("$SOURCE_DIR"/*)
@@ -145,9 +165,13 @@ fi
 echo "Source: $SOURCE_DIR"
 echo "Agents: $AGENTS_SKILLS_DIR"
 echo "Targets:"
-for t in "${TARGETS[@]}"; do
-  echo "  - $t"
-done
+if [[ ${#TARGETS[@]} -eq 0 ]]; then
+  echo "  - (none)"
+else
+  for t in "${TARGETS[@]}"; do
+    echo "  - $t"
+  done
+fi
 echo "Skills:"
 for s in "${SKILL_NAMES[@]}"; do
   echo "  - $s"

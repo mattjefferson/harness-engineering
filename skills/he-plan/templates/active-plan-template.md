@@ -4,7 +4,7 @@
 - slug: <slug>
 - status: active
 - phase: plan
-- risk: <low|medium|high>
+- risk: <critical|high|medium|low>
 
 ## Summary
 ...

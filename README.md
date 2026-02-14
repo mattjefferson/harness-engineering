@@ -39,16 +39,15 @@ It is also based on ideas from:
   - `he-entropy`
   - `he-workflow` (orchestrator)
 - Template documents for specs, plans, learnings, and verify/release decisions.
-- `scripts/install.sh` to copy these skills into `.agents` and sync into Codex/Claude skill directories.
+- `scripts/install.sh` to copy these skills into `.agents` and sync into Claude/extra skill directories.
 
 ## Tech Stack
 
 - **Language**: Bash + Markdown
 - **Packaging Model**: File-system skill packs (`SKILL.md` + templates)
 - **Install Targets**:
-  - `~/.agents/skills` (source-of-truth staging)
-  - `~/.codex/skills` (default target)
-  - `~/.claude/skills` (default target)
+  - `~/.agents/skills` (source-of-truth staging, used by Codex)
+  - `~/.claude/skills` (default extra target)
 - **Workflow Artifacts**: Markdown docs + JSON/NDJSON generated run state in consuming repos
 
 ## Repository Layout
@@ -89,7 +88,6 @@ It is also based on ideas from:
 - Bash (used by `scripts/install.sh` and bootstrap template script)
 - Write access to:
   - `~/.agents/skills`
-  - `~/.codex/skills` (if enabled)
   - `~/.claude/skills` (if enabled)
 
 Optional but recommended:
@@ -117,17 +115,17 @@ cd harness-engineering
 ./scripts/install.sh
 ```
 
-By default this does all three:
+By default this does all of the following:
 - Copies local `skills/*` into `~/.agents/skills`
-- Copies those installed skills into `~/.codex/skills`
 - Copies those installed skills into `~/.claude/skills`
+- Removes legacy `~/.codex/skills` (Codex now reads `~/.agents/skills`)
 
 ### 4. Verify installed skills exist
 
 ```bash
 ls -1 ~/.agents/skills | rg '^he-'
-ls -1 ~/.codex/skills | rg '^he-'
 ls -1 ~/.claude/skills | rg '^he-'
+test ! -d ~/.codex/skills
 ```
 
 ### 5. Use in a target project
@@ -151,7 +149,6 @@ Script: `scripts/install.sh`
 | `--source <dir>` | Source skills directory | `<repo>/skills` |
 | `--agents-home <dir>` | Base `.agents` path | `~/.agents` |
 | `--target <dir>` | Extra install target (repeatable) | none |
-| `--no-codex` | Skip sync to `~/.codex/skills` | disabled |
 | `--no-claude` | Skip sync to `~/.claude/skills` | disabled |
 | `--dry-run` | Print copy operations only | off |
 | `-h`, `--help` | Show help | n/a |
@@ -164,10 +161,10 @@ Install to all defaults:
 ./scripts/install.sh
 ```
 
-Install only to `.agents` + Claude (skip Codex):
+Install only to `.agents` (skip Claude sync):
 
 ```bash
-./scripts/install.sh --no-codex
+./scripts/install.sh --no-claude
 ```
 
 Install to defaults plus an additional target:
@@ -337,9 +334,11 @@ Fix:
 
 ```bash
 ./scripts/install.sh
-ls -la ~/.codex/skills
+ls -la ~/.agents/skills
 ls -la ~/.claude/skills
 ```
+
+Note: `~/.codex/skills` is legacy and is removed by the installer.
 
 If needed, add an explicit target:
 
@@ -373,4 +372,3 @@ For team rollout, pin to a commit/tag and have each developer run:
 git pull
 ./scripts/install.sh
 ```
-
