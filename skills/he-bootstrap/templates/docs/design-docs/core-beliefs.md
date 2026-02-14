@@ -2,6 +2,8 @@
 
 Document the product and engineering beliefs that guide roadmap, architecture, and delivery decisions.
 
+<!-- seed: Populated from bootstrap Q8. If AGENTS.md has golden principles, those are suggested as starting points. -->
+
 ## Belief 1
 
 - Statement:
@@ -13,4 +15,3 @@ Document the product and engineering beliefs that guide roadmap, architecture, a
 - Statement:
 - Why it matters:
 - Tradeoffs:
-

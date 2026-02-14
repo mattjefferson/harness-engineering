@@ -33,6 +33,9 @@ Create these only if missing:
 - `docs/plans/README.md`
 - `docs/generated/README.md`
 - `docs/generated/db-schema.md`
+- `docs/generated/api-schema.md`
+- `docs/generated/component-tree.md`
+- `docs/generated/dependency-graph.md`
 - `docs/references/README.md`
 - `docs/design-docs/index.md`
 - `docs/design-docs/core-beliefs.md`
@@ -56,6 +59,9 @@ Each created file has a source template in `templates/`:
 - `docs/plans/README.md` <- `templates/docs/plans/README.md`
 - `docs/generated/README.md` <- `templates/docs/generated/README.md`
 - `docs/generated/db-schema.md` <- `templates/docs/generated/db-schema.md`
+- `docs/generated/api-schema.md` <- `templates/docs/generated/api-schema.md`
+- `docs/generated/component-tree.md` <- `templates/docs/generated/component-tree.md`
+- `docs/generated/dependency-graph.md` <- `templates/docs/generated/dependency-graph.md`
 - `docs/references/README.md` <- `templates/docs/references/README.md`
 - `docs/design-docs/index.md` <- `templates/docs/design-docs/index.md`
 - `docs/design-docs/core-beliefs.md` <- `templates/docs/design-docs/core-beliefs.md`
@@ -112,6 +118,62 @@ test -f docs/design-docs/core-beliefs.md &&
 test -f docs/QUALITY_SCORE.md
 ```
 
+## Seeding Phase
+
+After creating the file structure, seed domain docs with real project context so agents have guidance from the first initiative.
+
+### Step 1: Auto-Detect
+
+Launch subagents to scan the target repo in parallel for:
+
+- **Package manifests** — `package.json`, `Cargo.toml`, `pyproject.toml`, `go.mod`, `Gemfile`
+- **Framework config** — `next.config.*`, `vite.config.*`, `tsconfig.json`, `angular.json`, etc.
+- **Test setup** — `jest.config.*`, `vitest.config.*`, `pytest.ini`, test directories, coverage config
+- **CI/CD config** — `.github/workflows/`, `Makefile`, `Dockerfile`, `.gitlab-ci.yml`
+- **Auth patterns** — auth-related deps, middleware files, env var references
+- **README and existing docs** — `README.md`, `CONTRIBUTING.md`, existing `docs/` content
+
+Compile a detection summary with suggested values for each domain.
+
+### Step 2: Quick Q&A
+
+Before asking, check the target domain doc for existing content beyond the template stub. If a doc already has real content, skip that question — the doc itself is the answer record.
+
+Ask the following questions using `AskUserQuestion` (Claude Code) or `request_user_input` (Codex). Pre-fill suggestions from auto-detection where available.
+
+| # | Domain Doc | Question |
+|---|---|---|
+| 1 | DESIGN.md | What are your core design principles? (e.g., "mobile-first", "minimalist", "data-dense dashboards") |
+| 2 | FRONTEND.md | What's your frontend stack and key conventions? (e.g., React/Next.js, component library, styling approach) |
+| 3 | PRODUCT_SENSE.md | Who are your target users and what outcomes matter most? |
+| 4 | QUALITY_SCORE.md | What's your current test coverage situation and quality bar? (e.g., CI required, coverage thresholds) |
+| 5 | RELIABILITY.md | What are your reliability requirements? (e.g., uptime targets, error budgets, monitoring) |
+| 6 | SECURITY.md | What security concerns apply? (e.g., auth model, data sensitivity, compliance requirements) |
+| 7 | references | Any reference repos or projects we should learn patterns from? |
+| 8 | core-beliefs.md | What are 2-3 non-negotiable engineering beliefs for this project? |
+
+Auto-detected values appear as pre-filled suggestions. The user can accept, modify, or replace them.
+
+### Step 3: Populate Domain Docs
+
+Write answers into the domain doc templates, replacing `<!-- seed: ... -->` markers with real content. Each domain doc has structured sections ready for population.
+
+If reference repos were provided (Q7), use subagents to scan them and enrich the domain docs with relevant patterns.
+
+### Step 4: Populate References
+
+If reference repos/projects were provided:
+
+1. Record them in `docs/references/README.md` with source URL and what to learn from each
+2. Use subagents to scan each reference for patterns relevant to the domain docs
+3. Incorporate findings into the seeded content
+
+### Seeding Behavior Notes
+
+- **Existing content wins** — if a domain doc already has real content beyond the template stub, skip seeding for that doc
+- **Graceful degradation** — if nothing is detected (empty repo), skip auto-detect and rely on Q&A answers alone
+- **Additive only** — `he-learn` can update seeded docs without conflict; seed comments get replaced, section structure remains
+
 ## Next Step
 
 Start the first initiative with:
@@ -119,11 +181,8 @@ Start the first initiative with:
 1. `he-intake` to create `docs/specs/<slug>.md`
 2. `he-plan` to create `docs/plans/active/<slug>.md`
 
-## Transition Options (Required)
+## Transition Options
 
-At every transition point, present 2-3 explicit options and a recommended default before continuing.
+Present 2-3 explicit next-step options with a recommended default. Use `request_user_input` (Codex) or `AskUserQuestion` (Claude Code) in Plan mode; otherwise ask in chat. Wait for user selection before proceeding.
 
-- Use the plan question tool (`request_user_input`) when in Plan mode.
-- If the plan question tool is unavailable, ask in chat with the same option structure.
-- At least one option must explicitly be `Next step: he-intake`.
-- Wait for the user's selection before proceeding to the next phase.
+At least one option must be `Next step: he-intake`.
