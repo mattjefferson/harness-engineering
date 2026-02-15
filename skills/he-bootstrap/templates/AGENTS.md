@@ -24,6 +24,7 @@ Before doing any work:
 - Architecture (if present): `ARCHITECTURE.md`
 - Runbooks (process + checklists): `docs/runbooks/`
 - AGENTS.md editing guide: `docs/runbooks/update-agents-md.md`
+- Scratchpad (inbox; processed during learn): `docs/generated/memory.md`
 - Specs (intent): `docs/specs/`
 - Spikes (findings): `docs/spikes/`
 - Plans (execution + logs): `docs/plans/`

@@ -24,7 +24,11 @@ Turn execution outcomes into durable improvements.
    - lesson_applied status (`pending|applied`)
 2. Update relevant domain docs per `docs/DOMAIN_DOCS.md` registry if policy changed.
 3. Update or create any affected runbooks in `docs/runbooks/` when learnings change process, checklists, or "how we do it here" guidance.
-4. Move plan to:
+4. Process `docs/generated/memory.md` (scratchpad inbox):
+   - promote keepers to the correct durable location in `docs/` or `docs/runbooks/`
+   - delete anything no longer needed
+   - clear `docs/generated/memory.md` back to an empty scratchpad (keep the header/sections)
+5. Move plan to:
    - `docs/plans/completed/<slug>.md`
 
 ## Subagent Usage
@@ -50,6 +54,7 @@ Use `templates/learning-entry-template.md`.
 - At least one concrete prevention action is captured for each meaningful issue
 - Each learning is evaluated against the compound learning loop
 - Runbooks are updated when process/checklists changed (or explicitly marked "no runbook update needed")
+- `docs/generated/memory.md` is processed and cleared (or explicitly marked empty/not present)
 - Active plan is archived to completed
 - Docs commit gate passes
 

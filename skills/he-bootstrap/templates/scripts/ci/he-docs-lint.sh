@@ -136,6 +136,10 @@ check_generated_last_updated() {
     if [[ "$file" == "docs/generated/README.md" ]]; then
       continue
     fi
+    # Agent scratchpad is intentionally wipeable and not a durable generated artifact.
+    if [[ "$file" == "docs/generated/memory.md" ]]; then
+      continue
+    fi
     if ! grep -Eq '^[[:space:]]*-[[:space:]]*last_updated:[[:space:]]*' "$file"; then
       add_error "$file" "Missing last_updated" "Generated doc '$file' must include a 'last_updated' line. Fix: add e.g. '- last_updated: 2026-02-15 12:34'."
     fi
