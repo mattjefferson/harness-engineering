@@ -13,8 +13,9 @@ Create or update a runbook (process/checklist) that can evolve per project, whil
 1. Runbooks are additive only: they may add repo-specific steps, but they must not waive or override anything codified in skills.
 2. Frontmatter is the integration contract: `title`, `use_when`, `called_from` must be accurate.
 3. One runbook, one job: keep scope tight and name it for the workflow it documents.
-4. Prefer verifiable steps: commands, file paths, expected outputs; avoid vague guidance.
-5. Make it discoverable: link high-leverage runbooks from AGENTS.md (runbook index).
+4. Avoid duplication: before creating or editing, scan existing runbooks for overlap and conflicts.
+5. Prefer verifiable steps: commands, file paths, expected outputs; avoid vague guidance.
+6. Make it discoverable: link high-leverage runbooks from AGENTS.md (runbook index).
 
 ## Inputs
 
@@ -28,26 +29,36 @@ Create or update a runbook (process/checklist) that can evolve per project, whil
 
 ## Procedure
 
-1. Decide: edit vs new.
+1. Review existing runbooks (required).
+   - Inventory: `find docs/runbooks -type f -name "*.md" -print`
+   - Skim frontmatter quickly: `rg -n "^(title|use_when|called_from):" docs/runbooks`
+   - If a runbook already covers the workflow, update it instead of creating a new one.
+   - If multiple runbooks overlap:
+     - consolidate into one primary runbook when possible, or
+     - add explicit cross-links ("Related runbooks") and clarify boundaries.
+   - Check for conflicts:
+     - any step that suggests skipping tests/review/verify gates is invalid
+     - any instruction that contradicts a skill gate must be removed or rewritten
+2. Decide: edit vs new.
    - If an existing runbook covers the topic, edit it in place.
    - Only create a new runbook when the workflow is materially different.
-2. Choose filename:
+3. Choose filename:
    - `docs/runbooks/<kebab-topic>.md` (short, stable, descriptive).
-3. Start from the template:
+4. Start from the template:
    - `skills/he-runbook/templates/runbook-template.md`
-4. Set required frontmatter:
+5. Set required frontmatter:
    - `title`: human readable.
    - `use_when`: a single-sentence trigger.
    - `called_from`: YAML list of skill names (preferred) and optionally workflow steps.
      - Examples: `he-review`, `he-verify-release`, `he-implement`, `he-learn`.
      - Keep this list minimal and accurate; it controls automatic runbook selection.
-5. Write the body:
+6. Write the body:
    - Start with the stable invariant: "skill gates still apply; runbook cannot waive them".
    - Add the repo-specific checklist/commands in the order they should be executed.
-6. Validate integration:
+7. Validate integration:
    - Lint: `bash scripts/ci/he-runbooks-lint.sh`
    - Verify selection: `bash scripts/runbooks/select-runbooks.sh --skill <skill>` returns the runbook.
-7. Link if needed:
+8. Link if needed:
    - If this runbook will be reused, add it to the AGENTS.md runbook index.
 
 ## Conflict Rule (Non-Negotiable)
