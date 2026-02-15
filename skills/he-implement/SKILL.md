@@ -11,6 +11,17 @@ Execute a PLANS-compliant active plan and keep the plan artifact current.
 ## Inputs
 
 - `docs/plans/active/<slug>.md`
+- isolated workspace context from `he-worktree` (strategy, branch, directory)
+
+## Workspace Isolation Gate
+
+Before implementation execution:
+
+1. Inspect current workspace state (`git status --short --branch`, current branch, and whether repo is a linked worktree).
+2. If not already isolated for this initiative, run `he-worktree` to choose and create the workspace using the project branch/worktree logic.
+3. For non-trivial or long-running work, prefer a dedicated worktree.
+4. Never proceed directly on the default branch without explicit user consent.
+5. Record selected strategy (`worktree` or `branch`), branch name, and workspace directory in `Decision Log` or `Revision Notes`.
 
 ## Generated Context
 
@@ -26,12 +37,13 @@ Each generated file should include a `last_updated` timestamp.
 
 ## Execution Model
 
-1. Read `Purpose / Big Picture`, `Context and Orientation`, `Milestones`, `Plan of Work`, `Concrete Steps`, and `Validation and Acceptance`. If implementation reveals a domain doc is missing, wrong, or incomplete, create or update it in-place and note the change in `Revision Notes`. See `docs/DOMAIN_DOCS.md` for the registry.
-2. Build work queue from unchecked `Progress` items (`P1`, `P2`, ...).
-3. Execute in milestone order by default.
-4. Run parallel subagents only for explicitly independent `Progress` items.
-5. Integrate changes after each milestone-sized batch and rerun targeted verification.
-6. Continue until all planned `Progress` items are complete or explicitly deferred.
+1. Ensure the workspace isolation gate above has been satisfied and `pwd` matches the selected workspace.
+2. Read `Purpose / Big Picture`, `Context and Orientation`, `Milestones`, `Plan of Work`, `Concrete Steps`, and `Validation and Acceptance`. If implementation reveals a domain doc is missing, wrong, or incomplete, create or update it in-place and note the change in `Revision Notes`. See `docs/DOMAIN_DOCS.md` for the registry.
+3. Build work queue from unchecked `Progress` items (`P1`, `P2`, ...).
+4. Execute in milestone order by default.
+5. Run parallel subagents only for explicitly independent `Progress` items.
+6. Integrate changes after each milestone-sized batch and rerun targeted verification.
+7. Continue until all planned `Progress` items are complete or explicitly deferred.
 
 Use subagents aggressively for independent work while keeping integration and plan updates in the main thread.
 
@@ -71,6 +83,7 @@ For browser UI verification, prefer `agent-browser` flows and store durable evid
 - All planned `Progress` items are completed or explicitly deferred
 - Validation evidence is recorded in the plan
 - Living sections are updated (`Progress`, `Surprises & Discoveries`, `Decision Log`, `Outcomes & Retrospective`, `Revision Notes`)
+- Workspace strategy/branch/path are documented for reproducibility
 - Docs commit gate passes
 
 ## Transition
