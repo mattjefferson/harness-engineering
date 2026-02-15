@@ -35,7 +35,8 @@ Which path to take next and why.
 ## Impact on Upstream Docs
 Summarize changes needed in upstream artifacts:
 
-- spec updates needed in `docs/specs/<slug>.md`
+- follow `references/spec-update-guide.md` for exact spec-update mapping
+- spec updates needed in `docs/specs/<slug>.md` (name exact sections changed)
 - planning implications for `docs/plans/active/<slug>.md`
 - if none: `Standalone spike — no upstream doc updates`
 

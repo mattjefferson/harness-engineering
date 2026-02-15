@@ -96,7 +96,10 @@ This approach is influenced by:
     │   ├── SKILL.md
     │   └── templates/active-plan-template.md
     ├── he-review/SKILL.md
-    ├── he-spike/SKILL.md
+    ├── he-spike/
+    │   ├── SKILL.md
+    │   ├── references/spec-update-guide.md
+    │   └── templates/spike-template.md
     ├── he-verify-release/SKILL.md
     └── he-workflow/SKILL.md
 ```

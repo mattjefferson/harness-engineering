@@ -12,7 +12,7 @@ Run a focused, time-boxed investigation to reduce uncertainty before planning.
 
 - Feasibility is uncertain (new technology, unfamiliar API, unclear constraints)
 - Multiple valid approaches exist and the tradeoffs aren't clear without hands-on exploration
-- The intake spec recommends a spike (fuzzy-idea loop outcome)
+- The spec recommends a spike (fuzzy-idea loop outcome)
 - Risk is high enough that building a throwaway prototype is cheaper than guessing wrong
 
 ## Inputs
@@ -49,14 +49,24 @@ When comparing multiple approaches, **launch one subagent per approach** to expl
 Use the spike template when creating the doc:
 
 - `templates/spike-template.md` (includes required YAML frontmatter)
+- `references/spec-update-guide.md` (exact mapping for updating `docs/specs/<slug>.md` from spike findings)
+
+If spike findings change scope/requirements/direction, update `docs/specs/<slug>.md` in the same pass using `references/spec-update-guide.md`.
 
 ## Exit Gate
 
 - Spike findings document exists at `docs/spikes/<slug>-spike.md`
 - Validation goal is answered or explicitly marked as still-unknown with next steps
 - Recommendation is actionable (feeds directly into planning)
+- `Impact on Upstream Docs` clearly states whether `docs/specs/<slug>.md` was updated and why
 - Docs commit gate passes
 
 ## Transition
 
-Default next phase is `he-plan`.
+Use an interactive question tool at this transition when available (`request_user_input` in Codex Plan mode, `AskUserQuestion` in Claude Code, or equivalent). Offer:
+
+1. Continue to `he-plan` (recommended)
+2. Run one more build-feedback round in `he-spike`
+3. Handoff/pause with status and explicit next action
+
+If running autonomously or no interactive tool is available, continue with `he-plan` and log an `Autonomous transition` note in `Decision Log` or `Revision Notes`.
