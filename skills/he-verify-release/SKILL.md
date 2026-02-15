@@ -15,7 +15,7 @@ Validate release readiness and record a GO/NO-GO decision.
 3. Rollback is required: explicit and feasible, not hand-wavy.
 4. Evidence for user-visible changes: capture agentic E2E artifacts when UI/behavior changes.
 5. Escalate when uncertain: flaky failures, missing evidence, or unclear user/data risk.
-6. Runbooks are additive only: they may add repo-specific steps, but they must not waive or override anything codified in this skill.
+6. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `bash scripts/runbooks/select-runbooks.sh --skill <skill>`), but never waive/override anything codified here.
 
 ## Runbooks
 
@@ -26,6 +26,10 @@ These runbooks hold the repo-specific procedures that evolve over time:
 - `docs/runbooks/ci-failures.md`
 - `docs/runbooks/escalation.md`
 - `docs/runbooks/merge-change.md`
+
+In addition to the baseline list above, apply any additional runbooks returned by:
+
+`bash scripts/runbooks/select-runbooks.sh --skill he-verify-release`
 
 ## Inputs
 

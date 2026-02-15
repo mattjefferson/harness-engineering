@@ -44,6 +44,7 @@ mkdir -p \
   docs/design-docs docs/generated \
   docs/runbooks \
   scripts/ci \
+  scripts/runbooks \
   .github/workflows
 
 copy_if_missing AGENTS.md "AGENTS.md"
@@ -78,6 +79,8 @@ copy_if_missing scripts/ci/he-docs-drift.sh "scripts/ci/he-docs-drift.sh"
 copy_if_missing scripts/ci/he-specs-lint.sh "scripts/ci/he-specs-lint.sh"
 copy_if_missing scripts/ci/he-plans-lint.sh "scripts/ci/he-plans-lint.sh"
 copy_if_missing scripts/ci/he-spikes-lint.sh "scripts/ci/he-spikes-lint.sh"
+copy_if_missing scripts/ci/he-runbooks-lint.sh "scripts/ci/he-runbooks-lint.sh"
+copy_if_missing scripts/runbooks/select-runbooks.sh "scripts/runbooks/select-runbooks.sh"
 copy_if_missing .github/workflows/harness-docs.yml ".github/workflows/harness-docs.yml"
 
 # Make CI scripts runnable locally via ./scripts/ci/...
@@ -88,4 +91,6 @@ chmod +x \
   scripts/ci/he-specs-lint.sh \
   scripts/ci/he-plans-lint.sh \
   scripts/ci/he-spikes-lint.sh \
+  scripts/ci/he-runbooks-lint.sh \
+  scripts/runbooks/select-runbooks.sh \
   2>/dev/null || true

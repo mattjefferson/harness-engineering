@@ -92,13 +92,63 @@ lint_runbook_frontmatter() {
     add_error "$file" "Runbook frontmatter" "Runbook '$file' frontmatter must include a 'use_when:' field."
   fi
 
+  if ! printf "%s\n" "$fm" | grep -Eq '^called_from:'; then
+    local msg="Runbook '$file' frontmatter should include 'called_from:' (list of skills/steps where this runbook is applied)."
+    if [[ "${HARNESS_FAIL_ON_MISSING_RUNBOOK_CALLED_FROM:-0}" == "1" ]]; then
+      add_error "$file" "Runbook frontmatter" "$msg (Set HARNESS_FAIL_ON_MISSING_RUNBOOK_CALLED_FROM=0 to warn-only.)"
+    else
+      add_warning "$file" "Runbook frontmatter" "$msg (Set HARNESS_FAIL_ON_MISSING_RUNBOOK_CALLED_FROM=1 to enforce.)"
+    fi
+  else
+    # Validate called_from is non-empty. Support either inline list or YAML list.
+    local called_from_items
+    called_from_items="$(
+      printf "%s\n" "$fm" | awk '
+        BEGIN { in_list=0 }
+        /^called_from:/ {
+          if (index($0, "[") > 0) {
+            line=$0
+            sub(/^called_from:[[:space:]]*/, "", line)
+            i=index(line, "[")
+            if (i > 0) { line=substr(line, i+1) }
+            j=index(line, "]")
+            if (j > 0) { line=substr(line, 1, j-1) }
+            gsub(/[[:space:]]*/, "", line)
+            n=split(line, parts, ",")
+            for (i=1; i<=n; i++) if (length(parts[i])>0) print parts[i]
+            next
+          }
+        }
+        /^called_from:[[:space:]]*$/ { in_list=1; next }
+        in_list==1 {
+          if ($0 ~ /^[A-Za-z0-9_-]+:/) { in_list=0; next }
+          if ($0 ~ /^[[:space:]]*-[[:space:]]+/) {
+            item=$0
+            sub(/^[[:space:]]*-[[:space:]]+/, "", item)
+            gsub(/^[[:space:]]+|[[:space:]]+$/, "", item)
+            if (length(item)>0) print item
+            next
+          }
+        }
+      ' || true
+    )"
+    if [[ -z "$called_from_items" ]]; then
+      local msg="Runbook '$file' has an empty 'called_from' (must list at least one skill/step)."
+      if [[ "${HARNESS_FAIL_ON_MISSING_RUNBOOK_CALLED_FROM:-0}" == "1" ]]; then
+        add_error "$file" "Runbook frontmatter" "$msg (Set HARNESS_FAIL_ON_MISSING_RUNBOOK_CALLED_FROM=0 to warn-only.)"
+      else
+        add_warning "$file" "Runbook frontmatter" "$msg (Set HARNESS_FAIL_ON_MISSING_RUNBOOK_CALLED_FROM=1 to enforce.)"
+      fi
+    fi
+  fi
+
   # Runbooks currently standardize on a tiny frontmatter surface area. Allow extensions,
   # but default to warning so projects can evolve without breaking CI.
   local -a extra_keys=()
   local key
   while IFS= read -r key; do
     case "$key" in
-      title|use_when) ;;
+      title|use_when|called_from) ;;
       *) extra_keys+=("$key") ;;
     esac
   done < <(printf "%s\n" "$fm" | sed -nE 's/^([A-Za-z0-9_-]+):.*$/\1/p' | sort -u)
@@ -107,7 +157,7 @@ lint_runbook_frontmatter() {
     local joined
     joined="$(printf "%s, " "${extra_keys[@]}")"
     joined="${joined%, }"
-    local msg="Runbook '$file' has extra frontmatter key(s): ${joined}. Prefer keeping runbooks to {title,use_when} unless you have a strong reason."
+    local msg="Runbook '$file' has extra frontmatter key(s): ${joined}. Prefer keeping runbooks to {title,use_when,called_from} unless you have a strong reason."
     if [[ "${HARNESS_FAIL_ON_EXTRA_RUNBOOK_FRONTMATTER:-0}" == "1" ]]; then
       add_error "$file" "Runbook frontmatter" "$msg (Set HARNESS_FAIL_ON_EXTRA_RUNBOOK_FRONTMATTER=0 to warn-only.)"
     else
@@ -121,12 +171,10 @@ lint_runbooks() {
     return 0
   fi
 
-  shopt -s nullglob
   local file
-  for file in docs/runbooks/*.md; do
+  while IFS= read -r file; do
     lint_runbook_frontmatter "$file"
-  done
-  shopt -u nullglob
+  done < <(find docs/runbooks -type f -name "*.md" -print | LC_ALL=C sort)
 }
 
 main() {
@@ -143,4 +191,3 @@ main() {
 }
 
 main "$@"
-

@@ -1,6 +1,10 @@
 ---
 title: "Update AGENTS.md"
 use_when: "Creating or updating a project's AGENTS.md (agent instructions, conventions, and workflows)."
+called_from:
+  - he-bootstrap
+  - he-learn
+  - he-doc-gardening
 ---
 
 # Update AGENTS.md

@@ -1,6 +1,8 @@
 ---
 title: "Merge Change"
 use_when: "You have a GO decision and need the minimum merge gate (checks/approvals/evidence) before merging to the main branch."
+called_from:
+  - he-verify-release
 ---
 
 # Merge Change
@@ -24,4 +26,3 @@ This runbook captures the repo-specific merge gate. Keep it short and make it ob
 
 - Run the post-release checks documented in the plan
 - If any regression is found, open a follow-up and record it in learnings
-

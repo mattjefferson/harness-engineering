@@ -17,7 +17,7 @@ Use this skill when answers are discoverable through research. For unknowns that
 3. Update the source of truth: write findings into `docs/specs/<slug>.md` with revision notes.
 4. Prefer primary sources: repo evidence and official docs beat summaries.
 5. Do not plan here: research clarifies constraints; planning is `he-plan`.
-6. Runbooks are additive only: they may add repo-specific steps, but they must not waive or override anything codified in this skill.
+6. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `bash scripts/runbooks/select-runbooks.sh --skill <skill>`), but never waive/override anything codified here.
 
 ## When To Use
 

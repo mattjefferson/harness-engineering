@@ -1,6 +1,9 @@
 ---
 title: "Address Review Findings"
 use_when: "You have review findings in an active plan and need a consistent process to fix, re-run review, and document what changed."
+called_from:
+  - he-review
+  - he-implement
 ---
 
 # Address Review Findings
@@ -23,4 +26,3 @@ use_when: "You have review findings in an active plan and need a consistent proc
 ## Re-entry Rule
 
 If a review finding reveals a design-level mismatch with the plan's intent, re-enter `he-plan` (not just `he-implement`) and record the decision in the plan.
-

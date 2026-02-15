@@ -1,6 +1,8 @@
 ---
 title: "Verify/Release"
 use_when: "Running he-verify-release to decide GO/NO-GO with evidence, rollback readiness, and post-release checks recorded in the active plan."
+called_from:
+  - he-verify-release
 ---
 
 # Verify/Release
@@ -68,4 +70,3 @@ If any of these apply, stop and escalate (see `docs/runbooks/escalation.md`):
 - Flaky or non-deterministic failures
 - Rollback steps are missing or untested
 - Evidence is incomplete but time pressure exists
-

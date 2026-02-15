@@ -1,6 +1,9 @@
 ---
 title: "Remediate CI Failures"
 use_when: "A verify/release gate fails due to build/test/lint failures locally or in CI; you need a consistent triage and stop/escalate policy."
+called_from:
+  - he-verify-release
+  - he-implement
 ---
 
 # Remediate CI Failures
@@ -39,4 +42,3 @@ Treat CI failures as signal. The goal is not to make CI green by any means; it i
 - Command used to reproduce
 - Short failure output excerpt
 - Command/output showing the fix
-

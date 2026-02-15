@@ -1,6 +1,9 @@
 ---
 title: "Escalation"
 use_when: "A verify/release gate requires human judgment due to ambiguity, risk, or missing information; you need a crisp escalation packet."
+called_from:
+  - he-review
+  - he-verify-release
 ---
 
 # Escalation
@@ -28,4 +31,3 @@ Provide:
 ## Default Safe Action
 
 If in doubt: record `NO-GO`, identify re-entry target (`he-implement` or `he-plan`), and list the missing evidence.
-

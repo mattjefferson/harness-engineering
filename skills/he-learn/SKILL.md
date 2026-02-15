@@ -15,7 +15,7 @@ Turn execution outcomes into durable improvements.
 3. Process the scratchpad: triage and clear `docs/generated/memory.md`.
 4. Archive cleanly: move the plan to completed and keep append-only semantics.
 5. Promote enforcement: repeated issues should become lint/test/CI guardrails.
-6. Runbooks are additive only: they may add repo-specific steps, but they must not waive or override anything codified in this skill.
+6. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `bash scripts/runbooks/select-runbooks.sh --skill <skill>`), but never waive/override anything codified here.
 
 ## Inputs
 
@@ -33,6 +33,7 @@ Turn execution outcomes into durable improvements.
    - lesson_applied status (`pending|applied`)
 2. Update relevant domain docs per `docs/DOMAIN_DOCS.md` registry if policy changed.
 3. Update or create any affected runbooks in `docs/runbooks/` when learnings change process, checklists, or "how we do it here" guidance.
+   - ensure new/updated runbooks include frontmatter `called_from` so relevant skills pick them up automatically
 4. Process `docs/generated/memory.md` (scratchpad inbox):
    - promote keepers to the correct durable location in `docs/` or `docs/runbooks/`
    - delete anything no longer needed

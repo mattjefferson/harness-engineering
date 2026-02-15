@@ -84,6 +84,9 @@ HARNESS_REQUIRED_HEADINGS_docs_DATA_md=(
 # If 1, fail PRs when template markers remain in domain docs.
 HARNESS_FAIL_ON_SEED_MARKERS="${HARNESS_FAIL_ON_SEED_MARKERS:-0}"
 
+# If 1, fail when a runbook is missing/empty `called_from` frontmatter.
+HARNESS_FAIL_ON_MISSING_RUNBOOK_CALLED_FROM="${HARNESS_FAIL_ON_MISSING_RUNBOOK_CALLED_FROM:-0}"
+
 # If 1, fail PRs when generated docs have placeholder last_updated values.
 HARNESS_FAIL_ON_GENERATED_PLACEHOLDERS="${HARNESS_FAIL_ON_GENERATED_PLACEHOLDERS:-0}"
 

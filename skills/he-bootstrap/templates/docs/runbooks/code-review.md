@@ -1,6 +1,8 @@
 ---
 title: "Code Review"
 use_when: "Running he-review to perform structured review fanout, write Review Findings into the active plan, and decide whether the work can proceed to verify/release."
+called_from:
+  - he-review
 ---
 
 # Code Review

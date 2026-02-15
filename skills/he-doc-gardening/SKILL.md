@@ -15,7 +15,7 @@ Run this skill periodically to keep docs accurate and aligned with shipped behav
 3. Queue small fixes: doc-fix initiatives should be small and independently shippable.
 4. Do not block delivery by default: only escalate when a critical invariant is broken.
 5. Mandatory artifacts must exist: missing required runbooks or broken gates are drift to fix.
-6. Runbooks are additive only: they may add repo-specific steps, but they must not waive or override anything codified in this skill.
+6. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `bash scripts/runbooks/select-runbooks.sh --skill <skill>`), but never waive/override anything codified here.
 
 ## Frequency
 
@@ -55,7 +55,7 @@ If any of these are missing in a consuming repo, record a `high` priority drift 
 
 This is a minimum baseline. Repos may add additional runbooks; doc-gardening should not treat new runbooks as drift. Instead, ensure they:
 
-- Keep frontmatter consistent (`title`, `use_when`)
+- Keep frontmatter consistent (`title`, `use_when`, `called_from`)
 - Do not waive non-negotiable gates enforced by skills
 - Do not duplicate or contradict existing runbooks without a clear replacement plan
 

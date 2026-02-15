@@ -1,6 +1,11 @@
 ---
 title: "Update Domain Docs"
 use_when: "A change introduces new product/engineering policy (security, reliability, frontend, observability, design) that should be captured as durable guidance for future work."
+called_from:
+  - he-plan
+  - he-implement
+  - he-learn
+  - he-doc-gardening
 ---
 
 # Update Domain Docs

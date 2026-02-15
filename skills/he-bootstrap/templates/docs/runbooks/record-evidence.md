@@ -1,6 +1,10 @@
 ---
 title: "Record Evidence"
 use_when: "You need screenshots or short recordings as proof of failure and proof of resolution, especially for UI or behavior changes."
+called_from:
+  - he-video
+  - he-verify-release
+  - he-implement
 ---
 
 # Record Evidence
@@ -35,4 +39,3 @@ If multiple clips exist:
 - If you claim a bug exists, there is at least one artifact showing it.
 - If you claim it is fixed, there is at least one artifact showing the fix under the same scenario.
 - Prefer short clips (10-60s) over long walkthroughs.
-
