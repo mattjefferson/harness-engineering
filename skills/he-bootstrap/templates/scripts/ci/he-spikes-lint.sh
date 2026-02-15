@@ -50,7 +50,14 @@ add_warning() {
 
 extract_frontmatter() {
   local file="$1"
-  awk 'NR==1{if($0!="---"){exit 1}} NR>1{if($0=="---"){exit 0}; print} END{exit 1}' "$file"
+  awk '
+    NR==1 { if($0!="---"){exit 1}; next }
+    NR>1 {
+      if($0=="---"){found=1; exit 0}
+      print
+    }
+    END { if(!found){exit 1} }
+  ' "$file"
 }
 
 frontmatter_has_key() {

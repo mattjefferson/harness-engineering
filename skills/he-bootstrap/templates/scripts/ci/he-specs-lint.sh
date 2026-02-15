@@ -50,7 +50,14 @@ add_warning() {
 
 extract_frontmatter() {
   local file="$1"
-  awk 'NR==1{if($0!="---"){exit 1}} NR>1{if($0=="---"){exit 0}; print} END{exit 1}' "$file"
+  awk '
+    NR==1 { if($0!="---"){exit 1}; next }
+    NR>1 {
+      if($0=="---"){found=1; exit 0}
+      print
+    }
+    END { if(!found){exit 1} }
+  ' "$file"
 }
 
 frontmatter_has_key() {
@@ -82,17 +89,24 @@ default_required_keys=(
 )
 
 default_required_headings=(
-  "## Goal"
+  "## Purpose / Big Picture"
   "## Scope"
   "## Non-Goals"
   "## Risks"
   "## Rollout"
-  "## Verification"
+  "## Validation and Acceptance Signals"
   "## Requirements"
   "## Success Criteria"
   "## Priority"
-  "## Next Steps"
-  "## Change Log"
+  "## Initial Milestone Candidates"
+  "## Handoff"
+  "## Revision Notes"
+)
+
+default_trivial_required_headings=(
+  "## Purpose / Big Picture"
+  "## Requirements"
+  "## Success Criteria"
 )
 
 check_placeholders() {
@@ -145,8 +159,8 @@ check_spec_file() {
 
   local plan_mode
   plan_mode="$(frontmatter_value "$frontmatter" "plan_mode")"
-  if [[ -n "$plan_mode" && "$plan_mode" != "lightweight" && "$plan_mode" != "execution" ]]; then
-    add_error "$file" "Invalid plan_mode" "Spec '$file' has invalid plan_mode '$plan_mode' (must be 'lightweight' or 'execution')."
+  if [[ -n "$plan_mode" && "$plan_mode" != "trivial" && "$plan_mode" != "lightweight" && "$plan_mode" != "execution" ]]; then
+    add_error "$file" "Invalid plan_mode" "Spec '$file' has invalid plan_mode '$plan_mode' (must be 'trivial', 'lightweight', or 'execution')."
   fi
 
   local spike_recommended
@@ -156,10 +170,18 @@ check_spec_file() {
   fi
 
   local -a required_headings=()
-  if declare -p HARNESS_REQUIRED_SPEC_HEADINGS >/dev/null 2>&1 && [[ "${#HARNESS_REQUIRED_SPEC_HEADINGS[@]}" -gt 0 ]]; then
-    required_headings=("${HARNESS_REQUIRED_SPEC_HEADINGS[@]}")
+  if [[ "$plan_mode" == "trivial" ]]; then
+    if declare -p HARNESS_REQUIRED_TRIVIAL_SPEC_HEADINGS >/dev/null 2>&1 && [[ "${#HARNESS_REQUIRED_TRIVIAL_SPEC_HEADINGS[@]}" -gt 0 ]]; then
+      required_headings=("${HARNESS_REQUIRED_TRIVIAL_SPEC_HEADINGS[@]}")
+    else
+      required_headings=("${default_trivial_required_headings[@]}")
+    fi
   else
-    required_headings=("${default_required_headings[@]}")
+    if declare -p HARNESS_REQUIRED_SPEC_HEADINGS >/dev/null 2>&1 && [[ "${#HARNESS_REQUIRED_SPEC_HEADINGS[@]}" -gt 0 ]]; then
+      required_headings=("${HARNESS_REQUIRED_SPEC_HEADINGS[@]}")
+    else
+      required_headings=("${default_required_headings[@]}")
+    fi
   fi
 
   local h

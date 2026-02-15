@@ -39,6 +39,7 @@ Run the full lifecycle with phase gates and parallel subagents.
 7. learn
 
 `doc-gardening` is optional and periodic.
+For `plan_mode: trivial`, skip `verify-release` after review.
 
 ## Re-entry Rules
 
@@ -60,9 +61,8 @@ When a gate fails or a phase reveals issues requiring earlier work:
    - `docs/generated/`
 3. If required directories are missing, run `he-bootstrap`.
 4. Ensure `docs/specs/<slug>.md` exists; if not, run `he-spec`.
-5. **Express path check**: if `plan_mode: trivial` in the spec metadata, skip steps 5a–10 and go directly to step 11 (refresh context), then step 12 (`he-implement`), then step 13 (`he-review` in fast-track mode), then step 15 (`he-learn` abbreviated). Skip `he-verify-release` for trivial changes. The docs commit gate and test evidence gate still apply.
-5a. If `spike_recommended: yes` in the spec metadata, run `he-spike`.
-6. Ensure `docs/plans/active/<slug>.md` exists; if missing, run `he-plan`.
+5. If `spike_recommended: yes` in the spec metadata, run `he-spike`.
+6. Ensure `docs/plans/active/<slug>.md` exists; if missing, run `he-plan` (use an abbreviated plan for `plan_mode: trivial`).
 7. Validate active plan has all required PLANS sections:
    - `Purpose / Big Picture`
    - `Progress`
@@ -83,9 +83,9 @@ When a gate fails or a phase reveals issues requiring earlier work:
 10. Validate checklists are only used in `Progress`.
 11. Refresh generated context in `docs/generated/` if stale.
 12. Run `he-implement`.
-13. Run `he-review` and enforce priority gate.
-14. Run `he-verify-release`.
-15. Run `he-learn` and archive plan.
+13. Run `he-review` and enforce priority gate (`plan_mode: trivial` uses fast-track single-reviewer mode).
+14. If `plan_mode` is not `trivial`, run `he-verify-release`; otherwise skip to step 15.
+15. Run `he-learn` and archive plan (abbreviated learn path for `plan_mode: trivial`).
 
 ## Subagent Strategy
 

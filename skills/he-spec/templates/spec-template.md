@@ -3,7 +3,7 @@ slug: <slug>
 status: intake-complete
 date: <YYYY-MM-DD>
 owner: <name or team>
-plan_mode: <lightweight|execution>
+plan_mode: <trivial|lightweight|execution>
 spike_recommended: <yes|no>
 priority: <critical|high|medium|low>
 ---

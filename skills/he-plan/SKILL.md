@@ -53,6 +53,7 @@ Before drafting the plan, check `docs/DOMAIN_DOCS.md` for domain docs relevant t
    - `## Idempotence and Recovery`
    - `## Artifacts and Notes`
    - `## Interfaces and Dependencies`
+   - `## Revision Notes`
 8. Keep the plan as a living document: update `Progress`, `Surprises & Discoveries`, `Decision Log`, `Outcomes & Retrospective`, and `Revision Notes` as work evolves.
 9. Every `Progress` checkbox entry must include a timestamp and a stable progress ID (`P1`, `P2`, ...).
 10. Milestones must be narrative and independently verifiable, each with observable outcomes.
@@ -65,6 +66,7 @@ Before drafting the plan, check `docs/DOMAIN_DOCS.md` for domain docs relevant t
 
 Read `plan_mode` from `docs/specs/<slug>.md` and tune depth, not structure:
 
+- `trivial`: abbreviated plan that still includes all required sections and enables implement/review/learn gates.
 - `lightweight`: fewer milestones and shorter prose, but still include every required section.
 - `execution`: deeper orientation, milestones, validation detail, and richer decision/evidence updates.
 

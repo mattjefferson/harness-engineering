@@ -2,7 +2,7 @@
 slug: <slug>
 status: active
 phase: plan
-plan_mode: <lightweight|execution>
+plan_mode: <trivial|lightweight|execution>
 priority: <critical|high|medium|low>
 owner: <name or team>
 ---

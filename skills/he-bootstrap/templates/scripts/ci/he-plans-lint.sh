@@ -237,8 +237,8 @@ check_plan_file() {
 
   local plan_mode
   plan_mode="$(frontmatter_value "$frontmatter" "plan_mode")"
-  if [[ -n "$plan_mode" && "$plan_mode" != "lightweight" && "$plan_mode" != "execution" ]]; then
-    add_error "$file" "Invalid plan_mode" "Plan '$file' has invalid plan_mode '$plan_mode' (must be 'lightweight' or 'execution')."
+  if [[ -n "$plan_mode" && "$plan_mode" != "trivial" && "$plan_mode" != "lightweight" && "$plan_mode" != "execution" ]]; then
+    add_error "$file" "Invalid plan_mode" "Plan '$file' has invalid plan_mode '$plan_mode' (must be 'trivial', 'lightweight', or 'execution')."
   fi
 
   local -a required_headings=()
