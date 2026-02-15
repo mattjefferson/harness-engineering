@@ -1,23 +1,30 @@
-# harness-engineering
+# Harness Engineering Skill Pack
+
+Artifact-first workflows for agent-driven software delivery.
+
+This repository packages a set of `he-*` skills plus templates that turn "ship software" into a versioned, evidence-backed control loop that both humans and agents can run reliably.
+
+## Key Features
+
+- End-to-end workflow skills (`he-spec` -> `he-learn`) with hard gates and explicit artifacts
+- `he-bootstrap` templates for `docs/` structure, plans, runbooks, and generated context
+- Parallel review + verify/release gates that produce a written GO/NO-GO decision
+- A compounding learning loop that turns failures into permanent guardrails
+- `agent-browser` and `he-video` helpers for capturing agentic E2E evidence
 
 ## Philosophy
 
-Ultimate philosophy:
-
-Turn software delivery into a versioned, evidence-backed control system that both humans and agents can run reliably.
+Ultimate philosophy: turn software delivery into a versioned, evidence-backed control system.
 
 How this is different:
 
-- Artifact-first, not meeting-first: the source of truth is committed specs, plans, logs, and decisions, not standups or tribal memory.
-- Three planning modes by intent: trivial for single-file fixes, lightweight for small work, execution for complex work.
-- Progressive disclosure: small stable entry point, then deeper context only when needed.
-- Gate-driven flow: movement across phases requires explicit evidence, not subjective "looks good."
-- Agent-native by design: tasks are structured so parallel agents can execute, review, and verify consistently.
-- Compounding learning loop: failures become permanent guardrails (docs, tests, principles), so the system improves over time.
+- Artifact-first, not meeting-first: specs/plans/decisions are committed, not tribal memory.
+- Progressive disclosure: short stable entry points, deeper context only when needed.
+- Gate-driven flow: movement across phases requires proof, not "looks good".
+- Agent-native by design: work is chunked so parallel agents can execute/review/verify.
+- Compounding: failures become guardrails (docs, tests, principles, and CI rules).
 
-In short: most methodologies optimize coordination; this optimizes reproducible execution with durable context.
-
-This approach is influenced by:
+Influences:
 
 - OpenAI Harness Engineering: https://openai.com/index/harness-engineering/
 - Every Compound Engineering Plugin: https://github.com/EveryInc/compound-engineering-plugin
@@ -25,16 +32,15 @@ This approach is influenced by:
 
 ## Table of Contents
 
-- [Philosophy](#philosophy)
 - [What This Repo Provides](#what-this-repo-provides)
 - [Tech Stack](#tech-stack)
-- [Repository Layout](#repository-layout)
 - [Prerequisites](#prerequisites)
 - [Getting Started](#getting-started)
 - [Install Script Reference](#install-script-reference)
-- [Skill Catalog](#skill-catalog)
-- [Harness Workflow Model](#harness-workflow-model)
 - [Using The Skills In A Project](#using-the-skills-in-a-project)
+- [Workflow Model](#workflow-model)
+- [Skills (Detailed)](#skills-detailed)
+- [Templates And Artifacts](#templates-and-artifacts)
 - [Development Guide](#development-guide)
 - [Verification](#verification)
 - [Troubleshooting](#troubleshooting)
@@ -42,83 +48,48 @@ This approach is influenced by:
 
 ## What This Repo Provides
 
-- A complete `he-*` skill set for harness-oriented delivery:
+- `he-*` skills for a harness-oriented workflow:
   - `he-bootstrap`
   - `he-spec`
   - `he-research`
   - `he-spike`
   - `he-plan`
+  - `he-worktree`
   - `he-implement`
   - `he-review`
   - `he-verify-release`
   - `he-learn`
   - `he-doc-gardening`
-  - `he-worktree`
   - `he-workflow` (orchestrator)
-- `agent-browser`: browser automation CLI skill for agentic E2E verification (snapshots, clicks, form fills, screenshots, recordings).
-- Template documents for specs, plans, learnings, and verify/release decisions.
-- `scripts/install.sh` to copy these skills into `.agents` and sync into Claude/extra skill directories.
+- `agent-browser`: browser automation evidence capture (snapshots, clicks, forms, screenshots, recordings).
+- `he-video`: scripts/templates for recording and linking evidence.
+- Templates for:
+  - specs (`docs/specs/`)
+  - spikes (`docs/spikes/`)
+  - plans (`docs/plans/active/` and `docs/plans/completed/`)
+  - runbooks (`docs/runbooks/`)
+  - generated reference context (`docs/generated/`)
+- An installer (`scripts/install.sh`) to sync skills into agent runtimes.
 
 ## Tech Stack
 
 - **Language**: Bash + Markdown
-- **Packaging Model**: File-system skill packs (`SKILL.md` + templates)
-- **Install Targets**:
-  - `~/.agents/skills` (source-of-truth staging, used by Codex)
-  - `~/.claude/skills` (default extra target)
-- **Workflow Artifacts**: Markdown docs for specs/plans and generated reference context
-
-## Repository Layout
-
-```text
-.
-├── README.md
-├── scripts/
-│   └── install.sh
-└── skills/
-    ├── agent-browser/
-    │   ├── SKILL.md
-    │   ├── references/
-    │   └── templates/
-    ├── he-bootstrap/
-    │   ├── SKILL.md
-    │   └── templates/
-    │       ├── AGENTS.md
-    │       ├── ARCHITECTURE.md
-    │       └── bootstrap.sh
-    ├── he-doc-gardening/SKILL.md
-    ├── he-implement/SKILL.md
-    ├── he-research/SKILL.md
-    ├── he-spec/
-    │   ├── SKILL.md
-    │   └── templates/spec-template.md
-    ├── he-learn/
-    │   ├── SKILL.md
-    │   └── templates/learning-entry-template.md
-    ├── he-plan/
-    │   ├── SKILL.md
-    │   └── templates/plan-template.md
-    ├── he-review/SKILL.md
-    ├── he-spike/
-    │   ├── SKILL.md
-    │   ├── references/spec-update-guide.md
-    │   └── templates/spike-template.md
-    ├── he-worktree/SKILL.md
-    ├── he-verify-release/SKILL.md
-    └── he-workflow/SKILL.md
-```
+- **Packaging**: filesystem skill packs (`skills/<name>/SKILL.md` + `templates/`)
+- **Distribution**: copy/sync skills into runtime skill directories
+- **CI helpers (templates)**: shell scripts that lint plans/specs/spikes and check doc drift
 
 ## Prerequisites
 
-- macOS/Linux shell environment
-- Bash (used by `scripts/install.sh` and bootstrap template script)
-- Write access to:
-  - `~/.agents/skills`
-  - `~/.claude/skills` (if enabled)
+Required:
+
+- macOS or Linux
+- Bash
+- Git (for cloning and normal workflow use)
 
 Optional but recommended:
-- `git`
-- An installed agent runtime that reads skills from one or more target directories
+
+- `trash` (so the installer can remove legacy `~/.codex/skills` safely when present)
+- `rg` (ripgrep) for fast local searching
 
 ## Getting Started
 
@@ -135,28 +106,39 @@ cd harness-engineering
 ./scripts/install.sh --dry-run
 ```
 
-### 3. Install skills
+### 3. Install skills into your agent runtimes
 
 ```bash
 ./scripts/install.sh
 ```
 
-By default this does all of the following:
-- Copies local `skills/*` into `~/.agents/skills`
-- Copies those installed skills into `~/.claude/skills`
-- Removes legacy `~/.codex/skills` (Codex now reads `~/.agents/skills`)
+Default behavior:
+
+- Copies repo `skills/*` into `~/.agents/skills` (Codex reads this directly)
+- Optionally syncs the same installed skills into `~/.claude/skills`
+- If legacy `~/.codex/skills` exists, removes it safely (using `trash` or `~/.Trash`)
 
 ### 4. Verify installed skills exist
 
 ```bash
-ls -1 ~/.agents/skills | rg '^he-'
-ls -1 ~/.claude/skills | rg '^he-'
-test ! -d ~/.codex/skills
+ls -1 ~/.agents/skills | rg '^(he-|agent-browser|he-video)'
+ls -1 ~/.claude/skills | rg '^(he-|agent-browser|he-video)' || true
+test ! -d ~/.codex/skills || echo \"Legacy ~/.codex/skills still exists\"
 ```
 
-### 5. Use in a target project
+### 5. Bootstrap a target repo
 
-In the project where you want to run the workflow, start with `he-bootstrap`, then proceed through the lifecycle.
+From the target repo root (the repo you want to work on with the workflow):
+
+```bash
+bash /path/to/harness-engineering/skills/he-bootstrap/templates/bootstrap.sh
+```
+
+Optional architecture template:
+
+```bash
+bash /path/to/harness-engineering/skills/he-bootstrap/templates/bootstrap.sh --with-architecture
+```
 
 ## Install Script Reference
 
@@ -176,8 +158,14 @@ Script: `scripts/install.sh`
 | `--agents-home <dir>` | Base `.agents` path | `~/.agents` |
 | `--target <dir>` | Extra install target (repeatable) | none |
 | `--no-claude` | Skip sync to `~/.claude/skills` | disabled |
-| `--dry-run` | Print copy operations only | off |
+| `--dry-run` | Print actions without copying | off |
 | `-h`, `--help` | Show help | n/a |
+
+### Environment Variables
+
+| Variable | Purpose | Default |
+|---|---|---|
+| `AGENTS_HOME` | Base `.agents` directory | `~/.agents` |
 
 ### Usage examples
 
@@ -187,7 +175,7 @@ Install to all defaults:
 ./scripts/install.sh
 ```
 
-Install only to `.agents` (skip Claude sync):
+Install only to `~/.agents/skills` (skip Claude sync):
 
 ```bash
 ./scripts/install.sh --no-claude
@@ -205,25 +193,68 @@ Use custom source and agents home:
 ./scripts/install.sh --source ./skills --agents-home ~/.agents
 ```
 
-## Skill Catalog
+## Using The Skills In A Project
 
-| Skill | Primary Purpose | Key Output / Gate |
-|---|---|---|
-| `agent-browser` | Agentic browser automation for E2E verification | Screenshots/recordings/text extraction as evidence |
-| `he-bootstrap` | Initialize workflow docs structure in a project | Creates `docs/specs`, `docs/spikes`, `docs/plans`, and `docs/generated` |
-| `he-spec` | Convert request into a concrete initiative spec | `docs/specs/<slug>.md` |
-| `he-research` | Resolve open questions before planning | Updated `docs/specs/<slug>.md` with evidence-backed findings |
-| `he-spike` | Time-boxed investigation for unclear/high-risk work | `docs/spikes/<slug>-spike.md` |
-| `he-plan` | Convert spec into a PLANS.md-compliant ExecPlan | `docs/plans/active/<slug>.md` |
-| `he-implement` | Execute milestones from Progress checkboxes | Updates living plan sections and uses `docs/generated/*` context |
-| `he-review` | Run parallel review fanout + priority gating | Review findings in active plan |
-| `he-verify-release` | Check release readiness and record GO/NO-GO | Verify/release decision section in plan |
-| `he-learn` | Capture post-release lessons + archive plan | Move plan to `docs/plans/completed/<slug>.md` |
-| `he-doc-gardening` | Periodic doc-gardening for stale/obsolete docs | New doc-fix specs/plans + tracker updates |
-| `he-worktree` | Create isolated branch/worktree workspace | Branch + directory isolation before execution |
-| `he-workflow` | End-to-end orchestrator across all phases | Enforces phase order + gates |
+### What `he-bootstrap` creates
 
-## Harness Workflow Model
+After running bootstrap, the target repo will contain a predictable `docs/` layout:
+
+```text
+docs/
+  PLANS.md
+  DOMAIN_DOCS.md
+  design-docs/
+    core-beliefs.md
+  generated/
+    README.md
+    db-schema.md
+    api-schema.md
+    component-tree.md
+    dependency-graph.md
+    memory.md
+  plans/
+    README.md
+    tech-debt-tracker.md
+    active/
+    completed/
+  runbooks/
+    update-agents-md.md
+    update-domain-docs.md
+    code-review.md
+    review-findings.md
+    address-review-findings.md
+    verify-release.md
+    record-evidence.md
+    ci-failures.md
+    escalation.md
+    merge-change.md
+  specs/
+    README.md
+    index.md
+  spikes/
+    README.md
+```
+
+Notes:
+
+- Domain docs like `docs/SECURITY.md` and `docs/RELIABILITY.md` are created on-demand by downstream skills when the repo has real context.
+- `docs/generated/memory.md` is an agent scratchpad and is processed/cleared during `he-learn`.
+
+### A typical initiative flow
+
+1. `he-spec`: write intent into `docs/specs/<slug>.md`
+2. `he-research` (optional): answer investigatable open questions; update the spec
+3. `he-spike` (optional): time-box feasibility UX/behavior exploration; write findings
+4. `he-plan`: write the executable plan into `docs/plans/active/<slug>.md`
+5. `he-worktree` (recommended for non-trivial): isolate workspace for implementation
+6. `he-implement`: execute the plan and keep the plan's living sections current
+7. `he-review`: parallel review fanout into the plan's `## Review Findings`
+8. `he-verify-release`: record GO/NO-GO with evidence + rollback in `## Verify/Release Decision`
+9. `he-learn`: turn issues into guardrails; update runbooks; process `docs/generated/memory.md`; archive plan
+
+`he-workflow` orchestrates the above and enforces phase order and gates.
+
+## Workflow Model
 
 ### Slug convention
 
@@ -239,115 +270,135 @@ Example:
 2026-02-14-install-skill-sync
 ```
 
-### Phase order
-
-1. intake
-2. research (optional — for investigatable open questions)
-3. spike (optional — for unclear or high-risk work)
-4. plan
-5. implement
-6. review
-7. verify-release
-8. learn
-
-`doc-gardening` is periodic/optional.
-
 ### Plan modes
 
-- `trivial`: single-file, low-risk changes that skip `he-plan` entirely — goes straight from spec to implement with single-reviewer review and abbreviated learn
-- `lightweight`: small, low-complexity work captured with fewer milestones and concise prose
-- `execution`: complex work captured with deeper context, milestones, and richer evidence
+- `trivial`: single-file, low-risk fixes; abbreviated plan path; lightweight review fanout
+- `lightweight`: small work with concise milestones and evidence
+- `execution`: multi-hour work with rich context, milestones, and deeper validation
 
 ### Source of truth hierarchy (in consuming repos)
 
 1. Human intent: `docs/specs/<slug>.md`
 2. Spike findings: `docs/spikes/<slug>-spike.md` (if a spike was run)
 3. Execution plan: `docs/plans/active/<slug>.md` (`plan_mode: trivial|lightweight|execution`)
-4. Generated context: `docs/generated/` (for example `docs/generated/db-schema.md`)
+4. Generated context: `docs/generated/` (schema snapshots, graphs, scratchpad)
 
-### Hard gates
+### Hard gates (non-negotiable)
 
-- **Doc commit gate** between phase transitions
-- **Priority gate**: unresolved `critical`/`high` findings block progression
-- **Progress gate**: `## Progress` is the single checklist section and must be timestamped with stable IDs
-- **Section gate**: active plans include all required PLANS sections (`Purpose`, `Progress`, `Surprises`, `Decision Log`, `Outcomes`, `Context`, `Milestones`, `Plan of Work`, `Concrete Steps`, `Validation`, `Idempotence`, `Artifacts`, `Interfaces`, `Revision Notes`)
-- **Validation gate**: plans include concrete commands and observable acceptance outcomes
-- **Testing gate**: verification uses unit/e2e evidence only — no mocks
-- **Living-plan gate**: `Surprises & Discoveries`, `Decision Log`, `Outcomes & Retrospective`, and `Revision Notes` are append-only and current
+- Doc commit gate between phase transitions (artifacts are versioned)
+- Priority gate: unresolved `critical`/`high` findings block progression
+- Progress gate: `## Progress` is the single checklist section; timestamped with stable IDs
+- Section gate: active plans include all required `docs/PLANS.md` sections
+- Validation gate: plans include concrete commands and observable acceptance outcomes
+- Testing gate: verification uses unit/e2e evidence only; no mocks by default
+- Living-plan gate: decision/discovery/retro sections are append-only and current
 
-### Generated context files
+## Skills (Detailed)
 
-- `docs/generated/db-schema.md`
-- `docs/generated/api-schema.md`
-- `docs/generated/component-tree.md`
-- `docs/generated/dependency-graph.md`
-- Each generated file includes a `last_updated` timestamp
+Each skill is a directory under `skills/<name>/` and is defined by `SKILL.md` (plus optional templates and references).
 
-## Using The Skills In A Project
+### `he-bootstrap`
 
-### Step 1: Bootstrap a target repo
+Bootstraps a repo with a predictable `docs/` artifact structure.
 
-From the target repo root:
+- Template source: `skills/he-bootstrap/templates/`
+- Entry point: `skills/he-bootstrap/templates/bootstrap.sh`
 
-```bash
-bash path/to/harness-engineering/skills/he-bootstrap/templates/bootstrap.sh
-```
+### `he-spec`
 
-With architecture template:
+Converts an initiative request into a written spec.
 
-```bash
-bash path/to/harness-engineering/skills/he-bootstrap/templates/bootstrap.sh --with-architecture
-```
+- Template: `skills/he-spec/templates/spec-template.md`
+- Output: `docs/specs/<slug>.md`
 
-### Step 2: Validate bootstrap
+### `he-research`
 
-```bash
-test -d docs/specs &&
-test -d docs/spikes &&
-test -d docs/plans/active &&
-test -d docs/plans/completed &&
-test -d docs/design-docs &&
-test -d docs/generated &&
-test -f AGENTS.md &&
-test -f docs/plans/tech-debt-tracker.md &&
-test -f docs/generated/db-schema.md &&
-test -f docs/design-docs/core-beliefs.md
-```
+Resolves investigatable open questions and updates the spec with evidence.
 
-### Step 3: Run an initiative
+- Output: updates `docs/specs/<slug>.md`
 
-- Use `he-spec` to create the spec.
-- If feasibility is unclear, use `he-spike` for a time-boxed investigation.
-- Set `plan_mode` in the spec (`trivial`, `lightweight`, or `execution`).
-- Use `he-plan` to create the matching active plan file.
-- Use `he-implement` for execution batches.
-- Use `he-review` and resolve blocking findings.
-- Use `he-verify-release` for GO/NO-GO.
-- Use `he-learn` to capture lessons and archive the plan.
+### `he-spike`
 
-Or use `he-workflow` to orchestrate this lifecycle end-to-end.
+Time-boxed feasibility exploration for unknown UX/behavior or risky approach questions.
+
+- Template: `skills/he-spike/templates/spike-template.md`
+- Output: `docs/spikes/<slug>-spike.md`
+
+### `he-plan`
+
+Creates a PLANS-compliant executable plan with milestones, proof commands, and living sections.
+
+- Template: `skills/he-plan/templates/plan-template.md`
+- Output: `docs/plans/active/<slug>.md`
+
+### `he-worktree`
+
+Creates an isolated worktree/branch for non-trivial work so agent execution does not collide with local changes.
+
+### `he-implement`
+
+Executes plan progress items and keeps living sections current.
+
+### `he-review`
+
+Runs parallel review fanout (correctness, architecture, security/data, simplicity) and enforces the priority gate.
+
+- Runbooks: `docs/runbooks/code-review.md` and `docs/runbooks/review-findings.md`
+
+### `he-verify-release`
+
+Records GO/NO-GO in the plan with evidence, rollback readiness, and post-release checks.
+
+- Runbooks: `docs/runbooks/verify-release.md`, `docs/runbooks/record-evidence.md`, `docs/runbooks/ci-failures.md`, `docs/runbooks/merge-change.md`
+
+### `he-learn`
+
+Turns execution outcomes into durable guardrails, updates runbooks, processes the scratchpad, and archives the plan.
+
+### `he-doc-gardening`
+
+Periodic maintenance: identify drift, obsolete docs, and missing references; create doc-fix initiatives.
+
+### `he-workflow`
+
+The orchestrator: enforces phase order and the hard gates, and routes to the correct skill next.
+
+## Templates And Artifacts
+
+### Skills are versioned APIs
+
+Treat:
+
+- `skills/<name>/SKILL.md`
+- `skills/<name>/templates/**`
+
+as an API contract. Consuming repos will rely on these semantics.
+
+### `ARCHITECTURE.md` template is intentionally short
+
+The architecture template is a "codemap + invariants" document:
+
+- It should help new contributors find where to change code.
+- It should capture stable boundaries and non-obvious invariants.
+- It should avoid long procedures (those belong in runbooks).
+
+Template: `skills/he-bootstrap/templates/ARCHITECTURE.md`
 
 ## Development Guide
 
 ### Add a new skill
 
-1. Create a new directory under `skills/<skill-name>/`.
-2. Add `SKILL.md` with frontmatter and explicit workflow.
-3. Add any `templates/` files referenced by the skill.
-4. Dry-run the installer.
-5. Reinstall and validate in your local agent environment.
+1. Create `skills/<skill-name>/`.
+2. Add `skills/<skill-name>/SKILL.md` with frontmatter and an explicit workflow.
+3. Add any `templates/` or `references/` mentioned by the skill.
+4. Dry-run install: `./scripts/install.sh --dry-run`
+5. Install: `./scripts/install.sh`
 
-### Update existing skill behavior
+### Update existing skills/templates
 
-1. Edit `skills/<skill-name>/SKILL.md`.
-2. Keep phase order and gate semantics consistent with `he-workflow`.
-3. Update related templates if output contracts changed.
-4. Reinstall with `./scripts/install.sh`.
-
-### Keep changes minimal and explicit
-
-- Prefer small skill changes over broad rewrites.
-- Treat template files as API contracts for downstream repos.
+1. Edit `skills/<skill-name>/SKILL.md` or templates under `skills/<skill-name>/templates/`.
+2. Keep phase order and gate semantics consistent with `skills/he-workflow/SKILL.md`.
+3. Reinstall with `./scripts/install.sh`.
 
 ## Verification
 
@@ -364,61 +415,54 @@ bash -n scripts/install.sh
 bash skills/he-bootstrap/templates/bootstrap.sh --help
 ```
 
-## Troubleshooting
-
-### `Error: Source directory not found`
-
-Cause: wrong `--source` path or running script from unexpected location.
-
-Fix:
+If you are editing `he-bootstrap` templates, also run the template CI scripts locally:
 
 ```bash
-./scripts/install.sh --source /absolute/path/to/skills --dry-run
+# From this repo root (runs in the template tree):
+bash skills/he-bootstrap/templates/scripts/ci/he-docs-lint.sh
+bash skills/he-bootstrap/templates/scripts/ci/he-docs-drift.sh || true
+bash skills/he-bootstrap/templates/scripts/ci/he-plans-lint.sh || true
+bash skills/he-bootstrap/templates/scripts/ci/he-specs-lint.sh || true
+bash skills/he-bootstrap/templates/scripts/ci/he-spikes-lint.sh || true
 ```
 
-### Skills not appearing in Codex/Claude
+## Troubleshooting
 
-Cause: target directories skipped or runtime not reading expected path.
+### Installer fails removing legacy `~/.codex/skills`
+
+Cause: legacy dir exists and the machine lacks `trash` and `~/.Trash` (common on Linux).
+
+Fix options:
+
+1. Install a `trash` command appropriate for your OS, then rerun installer.
+2. Manually move `~/.codex/skills` out of the way safely, then rerun installer.
+
+### Skills not appearing in your runtime
 
 Fix:
 
 ```bash
 ./scripts/install.sh
 ls -la ~/.agents/skills
-ls -la ~/.claude/skills
+ls -la ~/.claude/skills || true
 ```
 
-Note: `~/.codex/skills` is legacy and is removed by the installer.
-
-If needed, add an explicit target:
+If your runtime uses a different skills directory, install to it:
 
 ```bash
-./scripts/install.sh --target ~/.config/<tool>/skills
+./scripts/install.sh --target /path/to/runtime/skills
 ```
 
-### `No installable skills found`
-
-Cause: source subdirectories missing `SKILL.md`.
-
-Fix: ensure each skill folder has a valid `SKILL.md` at the top level.
-
-### Bootstrap created only part of docs structure
+### Bootstrap created only part of the docs structure
 
 Cause: running bootstrap from the wrong current directory.
 
 Fix: `cd` to target repo root and rerun bootstrap script.
 
-## Deployment and Distribution
+## Deployment And Distribution
 
 This repository has no runtime service to deploy. Distribution is file-based:
 
-1. Update `skills/` and `scripts/install.sh` in this repo.
-2. Pull latest changes where needed.
-3. Re-run installer to propagate skills to local agent directories.
-
-For team rollout, pin to a commit/tag and have each developer run:
-
-```bash
-git pull
-./scripts/install.sh
-```
+1. Update `skills/` and `scripts/install.sh`.
+2. Pin to a commit/tag if you need stable rollout.
+3. Re-run `./scripts/install.sh` on developer machines to propagate updates.
