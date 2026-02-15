@@ -25,15 +25,13 @@ Before implementation execution:
 
 ## Generated Context
 
-Before execution, refresh generated context when stale:
+Before execution, refresh generated context in `docs/generated/` when stale:
 
-- `docs/generated/db-schema.md` (if present)
-- `docs/generated/api-schema.md` (if present)
-- `docs/generated/component-tree.md` (if present)
-- `docs/generated/dependency-graph.md` (if present)
-- Other generated reference docs in `docs/generated/` (if present)
-
-Each generated file should include a `last_updated` timestamp.
+1. Read `docs/generated/README.md` first (if present) for project-specific generated artifact expectations.
+2. Refresh only the generated files relevant to the current milestones and validation scope.
+3. Treat any generated `docs/generated/*.md` file as valid reference context, not only a fixed filename set.
+4. Ensure refreshed generated files include an updated `last_updated` timestamp when the project uses that convention.
+5. If expected generated context is missing and cannot be refreshed, record the gap and impact in `Revision Notes`.
 
 ## Execution Model
 
