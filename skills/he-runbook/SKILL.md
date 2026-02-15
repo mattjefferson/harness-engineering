@@ -64,3 +64,11 @@ Create or update a runbook (process/checklist) that can evolve per project, whil
 ## Conflict Rule (Non-Negotiable)
 
 If a runbook contradicts a skill gate, the skill wins. Treat the runbook as drift and escalate/update it.
+
+## Forward Progress Rule
+
+Runbooks are **not** the critical path artifact contract between workflow phases. If a runbook is missing, malformed, or low-quality:
+
+- Do not block execution of `he-implement`, `he-review`, or `he-verify-release`.
+- Proceed based on the skill-enforced gates and the plan contract (`docs/PLANS.md`).
+- Treat the runbook fix as an additive improvement to be captured during `he-learn`.

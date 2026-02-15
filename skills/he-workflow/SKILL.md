@@ -31,6 +31,20 @@ Run the full lifecycle with phase gates and parallel subagents.
 - Plan contract: `docs/PLANS.md`
 - Generated project context: `docs/generated/` (for example `docs/generated/db-schema.md`)
 
+## Artifact Contracts (Step-to-Step)
+
+Forward progress must depend on stable, versioned artifacts — not mutable runbooks.
+
+- **intake → plan**: `docs/specs/<slug>.md` exists and is lint-clean.
+- **plan → implement**: `docs/plans/active/<slug>.md` exists and is PLANS-compliant (including `Pull Request`, `Review Findings`, `Verify/Release Decision` sections as explicit handoff contracts).
+- **implement → github** (optional): code + tests + evidence are recorded in the plan; PR metadata is written into `## Pull Request`.
+- **implement → review**: implementation evidence is linked in `Artifacts and Notes`; `Progress` reflects current state.
+- **review → verify-release**: consolidated findings are written into `## Review Findings` in the plan.
+- **verify-release → merge**: GO/NO-GO is written into `## Verify/Release Decision` with evidence + rollback.
+- **merge → learn**: learnings + prevention actions are recorded; plan is archived to `docs/plans/completed/<slug>.md`.
+
+Runbooks are additive: if they are missing, stale, or wrong, do not block — proceed using the skill gates and artifact contracts above.
+
 ## Slug Rules
 
 - Format: `YYYY-MM-DD-kebab-topic`
@@ -44,6 +58,7 @@ Run the full lifecycle with phase gates and parallel subagents.
 3. spike (optional — when feasibility or approach is unclear)
 4. plan
 5. implement
+5.5. github (optional — open/update PR and gather feedback via `gh`)
 6. review
 7. verify-release
 8. learn
@@ -88,12 +103,16 @@ When a gate fails or a phase reveals issues requiring earlier work:
    - `Idempotence and Recovery`
    - `Artifacts and Notes`
    - `Interfaces and Dependencies`
+   - `Pull Request`
    - `Revision Notes`
+   - `Review Findings`
+   - `Verify/Release Decision`
 9. Validate `Progress` entries are timestamped checkboxes with stable IDs.
 10. Validate concrete commands and expected outcomes exist in `Concrete Steps` and `Validation and Acceptance`.
 11. Validate checklists are only used in `Progress`.
 12. Refresh generated context in `docs/generated/` if stale.
 13. Run `he-implement`.
+13.5. If a PR-driven loop is desired, run `he-github` to open/update the PR and link plan/evidence.
 14. Run `he-review` and enforce priority gate (`plan_mode: trivial` uses fast-track single-reviewer mode).
 15. If `plan_mode` is not `trivial`, run `he-verify-release`; otherwise skip to step 16.
 16. Run `he-learn` and archive plan (abbreviated learn path for `plan_mode: trivial`).

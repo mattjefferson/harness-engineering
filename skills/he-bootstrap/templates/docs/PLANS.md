@@ -63,6 +63,10 @@ Each milestone must be independently verifiable and incrementally implement the 
 * When you discover optimizer behavior, performance tradeoffs, unexpected bugs, or inverse/unapply semantics that shaped your approach, capture those observations in the `Surprises & Discoveries` section with short evidence snippets (test output is ideal).
 * If you change course mid-implementation, document why in the `Decision Log` and reflect the implications in `Progress`. Plans are guides for the next contributor as much as checklists for you.
 * At completion of a major task or the full plan, write an `Outcomes & Retrospective` entry summarizing what was achieved, what remains, and lessons learned.
+* Plans must include explicit workflow handoff sections so later phases have a stable contract:
+  * `## Pull Request` (populated by PR-opening workflow)
+  * `## Review Findings` (populated by `he-review`)
+  * `## Verify/Release Decision` (populated by `he-verify-release`)
 
 # Prototyping milestones and parallel implementations
 
@@ -144,6 +148,23 @@ Prefer additive code changes followed by subtractions that keep tests passing. P
         pub trait Planner {
             fn plan(&self, observed: &Observed) -> Vec<Action>;
         }
+
+    ## Pull Request
+
+    This section is the stable handoff contract to the PR/CI phase. Record:
+
+    - pr: <url>
+    - branch:
+    - commit:
+    - ci: <checks link or summary>
+
+    ## Review Findings
+
+    Populated by review workflow (e.g. `he-review`). Consolidate findings here with priorities and locations.
+
+    ## Verify/Release Decision
+
+    Populated by verify/release workflow (e.g. `he-verify-release`). Record GO/NO-GO plus evidence and rollback.
 
 If you follow the guidance above, a single, stateless agent -- or a human novice -- can read your Plan from top to bottom and produce a working, observable result. That is the bar: SELF-CONTAINED, SELF-SUFFICIENT, NOVICE-GUIDING, OUTCOME-FOCUSED.
 

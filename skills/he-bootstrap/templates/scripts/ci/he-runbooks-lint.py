@@ -8,6 +8,7 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Optional, Sequence, Tuple
+import re
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -158,9 +159,10 @@ def lint_runbook(path: Path, fail_missing_called_from: bool, fail_extra_keys: bo
     text = _read_text(path)
     block = _extract_frontmatter_block(text)
     if block is None:
+        strict = _env_flag("HARNESS_STRICT_RUNBOOKS", "0")
         return [
             Finding(
-                level="error",
+                level="error" if strict else "warning",
                 file=rel,
                 title="Runbook frontmatter",
                 msg=f"Runbook '{rel}' must start with YAML frontmatter ('---').",
@@ -169,11 +171,12 @@ def lint_runbook(path: Path, fail_missing_called_from: bool, fail_extra_keys: bo
 
     fm = _parse_frontmatter(block)
     findings: List[Finding] = []
+    strict = _env_flag("HARNESS_STRICT_RUNBOOKS", "0")
 
     if not fm.title:
         findings.append(
             Finding(
-                level="error",
+                level="error" if strict else "warning",
                 file=rel,
                 title="Runbook frontmatter",
                 msg=f"Runbook '{rel}' frontmatter must include a 'title:' field.",
@@ -182,7 +185,7 @@ def lint_runbook(path: Path, fail_missing_called_from: bool, fail_extra_keys: bo
     if not fm.use_when:
         findings.append(
             Finding(
-                level="error",
+                level="error" if strict else "warning",
                 file=rel,
                 title="Runbook frontmatter",
                 msg=f"Runbook '{rel}' frontmatter must include a 'use_when:' field.",
@@ -196,7 +199,7 @@ def lint_runbook(path: Path, fail_missing_called_from: bool, fail_extra_keys: bo
         )
         findings.append(
             Finding(
-                level="error" if fail_missing_called_from else "warning",
+                level="error" if (strict or fail_missing_called_from) else "warning",
                 file=rel,
                 title="Runbook frontmatter",
                 msg=msg,
@@ -212,12 +215,41 @@ def lint_runbook(path: Path, fail_missing_called_from: bool, fail_extra_keys: bo
         )
         findings.append(
             Finding(
-                level="error" if fail_extra_keys else "warning",
+                level="error" if (strict or fail_extra_keys) else "warning",
                 file=rel,
                 title="Runbook frontmatter",
                 msg=msg,
             )
         )
+
+    # Runbooks are additive: they should not suggest waiving skill gates. This check is warning-only by default.
+    # Strict enforcement can be enabled with HARNESS_STRICT_RUNBOOKS=1.
+    suspicious = [
+        r"(?i)\b(skip|waive|override|ignore)\b.{0,80}\b(gate|review|verify|verify-release|security|data|tests?)\b",
+        r"(?i)\b(disable|turn off)\b.{0,80}\b(tests?|checks?|ci)\b",
+        r"(?i)\b(force merge|merge anyway|ignore failing)\b",
+    ]
+    for pat in suspicious:
+        m = re.search(pat, text)
+        if not m:
+            continue
+        # Avoid false positives when the runbook is explicitly prohibiting the action.
+        prefix = text[max(0, m.start() - 40) : m.start()].lower()
+        if any(neg in prefix for neg in ("do not", "don't", "must not", "never", "cannot", "can't", "should not")):
+            continue
+        snippet = m.group(0).strip().replace("\n", " ")
+        findings.append(
+            Finding(
+                level="error" if strict else "warning",
+                file=rel,
+                title="Potential gate waiver",
+                msg=(
+                    f"Runbook '{rel}' appears to suggest waiving skill-enforced gates: '{snippet}'. "
+                    "Runbooks are additive only; skill gates win."
+                ),
+            )
+        )
+        break
 
     return findings
 
@@ -231,6 +263,7 @@ def main(argv: Sequence[str]) -> int:
 
     fail_missing_called_from = _env_flag("HARNESS_FAIL_ON_MISSING_RUNBOOK_CALLED_FROM", "0")
     fail_extra_keys = _env_flag("HARNESS_FAIL_ON_EXTRA_RUNBOOK_FRONTMATTER", "0")
+    strict = _env_flag("HARNESS_STRICT_RUNBOOKS", "0")
 
     runbooks_dir = REPO_ROOT / "docs" / "runbooks"
 
@@ -240,19 +273,25 @@ def main(argv: Sequence[str]) -> int:
     print("he-runbooks-lint: starting")
     print("Repro: python scripts/ci/he-runbooks-lint.py")
 
-    required_runbooks = cfg.get("required_runbooks", [])
-    if not isinstance(required_runbooks, list):
-        required_runbooks = []
+    expected_runbooks = cfg.get("expected_runbooks", cfg.get("required_runbooks", []))
+    if not isinstance(expected_runbooks, list):
+        expected_runbooks = []
 
-    for rb in required_runbooks:
+    for rb in expected_runbooks:
         if not (REPO_ROOT / rb).exists():
-            errors += 1
+            # Runbooks are additive and should not be a hard dependency for forward progress.
+            level = "warning"
+            warnings += 1
             _emit(
                 Finding(
-                    level="error",
+                    level=level,
                     file=rb,
-                    title="Required runbook missing",
-                    msg=f"Missing required runbook: '{rb}'. Fix: create it (run he-bootstrap if this repo is not bootstrapped) or adjust required_runbooks in the config.",
+                    title="Expected runbook missing",
+                    msg=(
+                        f"Missing runbook: '{rb}'. "
+                        "Policy: runbooks are additive and should not block forward progress. "
+                        "Fix: create it (run he-bootstrap) or remove it from expected_runbooks in config."
+                    ),
                 )
             )
 

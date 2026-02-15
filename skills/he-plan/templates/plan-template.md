@@ -101,6 +101,15 @@ Add concise evidence snippets that prove progress and correctness.
 
 Name interfaces, modules, libraries, and service boundaries affected, including required signatures or contracts.
 
+## Pull Request
+
+Populated by `he-github`.
+
+- pr: <url>
+- branch:
+- commit:
+- ci:
+
 ## Review Findings
 
 Populated by `he-review`.

@@ -56,6 +56,15 @@ def main(argv: list[str]) -> int:
     parser.add_argument("--flow-script", required=True, help="Path to a flow script (Python preferred).")
     parser.add_argument("--output-root", default="docs/artifacts")
     parser.add_argument("--session", default="")
+    parser.add_argument(
+        "--agent-browser-arg",
+        action="append",
+        default=[],
+        help=(
+            "Extra agent-browser CLI arg to apply to all wrapper-invoked commands. "
+            "Repeatable. Example: --agent-browser-arg --headed --agent-browser-arg --allow-file-access"
+        ),
+    )
     parser.add_argument("--keep-browser-open", action="store_true")
 
     args = parser.parse_args(argv)
@@ -74,7 +83,7 @@ def main(argv: list[str]) -> int:
     log_path = out_dir / f"{args.phase}-{timestamp}.log"
     manifest_path = out_dir / "manifest.tsv"
 
-    agent_cmd = ["agent-browser"]
+    agent_cmd = ["agent-browser", *args.agent_browser_arg]
     if args.session:
         agent_cmd.extend(["--session", args.session])
 
@@ -88,6 +97,7 @@ def main(argv: list[str]) -> int:
                 f"phase={args.phase}",
                 f"flow_script={flow_script}",
                 f"session={args.session or 'default'}",
+                f"agent_browser_arg={' '.join(args.agent_browser_arg) if args.agent_browser_arg else ''}",
                 f"output_dir={out_dir}",
             ]
         )
@@ -112,6 +122,10 @@ def main(argv: list[str]) -> int:
 
     flow_exit = 0
     try:
+        # Ensure a clean session so launch-time args (e.g. --headed, --allow-file-access) apply reliably.
+        _run(agent_cmd + ["record", "stop"], check=False)
+        _run(agent_cmd + ["close"], check=False)
+
         _run(agent_cmd + ["record", "start", str(video_path)])
         flow_exit = _run_flow(flow_script, log_path=log_path)
 
@@ -177,4 +191,3 @@ def main(argv: list[str]) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main(sys.argv[1:]))
-

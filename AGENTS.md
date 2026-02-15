@@ -26,6 +26,7 @@
 | `he-doc-gardening` | Periodic doc maintenance |
 | `he-worktree` | Isolated workspace setup via git worktree/branch |
 | `he-workflow` | End-to-end orchestrator |
+| `he-github` | PR lifecycle via gh (open/update/checks/merge) |
 
 ## Runbooks
 

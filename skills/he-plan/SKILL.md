@@ -62,6 +62,9 @@ Before drafting the plan, check `docs/DOMAIN_DOCS.md` for domain docs relevant t
    - `## Idempotence and Recovery`
    - `## Artifacts and Notes`
    - `## Interfaces and Dependencies`
+   - `## Pull Request`
+   - `## Review Findings`
+   - `## Verify/Release Decision`
    - `## Revision Notes`
 8. Keep the plan as a living document: update `Progress`, `Surprises & Discoveries`, `Decision Log`, `Outcomes & Retrospective`, and `Revision Notes` as work evolves.
 9. Every `Progress` checkbox entry must include a timestamp and a stable progress ID (`P1`, `P2`, ...).

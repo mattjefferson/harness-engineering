@@ -27,6 +27,8 @@ These runbooks hold the repo-specific procedures that evolve over time:
 - `docs/runbooks/escalation.md`
 - `docs/runbooks/merge-change.md`
 
+Runbooks are additive only. If a runbook is missing or low-quality, do not block forward progress — proceed using the skill-enforced gates and record the runbook drift for `he-learn`.
+
 In addition to the baseline list above, apply any additional runbooks returned by:
 
 `python scripts/runbooks/select-runbooks.py --skill he-verify-release`

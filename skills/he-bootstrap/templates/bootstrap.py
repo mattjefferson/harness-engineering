@@ -78,6 +78,10 @@ def main() -> int:
         "code-review.md",
         "review-findings.md",
         "address-review-findings.md",
+        "validate-current-state.md",
+        "reproduce-bug.md",
+        "pull-request.md",
+        "respond-to-feedback.md",
     ):
         copy_if_missing(target_root, template_root, f"docs/runbooks/{rb}", f"docs/runbooks/{rb}")
 

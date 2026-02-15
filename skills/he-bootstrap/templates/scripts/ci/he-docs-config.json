@@ -4,12 +4,16 @@
     "docs/PLANS.md",
     "docs/DOMAIN_DOCS.md"
   ],
-  "required_runbooks": [
+  "expected_runbooks": [
     "docs/runbooks/update-agents-md.md",
     "docs/runbooks/update-domain-docs.md",
     "docs/runbooks/code-review.md",
     "docs/runbooks/review-findings.md",
     "docs/runbooks/address-review-findings.md",
+    "docs/runbooks/validate-current-state.md",
+    "docs/runbooks/reproduce-bug.md",
+    "docs/runbooks/pull-request.md",
+    "docs/runbooks/respond-to-feedback.md",
     "docs/runbooks/verify-release.md",
     "docs/runbooks/record-evidence.md",
     "docs/runbooks/ci-failures.md",
@@ -118,4 +122,3 @@
     }
   ]
 }
-

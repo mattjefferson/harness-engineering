@@ -7,6 +7,7 @@ This repository packages a set of `he-*` skills plus templates that turn "ship s
 ## Key Features
 
 - End-to-end workflow skills (`he-spec` -> `he-learn`) with hard gates and explicit artifacts
+- `he-github` helpers for PR lifecycle (open/update/checks/merge) via `gh`
 - `he-bootstrap` templates for `docs/` structure, plans, runbooks, and generated context
 - Parallel review + verify/release gates that produce a written GO/NO-GO decision
 - A compounding learning loop that turns failures into permanent guardrails

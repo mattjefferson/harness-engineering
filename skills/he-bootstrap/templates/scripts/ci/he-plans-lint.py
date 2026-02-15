@@ -37,6 +37,9 @@ DEFAULT_REQUIRED_HEADINGS = [
     "## Idempotence and Recovery",
     "## Artifacts and Notes",
     "## Interfaces and Dependencies",
+    "## Pull Request",
+    "## Review Findings",
+    "## Verify/Release Decision",
     "## Revision Notes",
 ]
 
