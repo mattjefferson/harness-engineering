@@ -13,6 +13,7 @@ HARNESS_REQUIRED_DOCS=(
 # Domain docs are created on-demand by skills. Only lint them when they exist.
 HARNESS_DOMAIN_DOCS=(
   "docs/DESIGN.md"
+  "docs/DATA.md"
   "docs/FRONTEND.md"
   "docs/PRODUCT_SENSE.md"
   "docs/RELIABILITY.md"
@@ -56,6 +57,14 @@ HARNESS_REQUIRED_HEADINGS_docs_PRODUCT_SENSE_md=(
   "## Key Outcomes"
   "## Decision Heuristics"
   "## Quality Criteria"
+)
+
+HARNESS_REQUIRED_HEADINGS_docs_DATA_md=(
+  "## Data Model"
+  "## Migrations"
+  "## Backfills And Data Fixes"
+  "## Integrity And Consistency"
+  "## Sensitive Data Notes"
 )
 
 # If 1, fail PRs when template markers remain in domain docs.

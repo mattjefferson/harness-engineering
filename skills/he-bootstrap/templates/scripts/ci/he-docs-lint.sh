@@ -99,6 +99,7 @@ check_headings_for() {
 
 check_domain_doc_headings() {
   # Domain docs are created on-demand — only lint headings for docs that exist.
+  [[ -f "docs/DATA.md" ]] && check_headings_for "docs/DATA.md" HARNESS_REQUIRED_HEADINGS_docs_DATA_md
   [[ -f "docs/SECURITY.md" ]] && check_headings_for "docs/SECURITY.md" HARNESS_REQUIRED_HEADINGS_docs_SECURITY_md
   [[ -f "docs/RELIABILITY.md" ]] && check_headings_for "docs/RELIABILITY.md" HARNESS_REQUIRED_HEADINGS_docs_RELIABILITY_md
   [[ -f "docs/FRONTEND.md" ]] && check_headings_for "docs/FRONTEND.md" HARNESS_REQUIRED_HEADINGS_docs_FRONTEND_md

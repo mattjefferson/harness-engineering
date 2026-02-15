@@ -7,6 +7,7 @@ Reference for agents: what domain docs exist, how to detect relevant content, an
 | Doc | Path | Purpose | Auto-Detect Signals | Seed Question |
 |---|---|---|---|---|
 | DESIGN.md | `docs/DESIGN.md` | Design principles, visual direction, interaction standards | — | What are your core design principles? |
+| DATA.md | `docs/DATA.md` | Data model and data-change safety rules (migrations/backfills/integrity) | `db/`, migrations, ORM schema files, backfill scripts | What are your data model and migration/backfill safety rules? |
 | FRONTEND.md | `docs/FRONTEND.md` | Frontend stack, conventions, component architecture | `package.json` (react/vue/angular/svelte), `next.config.*`, `vite.config.*`, `tsconfig.json` | What's your frontend stack and key conventions? |
 | PRODUCT_SENSE.md | `docs/PRODUCT_SENSE.md` | Target users, key outcomes, decision heuristics | — | Who are your target users and what outcomes matter most? |
 | RELIABILITY.md | `docs/RELIABILITY.md` | Uptime targets, failure modes, operational guardrails | Dockerfile, health check routes, CI config | What are your reliability requirements? |
