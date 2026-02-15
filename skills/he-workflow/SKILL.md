@@ -1,6 +1,6 @@
 ---
 name: he-workflow
-description: Orchestrates a harness-engineered workflow across intake, spike, plan, implement, review, verify-release, learn, and doc-gardening using docs/specs, docs/spikes, and PLANS-compliant active plans.
+description: Orchestrates a harness-engineered workflow across intake, research, spike, plan, implement, review, verify-release, learn, and doc-gardening using docs/specs, docs/spikes, and PLANS-compliant active plans.
 argument-hint: "[initiative request, slug, or active plan path]"
 ---
 
@@ -31,12 +31,13 @@ Run the full lifecycle with phase gates and parallel subagents.
 ## Required Phase Order
 
 1. intake
-2. spike (optional — when feasibility or approach is unclear)
-3. plan
-4. implement
-5. review
-6. verify-release
-7. learn
+2. research (optional — when open questions are answerable through investigation)
+3. spike (optional — when feasibility or approach is unclear)
+4. plan
+5. implement
+6. review
+7. verify-release
+8. learn
 
 `doc-gardening` is optional and periodic.
 For `plan_mode: trivial`, skip `verify-release` after review.
@@ -61,9 +62,10 @@ When a gate fails or a phase reveals issues requiring earlier work:
    - `docs/generated/`
 3. If required directories are missing, run `he-bootstrap`.
 4. Ensure `docs/specs/<slug>.md` exists; if not, run `he-spec`.
-5. If `spike_recommended: yes` in the spec metadata, run `he-spike`.
-6. Ensure `docs/plans/active/<slug>.md` exists; if missing, run `he-plan` (use an abbreviated plan for `plan_mode: trivial`).
-7. Validate active plan has all required PLANS sections:
+5. If the spec has meaningful open questions that are investigatable, run `he-research`.
+6. If `spike_recommended: yes` in the spec metadata, run `he-spike`.
+7. Ensure `docs/plans/active/<slug>.md` exists; if missing, run `he-plan` (use an abbreviated plan for `plan_mode: trivial`).
+8. Validate active plan has all required PLANS sections:
    - `Purpose / Big Picture`
    - `Progress`
    - `Surprises & Discoveries`
@@ -78,20 +80,21 @@ When a gate fails or a phase reveals issues requiring earlier work:
    - `Artifacts and Notes`
    - `Interfaces and Dependencies`
    - `Revision Notes`
-8. Validate `Progress` entries are timestamped checkboxes with stable IDs.
-9. Validate concrete commands and expected outcomes exist in `Concrete Steps` and `Validation and Acceptance`.
-10. Validate checklists are only used in `Progress`.
-11. Refresh generated context in `docs/generated/` if stale.
-12. Run `he-implement`.
-13. Run `he-review` and enforce priority gate (`plan_mode: trivial` uses fast-track single-reviewer mode).
-14. If `plan_mode` is not `trivial`, run `he-verify-release`; otherwise skip to step 15.
-15. Run `he-learn` and archive plan (abbreviated learn path for `plan_mode: trivial`).
+9. Validate `Progress` entries are timestamped checkboxes with stable IDs.
+10. Validate concrete commands and expected outcomes exist in `Concrete Steps` and `Validation and Acceptance`.
+11. Validate checklists are only used in `Progress`.
+12. Refresh generated context in `docs/generated/` if stale.
+13. Run `he-implement`.
+14. Run `he-review` and enforce priority gate (`plan_mode: trivial` uses fast-track single-reviewer mode).
+15. If `plan_mode` is not `trivial`, run `he-verify-release`; otherwise skip to step 16.
+16. Run `he-learn` and archive plan (abbreviated learn path for `plan_mode: trivial`).
 
 ## Subagent Strategy
 
 Use subagents throughout to keep orchestrator context clean:
 
 - **Intake**: subagents for codebase and prior-artifact discovery.
+- **Research**: one subagent per independent question.
 - **Spike**: one subagent per approach under evaluation.
 - **Plan**: subagents for layered context gathering.
 - **Implement**: one subagent per independent progress item.

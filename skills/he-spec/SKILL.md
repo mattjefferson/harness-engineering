@@ -91,7 +91,7 @@ Use `templates/spec-template.md`.
 
 Use an interactive question tool at this transition when available (`request_user_input` in Codex Plan mode, `AskUserQuestion` in Claude Code, or equivalent). Offer:
 
-1. Continue to `he-plan` (or `he-spike` when `spike_recommended: yes`; for `plan_mode: trivial`, use an abbreviated plan and continue to implement) (recommended)
+1. Continue to `he-research` when meaningful open questions remain; otherwise continue to `he-plan` (or `he-spike` when `spike_recommended: yes`; for `plan_mode: trivial`, use an abbreviated plan and continue to implement) (recommended)
 2. Run one more build-feedback round in `he-spec`
 3. Handoff/pause with status and explicit next action
 

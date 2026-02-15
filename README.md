@@ -45,6 +45,7 @@ This approach is influenced by:
 - A complete `he-*` skill set for harness-oriented delivery:
   - `he-bootstrap`
   - `he-spec`
+  - `he-research`
   - `he-spike`
   - `he-plan`
   - `he-implement`
@@ -52,6 +53,7 @@ This approach is influenced by:
   - `he-verify-release`
   - `he-learn`
   - `he-doc-gardening`
+  - `he-worktree`
   - `he-workflow` (orchestrator)
 - `agent-browser`: browser automation CLI skill for agentic E2E verification (snapshots, clicks, form fills, screenshots, recordings).
 - Template documents for specs, plans, learnings, and verify/release decisions.
@@ -86,6 +88,7 @@ This approach is influenced by:
     │       └── bootstrap.sh
     ├── he-doc-gardening/SKILL.md
     ├── he-implement/SKILL.md
+    ├── he-research/SKILL.md
     ├── he-spec/
     │   ├── SKILL.md
     │   └── templates/spec-template.md
@@ -94,12 +97,13 @@ This approach is influenced by:
     │   └── templates/learning-entry-template.md
     ├── he-plan/
     │   ├── SKILL.md
-    │   └── templates/active-plan-template.md
+    │   └── templates/plan-template.md
     ├── he-review/SKILL.md
     ├── he-spike/
     │   ├── SKILL.md
     │   ├── references/spec-update-guide.md
     │   └── templates/spike-template.md
+    ├── he-worktree/SKILL.md
     ├── he-verify-release/SKILL.md
     └── he-workflow/SKILL.md
 ```
@@ -208,6 +212,7 @@ Use custom source and agents home:
 | `agent-browser` | Agentic browser automation for E2E verification | Screenshots/recordings/text extraction as evidence |
 | `he-bootstrap` | Initialize workflow docs structure in a project | Creates `docs/specs`, `docs/spikes`, `docs/plans`, and `docs/generated` |
 | `he-spec` | Convert request into a concrete initiative spec | `docs/specs/<slug>.md` |
+| `he-research` | Resolve open questions before planning | Updated `docs/specs/<slug>.md` with evidence-backed findings |
 | `he-spike` | Time-boxed investigation for unclear/high-risk work | `docs/spikes/<slug>-spike.md` |
 | `he-plan` | Convert spec into a PLANS.md-compliant ExecPlan | `docs/plans/active/<slug>.md` |
 | `he-implement` | Execute milestones from Progress checkboxes | Updates living plan sections and uses `docs/generated/*` context |
@@ -215,6 +220,7 @@ Use custom source and agents home:
 | `he-verify-release` | Check release readiness and record GO/NO-GO | Verify/release decision section in plan |
 | `he-learn` | Capture post-release lessons + archive plan | Move plan to `docs/plans/completed/<slug>.md` |
 | `he-doc-gardening` | Periodic doc-gardening for stale/obsolete docs | New doc-fix specs/plans + tracker updates |
+| `he-worktree` | Create isolated branch/worktree workspace | Branch + directory isolation before execution |
 | `he-workflow` | End-to-end orchestrator across all phases | Enforces phase order + gates |
 
 ## Harness Workflow Model
@@ -236,12 +242,13 @@ Example:
 ### Phase order
 
 1. intake
-2. spike (optional — for unclear or high-risk work)
-3. plan
-4. implement
-5. review
-6. verify-release
-7. learn
+2. research (optional — for investigatable open questions)
+3. spike (optional — for unclear or high-risk work)
+4. plan
+5. implement
+6. review
+7. verify-release
+8. learn
 
 `doc-gardening` is periodic/optional.
 

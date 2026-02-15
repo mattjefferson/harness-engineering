@@ -42,6 +42,7 @@ mkdir -p \
   docs/specs docs/spikes \
   docs/plans/active docs/plans/completed \
   docs/design-docs docs/generated \
+  docs/runbooks \
   scripts/ci \
   .github/workflows
 
@@ -58,6 +59,13 @@ copy_if_missing docs/generated/db-schema.md "docs/generated/db-schema.md"
 copy_if_missing docs/design-docs/index.md "docs/design-docs/index.md"
 copy_if_missing docs/PLANS.md "docs/PLANS.md"
 copy_if_missing docs/DOMAIN_DOCS.md "docs/DOMAIN_DOCS.md"
+copy_if_missing docs/runbooks/update-agents-md.md "docs/runbooks/update-agents-md.md"
+copy_if_missing docs/runbooks/update-domain-docs.md "docs/runbooks/update-domain-docs.md"
+copy_if_missing docs/runbooks/verify-release.md "docs/runbooks/verify-release.md"
+copy_if_missing docs/runbooks/record-evidence.md "docs/runbooks/record-evidence.md"
+copy_if_missing docs/runbooks/ci-failures.md "docs/runbooks/ci-failures.md"
+copy_if_missing docs/runbooks/escalation.md "docs/runbooks/escalation.md"
+copy_if_missing docs/runbooks/merge-change.md "docs/runbooks/merge-change.md"
 
 # CI gates for domain docs + artifact structure (specs/plans/spikes).
 copy_if_missing scripts/ci/he-docs-config.sh "scripts/ci/he-docs-config.sh"

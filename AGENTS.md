@@ -15,6 +15,7 @@
 |---|---|
 | `he-bootstrap` | Initialize workflow docs structure |
 | `he-spec` | Convert request into spec |
+| `he-research` | Investigate open questions before planning |
 | `he-spike` | Time-boxed investigation for unclear work |
 | `he-plan` | Convert spec into executable plan |
 | `he-implement` | Execute tasks in parallel batches |
@@ -22,4 +23,9 @@
 | `he-verify-release` | Release readiness GO/NO-GO |
 | `he-learn` | Capture lessons + archive plan |
 | `he-doc-gardening` | Periodic doc maintenance |
+| `he-worktree` | Isolated workspace setup via git worktree/branch |
 | `he-workflow` | End-to-end orchestrator |
+
+## Runbooks
+
+- `skills/he-bootstrap/templates/docs/runbooks/update-agents-md.md` - Best practices for editing this file without drift

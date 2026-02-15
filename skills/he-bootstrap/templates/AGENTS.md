@@ -6,6 +6,10 @@ This file is a map, not an encyclopedia.
 
 The system of record is `docs/`. Keep durable knowledge (specs, plans, logs, decisions, checklists) there and link to it from here.
 
+## Golden Principles
+
+- Prove it works: never claim completion without running the most relevant validation (tests, build, or a small end-to-end check) or explicitly recording why it could not be run.
+
 ## Session Startup
 
 Before doing any work:
@@ -18,12 +22,11 @@ Before doing any work:
 
 - Plan system + artifact contract: `docs/PLANS.md`
 - Architecture (if present): `ARCHITECTURE.md`
+- Runbooks (process + checklists): `docs/runbooks/`
+- AGENTS.md editing guide: `docs/runbooks/update-agents-md.md`
 - Specs (intent): `docs/specs/`
 - Spikes (findings): `docs/spikes/`
-- Plans (execution + logs):
-  - active: `docs/plans/active/`
-  - completed: `docs/plans/completed/`
-  - tech debt: `docs/plans/tech-debt-tracker.md`
+- Plans (execution + logs): `docs/plans/`
 - Generated context (refresh as needed): `docs/generated/`
 - Domain guardrails and standards:
   - `docs/SECURITY.md`

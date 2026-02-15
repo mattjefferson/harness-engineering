@@ -23,7 +23,8 @@ Turn execution outcomes into durable improvements.
    - priority
    - lesson_applied status (`pending|applied`)
 2. Update relevant domain docs per `docs/DOMAIN_DOCS.md` registry if policy changed.
-3. Move plan to:
+3. Update or create any affected runbooks in `docs/runbooks/` when learnings change process, checklists, or "how we do it here" guidance.
+4. Move plan to:
    - `docs/plans/completed/<slug>.md`
 
 ## Subagent Usage
@@ -37,7 +38,8 @@ For each learning captured, explicitly evaluate:
 1. **AGENTS.md update**: Should this pattern update the project's AGENTS.md?
 2. **Golden principle**: Should this become a golden principle in AGENTS.md?
 3. **Guardrail promotion**: Should this become a lint rule, test, or structural check?
-4. **Lesson tracking**: Record `lesson_applied` status in `docs/plans/tech-debt-tracker.md`.
+4. **Runbook update**: Should this pattern update a runbook? If yes, update `docs/runbooks/<topic>.md` (or add a new one) and link it from AGENTS.md if it becomes a common workflow.
+5. **Lesson tracking**: Record `lesson_applied` status in `docs/plans/tech-debt-tracker.md`.
 
 ## Learning Template
 
@@ -47,6 +49,7 @@ Use `templates/learning-entry-template.md`.
 
 - At least one concrete prevention action is captured for each meaningful issue
 - Each learning is evaluated against the compound learning loop
+- Runbooks are updated when process/checklists changed (or explicitly marked "no runbook update needed")
 - Active plan is archived to completed
 - Docs commit gate passes
 
