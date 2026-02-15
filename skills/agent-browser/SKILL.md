@@ -206,13 +206,12 @@ agent-browser find testid "submit-btn" click
 
 | Template | Description |
 |----------|-------------|
-| [templates/form-automation.sh](templates/form-automation.sh) | Form filling with validation |
-| [templates/authenticated-session.sh](templates/authenticated-session.sh) | Login once, reuse state |
-| [templates/capture-workflow.sh](templates/capture-workflow.sh) | Content extraction with screenshots |
+| [templates/form-automation.py](templates/form-automation.py) | Form filling with validation |
+| [templates/authenticated-session.py](templates/authenticated-session.py) | Login once, reuse state |
+| [templates/capture-workflow.py](templates/capture-workflow.py) | Content extraction with screenshots |
 
 ```bash
-./templates/form-automation.sh https://example.com/form
-./templates/authenticated-session.sh https://app.example.com/login
-./templates/capture-workflow.sh https://example.com ./output
+python templates/form-automation.py https://example.com/form
+python templates/authenticated-session.py https://app.example.com/login
+python templates/capture-workflow.py https://example.com ./output
 ```
-

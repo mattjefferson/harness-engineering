@@ -32,9 +32,9 @@ Run this skill periodically to keep docs accurate and aligned with shipped behav
 4. High-churn or complexity hotspots
 5. Flaky test patterns
 6. Stale generated context in `docs/generated/` (check `last_updated` timestamps; exclude `docs/generated/memory.md`)
-7. Domain docs drift: docs listed in `docs/DOMAIN_DOCS.md` exist when relevant and include required headings (see `scripts/ci/he-docs-lint.sh`)
+7. Domain docs drift: docs listed in `docs/DOMAIN_DOCS.md` exist when relevant and include required headings (see `scripts/ci/he-docs-lint.py`)
 8. Missing baseline runbooks, or runbooks in `docs/runbooks/` that violate format or conflict with enforced gates (additional runbooks are allowed and expected)
-9. Drift against enforced rules: failures from `scripts/ci/he-docs-drift.sh` and the plans/specs/spikes lint scripts
+9. Drift against enforced rules: failures from `scripts/ci/he-docs-drift.py` and the plans/specs/spikes lint scripts
 
 Each subagent scans one area and returns a list of drift findings with priority. The main thread consolidates and queues fix-up work.
 
@@ -77,12 +77,12 @@ Record drift findings with explicit priority.
 
 Prefer these commands over subjective scanning when available:
 
-- `bash scripts/ci/he-docs-lint.sh`
+- `python scripts/ci/he-docs-lint.py`
 - `python scripts/ci/he-runbooks-lint.py`
-- `bash scripts/ci/he-docs-drift.sh`
-- `bash scripts/ci/he-specs-lint.sh`
-- `bash scripts/ci/he-plans-lint.sh`
-- `bash scripts/ci/he-spikes-lint.sh`
+- `python scripts/ci/he-docs-drift.py`
+- `python scripts/ci/he-specs-lint.py`
+- `python scripts/ci/he-plans-lint.py`
+- `python scripts/ci/he-spikes-lint.py`
 
 ## Doc-Gardening Rule
 

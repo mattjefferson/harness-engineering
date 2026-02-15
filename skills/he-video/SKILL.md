@@ -27,7 +27,7 @@ This skill is first-party and uses `agent-browser` as the execution engine.
 - `slug`: initiative slug (`YYYY-MM-DD-kebab-topic`)
 - `scenario`: short scenario ID (`login-timeout`, `checkout-coupon`, etc.)
 - `phase`: `failure` or `resolution`
-- `flow-script`: bash script that runs the browser flow with `agent-browser`
+- `flow-script`: script that runs the browser flow with `agent-browser` (Python preferred)
 
 ## Output Contract
 
@@ -46,21 +46,21 @@ Artifacts are written to:
 Record pre-fix failure evidence:
 
 ```bash
-bash skills/he-video/scripts/record-browser-evidence.sh \
+python skills/he-video/scripts/record-browser-evidence.py \
   --slug 2026-02-15-login-timeout \
   --scenario login-timeout \
   --phase failure \
-  --flow-script ./scripts/e2e/login-timeout-flow.sh
+  --flow-script ./scripts/e2e/login-timeout-flow.py
 ```
 
 Record post-fix resolution evidence:
 
 ```bash
-bash skills/he-video/scripts/record-browser-evidence.sh \
+python skills/he-video/scripts/record-browser-evidence.py \
   --slug 2026-02-15-login-timeout \
   --scenario login-timeout \
   --phase resolution \
-  --flow-script ./scripts/e2e/login-timeout-flow.sh
+  --flow-script ./scripts/e2e/login-timeout-flow.py
 ```
 
 ## Flow Script Contract

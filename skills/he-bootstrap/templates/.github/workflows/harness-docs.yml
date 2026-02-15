@@ -12,12 +12,15 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
       - name: Lint harness docs
         run: |
-          bash scripts/ci/he-docs-lint.sh
-          bash scripts/ci/he-specs-lint.sh
-          bash scripts/ci/he-plans-lint.sh
-          bash scripts/ci/he-spikes-lint.sh
+          python scripts/ci/he-docs-lint.py
+          python scripts/ci/he-specs-lint.py
+          python scripts/ci/he-plans-lint.py
+          python scripts/ci/he-spikes-lint.py
 
   docs_drift:
     name: Docs Drift Gate
@@ -26,5 +29,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
       - name: Enforce doc updates on relevant changes
-        run: bash scripts/ci/he-docs-drift.sh
+        run: python scripts/ci/he-docs-drift.py

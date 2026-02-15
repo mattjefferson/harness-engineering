@@ -81,18 +81,18 @@ Optional:
 
 ## Bootstrap Commands
 
-Run `templates/bootstrap.sh` from the target repo root.
+Run `templates/bootstrap.py` from the target repo root.
 
 Example:
 
 ```bash
-bash skills/he-bootstrap/templates/bootstrap.sh
+python skills/he-bootstrap/templates/bootstrap.py
 ```
 
 With architecture template:
 
 ```bash
-bash skills/he-bootstrap/templates/bootstrap.sh --with-architecture
+python skills/he-bootstrap/templates/bootstrap.py --with-architecture
 ```
 
 ## Post-Bootstrap Validation

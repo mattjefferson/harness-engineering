@@ -69,21 +69,20 @@ Influences:
   - plans (`docs/plans/active/` and `docs/plans/completed/`)
   - runbooks (`docs/runbooks/`)
   - generated reference context (`docs/generated/`)
-- An installer (`scripts/install.sh`) to sync skills into agent runtimes.
+- An installer (`scripts/install.py`) to sync skills into agent runtimes.
 
 ## Tech Stack
 
-- **Language**: Bash + Markdown
+- **Language**: Python + Markdown
 - **Packaging**: filesystem skill packs (`skills/<name>/SKILL.md` + `templates/`)
 - **Distribution**: copy/sync skills into runtime skill directories
-- **CI helpers (templates)**: shell scripts that lint plans/specs/spikes and check doc drift
+- **CI helpers (templates)**: Python scripts that lint plans/specs/spikes and check doc drift
 
 ## Prerequisites
 
 Required:
 
-- macOS or Linux
-- Bash
+- Python 3.11+
 - Git (for cloning and normal workflow use)
 
 Optional but recommended:
@@ -103,13 +102,13 @@ cd harness-engineering
 ### 2. Preview install actions (safe)
 
 ```bash
-./scripts/install.sh --dry-run
+python scripts/install.py --dry-run
 ```
 
 ### 3. Install skills into your agent runtimes
 
 ```bash
-./scripts/install.sh
+python scripts/install.py
 ```
 
 Default behavior:
@@ -131,23 +130,23 @@ test ! -d ~/.codex/skills || echo \"Legacy ~/.codex/skills still exists\"
 From the target repo root (the repo you want to work on with the workflow):
 
 ```bash
-bash /path/to/harness-engineering/skills/he-bootstrap/templates/bootstrap.sh
+python /path/to/harness-engineering/skills/he-bootstrap/templates/bootstrap.py
 ```
 
 Optional architecture template:
 
 ```bash
-bash /path/to/harness-engineering/skills/he-bootstrap/templates/bootstrap.sh --with-architecture
+python /path/to/harness-engineering/skills/he-bootstrap/templates/bootstrap.py --with-architecture
 ```
 
 ## Install Script Reference
 
-Script: `scripts/install.sh`
+Script: `scripts/install.py`
 
 ### Command
 
 ```bash
-./scripts/install.sh [options]
+python scripts/install.py [options]
 ```
 
 ### Options
@@ -172,25 +171,25 @@ Script: `scripts/install.sh`
 Install to all defaults:
 
 ```bash
-./scripts/install.sh
+python scripts/install.py
 ```
 
 Install only to `~/.agents/skills` (skip Claude sync):
 
 ```bash
-./scripts/install.sh --no-claude
+python scripts/install.py --no-claude
 ```
 
 Install to defaults plus an additional target:
 
 ```bash
-./scripts/install.sh --target ~/.config/my-agent/skills
+python scripts/install.py --target ~/.config/my-agent/skills
 ```
 
 Use custom source and agents home:
 
 ```bash
-./scripts/install.sh --source ./skills --agents-home ~/.agents
+python scripts/install.py --source ./skills --agents-home ~/.agents
 ```
 
 ## Using The Skills In A Project
@@ -302,7 +301,7 @@ Each skill is a directory under `skills/<name>/` and is defined by `SKILL.md` (p
 Bootstraps a repo with a predictable `docs/` artifact structure.
 
 - Template source: `skills/he-bootstrap/templates/`
-- Entry point: `skills/he-bootstrap/templates/bootstrap.sh`
+- Entry point: `skills/he-bootstrap/templates/bootstrap.py`
 
 ### `he-spec`
 
@@ -391,58 +390,58 @@ Template: `skills/he-bootstrap/templates/ARCHITECTURE.md`
 1. Create `skills/<skill-name>/`.
 2. Add `skills/<skill-name>/SKILL.md` with frontmatter and an explicit workflow.
 3. Add any `templates/` or `references/` mentioned by the skill.
-4. Dry-run install: `./scripts/install.sh --dry-run`
-5. Install: `./scripts/install.sh`
+4. Dry-run install: `python scripts/install.py --dry-run`
+5. Install: `python scripts/install.py`
 
 ### Update existing skills/templates
 
 1. Edit `skills/<skill-name>/SKILL.md` or templates under `skills/<skill-name>/templates/`.
 2. Keep phase order and gate semantics consistent with `skills/he-workflow/SKILL.md`.
-3. Reinstall with `./scripts/install.sh`.
+3. Reinstall with `python scripts/install.py`.
 
 ## Verification
 
 Recommended checks before committing:
 
 ```bash
-# Shell syntax
-bash -n scripts/install.sh
+# Python syntax
+python -m py_compile scripts/install.py
 
 # Installer safety preview
-./scripts/install.sh --dry-run
+python scripts/install.py --dry-run
 
 # Bootstrap script usage smoke check
-bash skills/he-bootstrap/templates/bootstrap.sh --help
+python skills/he-bootstrap/templates/bootstrap.py --help
 ```
 
 If you are editing `he-bootstrap` templates, also run the template CI scripts locally:
 
 ```bash
 # From this repo root (runs in the template tree):
-bash skills/he-bootstrap/templates/scripts/ci/he-docs-lint.sh
-bash skills/he-bootstrap/templates/scripts/ci/he-docs-drift.sh || true
-bash skills/he-bootstrap/templates/scripts/ci/he-plans-lint.sh || true
-bash skills/he-bootstrap/templates/scripts/ci/he-specs-lint.sh || true
-bash skills/he-bootstrap/templates/scripts/ci/he-spikes-lint.sh || true
+python skills/he-bootstrap/templates/scripts/ci/he-docs-lint.py
+python skills/he-bootstrap/templates/scripts/ci/he-docs-drift.py || true
+python skills/he-bootstrap/templates/scripts/ci/he-plans-lint.py || true
+python skills/he-bootstrap/templates/scripts/ci/he-specs-lint.py || true
+python skills/he-bootstrap/templates/scripts/ci/he-spikes-lint.py || true
 ```
 
 ## Troubleshooting
 
 ### Installer fails removing legacy `~/.codex/skills`
 
-Cause: legacy dir exists and the machine lacks `trash` and `~/.Trash` (common on Linux).
+Cause: legacy dir exists and the machine lacks `trash` (and isn't on macOS with `~/.Trash`).
 
 Fix options:
 
 1. Install a `trash` command appropriate for your OS, then rerun installer.
-2. Manually move `~/.codex/skills` out of the way safely, then rerun installer.
+2. Rerun installer: it will move `~/.codex/skills` to `~/.trash/` as a fallback.
 
 ### Skills not appearing in your runtime
 
 Fix:
 
 ```bash
-./scripts/install.sh
+python scripts/install.py
 ls -la ~/.agents/skills
 ls -la ~/.claude/skills || true
 ```
@@ -450,7 +449,7 @@ ls -la ~/.claude/skills || true
 If your runtime uses a different skills directory, install to it:
 
 ```bash
-./scripts/install.sh --target /path/to/runtime/skills
+python scripts/install.py --target /path/to/runtime/skills
 ```
 
 ### Bootstrap created only part of the docs structure
@@ -463,6 +462,6 @@ Fix: `cd` to target repo root and rerun bootstrap script.
 
 This repository has no runtime service to deploy. Distribution is file-based:
 
-1. Update `skills/` and `scripts/install.sh`.
+1. Update `skills/` and `scripts/install.py`.
 2. Pin to a commit/tag if you need stable rollout.
-3. Re-run `./scripts/install.sh` on developer machines to propagate updates.
+3. Re-run `python scripts/install.py` on developer machines to propagate updates.

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import os
 import sys
+import json
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Optional, Sequence, Tuple
@@ -12,18 +13,7 @@ from typing import Dict, List, Optional, Sequence, Tuple
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
 
-BASELINE_REQUIRED_RUNBOOKS = [
-    "docs/runbooks/update-agents-md.md",
-    "docs/runbooks/update-domain-docs.md",
-    "docs/runbooks/code-review.md",
-    "docs/runbooks/review-findings.md",
-    "docs/runbooks/address-review-findings.md",
-    "docs/runbooks/verify-release.md",
-    "docs/runbooks/record-evidence.md",
-    "docs/runbooks/ci-failures.md",
-    "docs/runbooks/escalation.md",
-    "docs/runbooks/merge-change.md",
-]
+DEFAULT_CONFIG_PATH = "scripts/ci/he-docs-config.json"
 
 
 @dataclass(frozen=True)
@@ -44,6 +34,17 @@ class Frontmatter:
 
 def _env_flag(name: str, default: str = "0") -> bool:
     return os.environ.get(name, default) == "1"
+
+
+def _load_config() -> Dict[str, object]:
+    config_path = os.environ.get("HARNESS_DOCS_CONFIG", DEFAULT_CONFIG_PATH)
+    path = REPO_ROOT / config_path
+    if not path.exists():
+        raise FileNotFoundError(f"Missing config '{config_path}'. Fix: create it (bootstrap should do this) or set HARNESS_DOCS_CONFIG.")
+    data = json.loads(_read_text(path))
+    if not isinstance(data, dict):
+        raise ValueError("Config must be a JSON object.")
+    return data
 
 
 def _read_text(path: Path) -> str:
@@ -222,6 +223,12 @@ def lint_runbook(path: Path, fail_missing_called_from: bool, fail_extra_keys: bo
 
 
 def main(argv: Sequence[str]) -> int:
+    try:
+        cfg = _load_config()
+    except Exception as e:
+        print(f"Error: he-runbooks-lint missing/invalid config: {e}", file=sys.stderr)
+        return 2
+
     fail_missing_called_from = _env_flag("HARNESS_FAIL_ON_MISSING_RUNBOOK_CALLED_FROM", "0")
     fail_extra_keys = _env_flag("HARNESS_FAIL_ON_EXTRA_RUNBOOK_FRONTMATTER", "0")
 
@@ -233,7 +240,11 @@ def main(argv: Sequence[str]) -> int:
     print("he-runbooks-lint: starting")
     print("Repro: python scripts/ci/he-runbooks-lint.py")
 
-    for rb in BASELINE_REQUIRED_RUNBOOKS:
+    required_runbooks = cfg.get("required_runbooks", [])
+    if not isinstance(required_runbooks, list):
+        required_runbooks = []
+
+    for rb in required_runbooks:
         if not (REPO_ROOT / rb).exists():
             errors += 1
             _emit(
@@ -241,7 +252,7 @@ def main(argv: Sequence[str]) -> int:
                     level="error",
                     file=rb,
                     title="Required runbook missing",
-                    msg=f"Missing required runbook: '{rb}'. Fix: create it (run he-bootstrap if this repo is not bootstrapped).",
+                    msg=f"Missing required runbook: '{rb}'. Fix: create it (run he-bootstrap if this repo is not bootstrapped) or adjust required_runbooks in the config.",
                 )
             )
 
@@ -263,4 +274,3 @@ def main(argv: Sequence[str]) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main(sys.argv[1:]))
-

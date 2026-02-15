@@ -3,7 +3,7 @@
 ## Core Principles
 
 - Plans are first-class artifacts.
-- Use trivial mode (`plan_mode: trivial`) for single-file, low-risk changes — skips planning and runs an abbreviated workflow.
+- Use trivial mode (`plan_mode: trivial`) for single-file, low-risk changes -- skips planning and runs an abbreviated workflow.
 - Use ephemeral lightweight plans for small changes.
 - Capture complex work in execution plans with `Progress`, `Surprises & Discoveries`, `Decision Log`, and `Outcomes & Retrospective`, committed to the repository.
 - Keep active plans, completed plans, and technical debt versioned and co-located so agents do not depend on external context.
