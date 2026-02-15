@@ -15,6 +15,7 @@ Run the full lifecycle with phase gates and parallel subagents.
 3. Re-entry is explicit: update plan living sections when returning to earlier phases.
 4. Evidence-based transitions: progress only when gates pass; otherwise stop and record blockers.
 5. Prefer autonomy with traceability: auto-transitions are logged in artifacts.
+6. Runbooks are additive only: they may add repo-specific steps, but they must not waive or override anything codified in this skill.
 
 ## Inputs
 

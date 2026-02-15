@@ -15,6 +15,7 @@ Validate release readiness and record a GO/NO-GO decision.
 3. Rollback is required: explicit and feasible, not hand-wavy.
 4. Evidence for user-visible changes: capture agentic E2E artifacts when UI/behavior changes.
 5. Escalate when uncertain: flaky failures, missing evidence, or unclear user/data risk.
+6. Runbooks are additive only: they may add repo-specific steps, but they must not waive or override anything codified in this skill.
 
 ## Runbooks
 

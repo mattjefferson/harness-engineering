@@ -13,7 +13,7 @@ Run structured, parallel code review before verify/release.
 1. Security/data review is mandatory (even for trivial changes).
 2. The priority gate is real: unresolved `critical`/`high` blocks progression.
 3. Findings must be actionable: file/symbol + required action + owner.
-4. Runbooks are additive: they cannot waive non-negotiable gates.
+4. Runbooks are additive only: they may add repo-specific steps, but they must not waive or override any gates codified in this skill.
 5. Escalate on judgment: unclear risk, ambiguous behavior, or flaky failures.
 
 ## Runbooks

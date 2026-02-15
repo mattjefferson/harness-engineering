@@ -15,6 +15,7 @@ Convert a spec into a self-contained, novice-guiding execution plan.
 3. Observable outcomes: every milestone has proof commands and behavior-level acceptance.
 4. Progress is the only checklist: narrative sections stay prose-first; living sections stay current.
 5. Populate missing policy: ensure relevant domain docs exist and are updated when context is available.
+6. Runbooks are additive only: they may add repo-specific steps, but they must not waive or override anything codified in this skill.
 
 ## Inputs
 

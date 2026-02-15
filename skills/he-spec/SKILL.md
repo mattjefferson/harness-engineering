@@ -15,6 +15,7 @@ Create a decision-ready spec artifact for a new initiative.
 3. Concrete success: requirements and success criteria must be testable/observable.
 4. Route unknowns: investigatable questions go to `he-research`; experience-dependent unknowns go to `he-spike`.
 5. No fake certainty: capture ambiguity explicitly instead of guessing.
+6. Runbooks are additive only: they may add repo-specific steps, but they must not waive or override anything codified in this skill.
 
 ## Output
 

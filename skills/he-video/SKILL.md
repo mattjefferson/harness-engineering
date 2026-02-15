@@ -20,6 +20,7 @@ This skill is first-party and uses `agent-browser` as the execution engine.
 3. Keep clips reviewable: short, focused captures beat long walkthroughs.
 4. Do not "fix the repro" silently: any changes to the flow must be explicit and explained.
 5. Evidence is a gate: missing paired videos for a UI bug fix implies `NO-GO`.
+6. Runbooks are additive only: they may add repo-specific steps, but they must not waive or override anything codified in this skill.
 
 ## Inputs
 

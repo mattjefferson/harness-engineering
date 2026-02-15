@@ -15,6 +15,7 @@ Initialize the docs structure required by the `he-*` workflow while preserving t
 3. Domain docs are on-demand: downstream skills populate them when real context exists.
 4. Structure first: if the docs/workflow layout is wrong, fix it before execution.
 5. Verify bootstrap: run the post-bootstrap validation checks.
+6. Runbooks are additive only: they may add repo-specific steps, but they must not waive or override anything codified in this skill.
 
 ## Inputs
 

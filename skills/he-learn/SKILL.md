@@ -15,6 +15,7 @@ Turn execution outcomes into durable improvements.
 3. Process the scratchpad: triage and clear `docs/generated/memory.md`.
 4. Archive cleanly: move the plan to completed and keep append-only semantics.
 5. Promote enforcement: repeated issues should become lint/test/CI guardrails.
+6. Runbooks are additive only: they may add repo-specific steps, but they must not waive or override anything codified in this skill.
 
 ## Inputs
 

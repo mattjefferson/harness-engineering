@@ -15,6 +15,7 @@ Run this skill periodically to keep docs accurate and aligned with shipped behav
 3. Queue small fixes: doc-fix initiatives should be small and independently shippable.
 4. Do not block delivery by default: only escalate when a critical invariant is broken.
 5. Mandatory artifacts must exist: missing required runbooks or broken gates are drift to fix.
+6. Runbooks are additive only: they may add repo-specific steps, but they must not waive or override anything codified in this skill.
 
 ## Frequency
 

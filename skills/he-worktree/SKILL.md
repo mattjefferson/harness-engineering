@@ -15,6 +15,7 @@ Prepare safe workspace isolation before running implementation-heavy phases.
 3. No destructive git: do not reset/clean/delete automatically.
 4. Name and verify: branch/worktree naming plus explicit status verification.
 5. Hand off a concrete workspace: strategy, branch name, directory path.
+6. Runbooks are additive only: they may add repo-specific steps, but they must not waive or override anything codified in this skill.
 
 ## When To Use
 
