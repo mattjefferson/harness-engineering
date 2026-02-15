@@ -8,6 +8,14 @@ argument-hint: "[optional initiative slug, topic, or target branch]"
 
 Prepare safe workspace isolation before running implementation-heavy phases.
 
+## Key Principles
+
+1. Isolation first for non-trivial work: avoid collisions with human in-flight changes.
+2. Never work on the default branch without explicit consent.
+3. No destructive git: do not reset/clean/delete automatically.
+4. Name and verify: branch/worktree naming plus explicit status verification.
+5. Hand off a concrete workspace: strategy, branch name, directory path.
+
 ## When To Use
 
 - Before `he-spike` when creating throwaway prototypes

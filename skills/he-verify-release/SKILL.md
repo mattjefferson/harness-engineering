@@ -8,6 +8,14 @@ argument-hint: "[slug or docs/plans/active/<slug>.md]"
 
 Validate release readiness and record a GO/NO-GO decision.
 
+## Key Principles
+
+1. Written GO/NO-GO: decision is recorded in the plan with evidence, rollback, and post-release checks.
+2. Review must have passed: includes security/data review and no unresolved `critical`/`high` findings.
+3. Rollback is required: explicit and feasible, not hand-wavy.
+4. Evidence for user-visible changes: capture agentic E2E artifacts when UI/behavior changes.
+5. Escalate when uncertain: flaky failures, missing evidence, or unclear user/data risk.
+
 ## Runbooks
 
 These runbooks hold the repo-specific procedures that evolve over time:

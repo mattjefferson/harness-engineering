@@ -8,6 +8,14 @@ argument-hint: "[slug or docs/specs/<slug>.md]"
 
 Convert a spec into a self-contained, novice-guiding execution plan.
 
+## Key Principles
+
+1. `docs/PLANS.md` is law: follow it literally.
+2. Self-contained plan: a novice can implement from the plan alone.
+3. Observable outcomes: every milestone has proof commands and behavior-level acceptance.
+4. Progress is the only checklist: narrative sections stay prose-first; living sections stay current.
+5. Populate missing policy: ensure relevant domain docs exist and are updated when context is available.
+
 ## Inputs
 
 - `docs/specs/<slug>.md`

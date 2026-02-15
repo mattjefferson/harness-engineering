@@ -8,6 +8,14 @@ argument-hint: "[initiative request, slug, or active plan path]"
 
 Run the full lifecycle with phase gates and parallel subagents.
 
+## Key Principles
+
+1. Phase order is enforced: do not skip gates casually.
+2. Single slug: one initiative uses one slug across artifacts.
+3. Re-entry is explicit: update plan living sections when returning to earlier phases.
+4. Evidence-based transitions: progress only when gates pass; otherwise stop and record blockers.
+5. Prefer autonomy with traceability: auto-transitions are logged in artifacts.
+
 ## Inputs
 
 - Initiative request text, OR

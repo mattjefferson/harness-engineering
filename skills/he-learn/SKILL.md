@@ -8,6 +8,14 @@ argument-hint: "[slug or docs/plans/active/<slug>.md]"
 
 Turn execution outcomes into durable improvements.
 
+## Key Principles
+
+1. Convert failures into guardrails: record prevention actions in the tracker.
+2. Update durable policy: domain docs and runbooks reflect new learnings.
+3. Process the scratchpad: triage and clear `docs/generated/memory.md`.
+4. Archive cleanly: move the plan to completed and keep append-only semantics.
+5. Promote enforcement: repeated issues should become lint/test/CI guardrails.
+
 ## Inputs
 
 - `docs/plans/active/<slug>.md`

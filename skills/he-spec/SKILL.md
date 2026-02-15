@@ -8,6 +8,14 @@ argument-hint: "[initiative description]"
 
 Create a decision-ready spec artifact for a new initiative.
 
+## Key Principles
+
+1. Intent only: define what/why/success; avoid implementation details.
+2. Single slug: one initiative = one slug across spec/spike/plan artifacts.
+3. Concrete success: requirements and success criteria must be testable/observable.
+4. Route unknowns: investigatable questions go to `he-research`; experience-dependent unknowns go to `he-spike`.
+5. No fake certainty: capture ambiguity explicitly instead of guessing.
+
 ## Output
 
 - `docs/specs/<slug>.md`

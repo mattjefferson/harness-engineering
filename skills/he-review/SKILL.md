@@ -8,6 +8,14 @@ argument-hint: "[slug or docs/plans/active/<slug>.md]"
 
 Run structured, parallel code review before verify/release.
 
+## Key Principles
+
+1. Security/data review is mandatory (even for trivial changes).
+2. The priority gate is real: unresolved `critical`/`high` blocks progression.
+3. Findings must be actionable: file/symbol + required action + owner.
+4. Runbooks are additive: they cannot waive non-negotiable gates.
+5. Escalate on judgment: unclear risk, ambiguous behavior, or flaky failures.
+
 ## Runbooks
 
 These runbooks hold the repo-specific procedures that evolve over time:

@@ -10,6 +10,14 @@ Resolve investigatable unknowns before implementation planning.
 
 Use this skill when answers are discoverable through research. For unknowns that must be built and experienced, use `he-spike` instead.
 
+## Key Principles
+
+1. Categorize first: only research questions where the answer can be found.
+2. Evidence-backed: record confidence and source notes; separate fact from inference.
+3. Update the source of truth: write findings into `docs/specs/<slug>.md` with revision notes.
+4. Prefer primary sources: repo evidence and official docs beat summaries.
+5. Do not plan here: research clarifies constraints; planning is `he-plan`.
+
 ## When To Use
 
 - After `he-spec` when initiative direction still has open questions

@@ -8,6 +8,14 @@ argument-hint: "[slug or docs/specs/<slug>.md]"
 
 Run a focused, time-boxed investigation to reduce uncertainty before planning.
 
+## Key Principles
+
+1. Validate, do not implement: the spike answers a question.
+2. Timebox: stop when the goal is met or time expires.
+3. Throwaway code, durable doc: prototype can be deleted; findings persist in the spike artifact.
+4. Parallel approaches: one subagent per approach when comparing options.
+5. Decide the next action: update spec/plan direction based on findings.
+
 ## When to Use
 
 - Feasibility is uncertain (new technology, unfamiliar API, unclear constraints)

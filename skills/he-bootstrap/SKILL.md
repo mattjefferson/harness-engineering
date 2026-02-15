@@ -8,6 +8,14 @@ argument-hint: "[optional target repo path; defaults to current directory]"
 
 Initialize the docs structure required by the `he-*` workflow while preserving this repo's docs conventions.
 
+## Key Principles
+
+1. Minimal impact: create only if missing; never overwrite real content.
+2. Templates are contracts: treat `skills/he-bootstrap/templates/**` as API-like surfaces.
+3. Domain docs are on-demand: downstream skills populate them when real context exists.
+4. Structure first: if the docs/workflow layout is wrong, fix it before execution.
+5. Verify bootstrap: run the post-bootstrap validation checks.
+
 ## Inputs
 
 - Optional target path (repo root)

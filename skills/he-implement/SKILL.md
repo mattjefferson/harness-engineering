@@ -8,6 +8,14 @@ argument-hint: "[slug or docs/plans/active/<slug>.md]"
 
 Execute a PLANS-compliant active plan and keep the plan artifact current.
 
+## Key Principles
+
+1. Workspace isolation gate: confirm an isolated workspace is selected and recorded before editing code.
+2. Plan-driven execution: implement by `Progress` items and keep living sections current.
+3. Evidence as you go: run relevant tests/commands continuously; do not batch validation at the end.
+4. Generated context is a tool: refresh only what matters; keep it usable for reasoning.
+5. Unit/e2e by default: avoid mock-only verification unless the repo explicitly documents an exception.
+
 ## Inputs
 
 - `docs/plans/active/<slug>.md`

@@ -13,6 +13,14 @@ Capture browser bug evidence as a durable before/after pair:
 
 This skill is first-party and uses `agent-browser` as the execution engine.
 
+## Key Principles
+
+1. Same scenario before/after: `failure` and `resolution` must represent the same flow.
+2. Durable artifacts: predictable paths and names so evidence can be linked from plan/PR.
+3. Keep clips reviewable: short, focused captures beat long walkthroughs.
+4. Do not "fix the repro" silently: any changes to the flow must be explicit and explained.
+5. Evidence is a gate: missing paired videos for a UI bug fix implies `NO-GO`.
+
 ## Inputs
 
 - `slug`: initiative slug (`YYYY-MM-DD-kebab-topic`)
