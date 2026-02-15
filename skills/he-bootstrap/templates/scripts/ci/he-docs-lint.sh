@@ -63,6 +63,61 @@ check_required_docs() {
   done
 }
 
+check_required_runbooks() {
+  if ! declare -p HARNESS_REQUIRED_RUNBOOKS >/dev/null 2>&1; then
+    return 0
+  fi
+
+  local rb
+  # shellcheck disable=SC2154
+  for rb in "${HARNESS_REQUIRED_RUNBOOKS[@]}"; do
+    if [[ ! -f "$rb" ]]; then
+      add_error "$rb" "Required runbook missing" "Missing required runbook: '$rb'. Fix: create it (run he-bootstrap if this repo is not bootstrapped) or adjust HARNESS_REQUIRED_RUNBOOKS in '$CONFIG_FILE'."
+    fi
+  done
+}
+
+lint_runbook_frontmatter() {
+  local file="$1"
+
+  if [[ ! -f "$file" ]]; then
+    return 0
+  fi
+
+  if ! head -n 1 "$file" | grep -Fqx -- "---"; then
+    add_error "$file" "Runbook frontmatter" "Runbook '$file' must start with YAML frontmatter ('---')."
+    return 0
+  fi
+
+  local fm
+  fm="$(
+    awk '
+      NR==1 { if ($0 != "---") exit 2; in_fm=1; next }
+      in_fm==1 { if ($0 == "---") exit 0; print }
+    ' "$file" 2>/dev/null || true
+  )"
+
+  if ! printf "%s\n" "$fm" | grep -Eq '^title:[[:space:]]*'; then
+    add_error "$file" "Runbook frontmatter" "Runbook '$file' frontmatter must include a 'title:' field."
+  fi
+  if ! printf "%s\n" "$fm" | grep -Eq '^use_when:[[:space:]]*'; then
+    add_error "$file" "Runbook frontmatter" "Runbook '$file' frontmatter must include a 'use_when:' field."
+  fi
+}
+
+lint_runbooks_frontmatter() {
+  if [[ ! -d docs/runbooks ]]; then
+    return 0
+  fi
+
+  shopt -s nullglob
+  local file
+  for file in docs/runbooks/*.md; do
+    lint_runbook_frontmatter "$file"
+  done
+  shopt -u nullglob
+}
+
 check_headings_for() {
   local file="$1"
   local var_name="$2"
@@ -159,6 +214,8 @@ main() {
   echo "he-docs-lint: starting (config: $CONFIG_FILE)"
   echo "Repro: bash scripts/ci/he-docs-lint.sh"
   check_required_docs
+  check_required_runbooks
+  lint_runbooks_frontmatter
   check_domain_doc_headings
   check_seed_markers
   check_generated_last_updated

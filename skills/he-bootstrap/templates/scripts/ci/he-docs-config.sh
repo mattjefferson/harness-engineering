@@ -10,6 +10,20 @@ HARNESS_REQUIRED_DOCS=(
   "docs/DOMAIN_DOCS.md"
 )
 
+# Baseline runbooks installed by he-bootstrap. Projects can add more runbooks; this list is the minimum set.
+HARNESS_REQUIRED_RUNBOOKS=(
+  "docs/runbooks/update-agents-md.md"
+  "docs/runbooks/update-domain-docs.md"
+  "docs/runbooks/code-review.md"
+  "docs/runbooks/review-findings.md"
+  "docs/runbooks/address-review-findings.md"
+  "docs/runbooks/verify-release.md"
+  "docs/runbooks/record-evidence.md"
+  "docs/runbooks/ci-failures.md"
+  "docs/runbooks/escalation.md"
+  "docs/runbooks/merge-change.md"
+)
+
 # Domain docs are created on-demand by skills. Only lint them when they exist.
 HARNESS_DOMAIN_DOCS=(
   "docs/DESIGN.md"

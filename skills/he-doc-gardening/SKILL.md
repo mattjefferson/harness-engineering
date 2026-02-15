@@ -32,7 +32,7 @@ Run this skill periodically to keep docs accurate and aligned with shipped behav
 5. Flaky test patterns
 6. Stale generated context in `docs/generated/` (check `last_updated` timestamps; exclude `docs/generated/memory.md`)
 7. Domain docs drift: docs listed in `docs/DOMAIN_DOCS.md` exist when relevant and include required headings (see `scripts/ci/he-docs-lint.sh`)
-8. Missing or inconsistent runbooks in `docs/runbooks/` (see required list below)
+8. Missing baseline runbooks, or runbooks in `docs/runbooks/` that violate format or conflict with enforced gates (additional runbooks are allowed and expected)
 9. Drift against enforced rules: failures from `scripts/ci/he-docs-drift.sh` and the plans/specs/spikes lint scripts
 
 Each subagent scans one area and returns a list of drift findings with priority. The main thread consolidates and queues fix-up work.
@@ -51,6 +51,12 @@ If any of these are missing in a consuming repo, record a `high` priority drift 
 - `docs/runbooks/ci-failures.md`
 - `docs/runbooks/escalation.md`
 - `docs/runbooks/merge-change.md`
+
+This is a minimum baseline. Repos may add additional runbooks; doc-gardening should not treat new runbooks as drift. Instead, ensure they:
+
+- Keep frontmatter consistent (`title`, `use_when`)
+- Do not waive non-negotiable gates enforced by skills
+- Do not duplicate or contradict existing runbooks without a clear replacement plan
 
 `docs/generated/memory.md` is a scratchpad and is handled by `he-learn`, not doc-gardening.
 
