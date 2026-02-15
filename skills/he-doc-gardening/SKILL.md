@@ -29,9 +29,8 @@ Each subagent scans one area and returns a list of drift findings with priority.
 ## Outputs
 
 1. Update `docs/plans/tech-debt-tracker.md`
-2. Update `docs/QUALITY_SCORE.md` trend notes
-3. Refresh stale generated context files in `docs/generated/`
-4. Create one or more doc-fix specs and plans:
+2. Refresh stale generated context files in `docs/generated/`
+3. Create one or more doc-fix specs and plans:
    - `docs/specs/<slug>.md`
    - `docs/plans/active/<slug>.md`
 

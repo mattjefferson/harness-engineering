@@ -10,10 +10,8 @@ HARNESS_REQUIRED_DOCS=(
   "docs/DESIGN.md"
   "docs/FRONTEND.md"
   "docs/PRODUCT_SENSE.md"
-  "docs/QUALITY_SCORE.md"
   "docs/RELIABILITY.md"
   "docs/SECURITY.md"
-  "docs/references/README.md"
 )
 
 # Required headings per doc (exact heading lines, including the leading ##).
@@ -30,13 +28,6 @@ HARNESS_REQUIRED_HEADINGS_docs_RELIABILITY_md=(
   "## Failure Modes"
   "## Monitoring"
   "## Operational Guardrails"
-)
-
-HARNESS_REQUIRED_HEADINGS_docs_QUALITY_SCORE_md=(
-  "## Current State"
-  "## Quality Bar"
-  "## Test Strategy"
-  "## Guardrails"
 )
 
 HARNESS_REQUIRED_HEADINGS_docs_FRONTEND_md=(
@@ -110,9 +101,6 @@ HARNESS_REQUIRED_SPIKE_FRONTMATTER_KEYS=(
 # Drift rules: if any changed file matches the regex, require touching the doc path.
 # Format: "<regex>::<doc_path>"
 HARNESS_DRIFT_RULES=(
-  # CI changes should update quality docs.
-  "^\\.github/workflows/|^scripts/ci/::docs/QUALITY_SCORE.md"
-
   # Security-sensitive areas should update security docs.
   "(^auth/|/auth/|^middleware/|/middleware/|(^|/)security/|(^|/)permissions/)::docs/SECURITY.md"
 

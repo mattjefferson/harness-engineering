@@ -23,7 +23,6 @@ Turn execution outcomes into durable improvements.
    - priority
    - lesson_applied status (`pending|applied`)
 2. Update relevant quality domain docs if policy changed:
-   - `docs/QUALITY_SCORE.md`
    - `docs/SECURITY.md`
    - `docs/RELIABILITY.md`
    - `docs/PRODUCT_SENSE.md`

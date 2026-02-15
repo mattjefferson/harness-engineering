@@ -41,7 +41,7 @@ done
 mkdir -p \
   docs/specs docs/spikes \
   docs/plans/active docs/plans/completed \
-  docs/design-docs docs/generated docs/references \
+  docs/design-docs docs/generated \
   scripts/ci \
   .github/workflows
 
@@ -57,12 +57,10 @@ copy_if_missing docs/generated/README.md "docs/generated/README.md"
 copy_if_missing docs/generated/db-schema.md "docs/generated/db-schema.md"
 copy_if_missing docs/design-docs/index.md "docs/design-docs/index.md"
 copy_if_missing docs/design-docs/core-beliefs.md "docs/design-docs/core-beliefs.md"
-copy_if_missing docs/references/README.md "docs/references/README.md"
 copy_if_missing docs/DESIGN.md "docs/DESIGN.md"
 copy_if_missing docs/FRONTEND.md "docs/FRONTEND.md"
 copy_if_missing docs/PLANS.md "docs/PLANS.md"
 copy_if_missing docs/PRODUCT_SENSE.md "docs/PRODUCT_SENSE.md"
-copy_if_missing docs/QUALITY_SCORE.md "docs/QUALITY_SCORE.md"
 copy_if_missing docs/RELIABILITY.md "docs/RELIABILITY.md"
 copy_if_missing docs/SECURITY.md "docs/SECURITY.md"
 

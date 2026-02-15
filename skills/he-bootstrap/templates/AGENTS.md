@@ -25,9 +25,7 @@ Before doing any work:
   - completed: `docs/plans/completed/`
   - tech debt: `docs/plans/tech-debt-tracker.md`
 - Generated context (refresh as needed): `docs/generated/`
-- External references: `docs/references/`
 - Domain guardrails and standards:
-  - `docs/QUALITY_SCORE.md`
   - `docs/SECURITY.md`
   - `docs/RELIABILITY.md`
   - `docs/FRONTEND.md`
@@ -48,7 +46,7 @@ intake → spike (optional) → plan → implement → review → verify-release
 - Plans follow `docs/PLANS.md` literally.
 - `Progress` is the only checklist section and must reflect real current state.
 - `Surprises & Discoveries`, `Decision Log`, `Outcomes & Retrospective`, and `Revision Notes` are append-only.
-- Testing strategy and guardrails live in `docs/QUALITY_SCORE.md` (default: unit/e2e only; no mocks).
+- Testing strategy and guardrails default to unit/e2e only with no mocks unless the project documents otherwise.
 - For UI changes, capture agentic E2E evidence (screenshots/recordings/text) and link it in plan artifacts.
 
 If you find yourself adding paragraphs here, move them into `docs/` and link them from this file.

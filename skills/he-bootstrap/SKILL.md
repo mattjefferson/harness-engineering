@@ -21,7 +21,6 @@ Initialize the docs structure required by the `he-*` workflow while preserving t
 - `docs/plans/completed/`
 - `docs/design-docs/`
 - `docs/generated/`
-- `docs/references/`
 
 ## Baseline Files
 
@@ -38,14 +37,12 @@ Create these only if missing:
 - `docs/generated/api-schema.md`
 - `docs/generated/component-tree.md`
 - `docs/generated/dependency-graph.md`
-- `docs/references/README.md`
 - `docs/design-docs/index.md`
 - `docs/design-docs/core-beliefs.md`
 - `docs/DESIGN.md`
 - `docs/FRONTEND.md`
 - `docs/PLANS.md`
 - `docs/PRODUCT_SENSE.md`
-- `docs/QUALITY_SCORE.md`
 - `docs/RELIABILITY.md`
 - `docs/SECURITY.md`
 
@@ -65,14 +62,12 @@ Each created file has a source template in `templates/`:
 - `docs/generated/api-schema.md` <- `templates/docs/generated/api-schema.md`
 - `docs/generated/component-tree.md` <- `templates/docs/generated/component-tree.md`
 - `docs/generated/dependency-graph.md` <- `templates/docs/generated/dependency-graph.md`
-- `docs/references/README.md` <- `templates/docs/references/README.md`
 - `docs/design-docs/index.md` <- `templates/docs/design-docs/index.md`
 - `docs/design-docs/core-beliefs.md` <- `templates/docs/design-docs/core-beliefs.md`
 - `docs/DESIGN.md` <- `templates/docs/DESIGN.md`
 - `docs/FRONTEND.md` <- `templates/docs/FRONTEND.md`
 - `docs/PLANS.md` <- `templates/docs/PLANS.md`
 - `docs/PRODUCT_SENSE.md` <- `templates/docs/PRODUCT_SENSE.md`
-- `docs/QUALITY_SCORE.md` <- `templates/docs/QUALITY_SCORE.md`
 - `docs/RELIABILITY.md` <- `templates/docs/RELIABILITY.md`
 - `docs/SECURITY.md` <- `templates/docs/SECURITY.md`
 
@@ -80,10 +75,6 @@ Plan templates provided by this skill set:
 
 - `skills/he-spec/templates/spec-template.md` (spec output)
 - `skills/he-plan/templates/active-plan-template.md` (`plan_mode: lightweight|execution`)
-
-Optional reference examples (not auto-created by bootstrap):
-
-- `templates/docs/references/template-llms.txt`
 
 Optional:
 
@@ -114,12 +105,10 @@ test -d docs/plans/active &&
 test -d docs/plans/completed &&
 test -d docs/design-docs &&
 test -d docs/generated &&
-test -d docs/references &&
 test -f AGENTS.md &&
 test -f docs/plans/tech-debt-tracker.md &&
 test -f docs/generated/db-schema.md &&
-test -f docs/design-docs/core-beliefs.md &&
-test -f docs/QUALITY_SCORE.md
+test -f docs/design-docs/core-beliefs.md
 ```
 
 ## Seeding Phase
@@ -150,27 +139,15 @@ Ask the following questions in chat. Pre-fill suggestions from auto-detection wh
 | 1 | DESIGN.md | What are your core design principles? (e.g., "mobile-first", "minimalist", "data-dense dashboards") |
 | 2 | FRONTEND.md | What's your frontend stack and key conventions? (e.g., React/Next.js, component library, styling approach) |
 | 3 | PRODUCT_SENSE.md | Who are your target users and what outcomes matter most? |
-| 4 | QUALITY_SCORE.md | What's your current test coverage situation and quality bar? (e.g., CI required, coverage thresholds) |
-| 5 | RELIABILITY.md | What are your reliability requirements? (e.g., uptime targets, error budgets, monitoring) |
-| 6 | SECURITY.md | What security concerns apply? (e.g., auth model, data sensitivity, compliance requirements) |
-| 7 | references | Any reference repos or projects we should learn patterns from? |
-| 8 | core-beliefs.md | What are 2-3 non-negotiable engineering beliefs for this project? |
+| 4 | RELIABILITY.md | What are your reliability requirements? (e.g., uptime targets, error budgets, monitoring) |
+| 5 | SECURITY.md | What security concerns apply? (e.g., auth model, data sensitivity, compliance requirements) |
+| 6 | core-beliefs.md | What are 2-3 non-negotiable engineering beliefs for this project? |
 
 Auto-detected values appear as pre-filled suggestions. The user can accept, modify, or replace them.
 
 ### Step 3: Populate Domain Docs
 
 Write answers into the domain doc templates, replacing `<!-- seed: ... -->` markers with real content. Each domain doc has structured sections ready for population.
-
-If reference repos were provided (Q7), use subagents to scan them and enrich the domain docs with relevant patterns.
-
-### Step 4: Populate References
-
-If reference repos/projects were provided:
-
-1. Record them in `docs/references/README.md` with source URL and what to learn from each
-2. Use subagents to scan each reference for patterns relevant to the domain docs
-3. Incorporate findings into the seeded content
 
 ### Seeding Behavior Notes
 

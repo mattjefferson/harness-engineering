@@ -1,9 +1,0 @@
-Project reference template for agents and LLMs.
-
-- Scope:
-- Key decisions:
-- Constraints:
-- Setup commands:
-- Build/test/deploy commands:
-- Common failure modes:
-- Links:

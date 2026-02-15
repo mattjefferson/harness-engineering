@@ -203,7 +203,7 @@ Use custom source and agents home:
 | Skill | Primary Purpose | Key Output / Gate |
 |---|---|---|
 | `agent-browser` | Agentic browser automation for E2E verification | Screenshots/recordings/text extraction as evidence |
-| `he-bootstrap` | Initialize workflow docs structure in a project | Creates `docs/specs`, `docs/spikes`, `docs/plans`, `docs/generated`, `docs/references` |
+| `he-bootstrap` | Initialize workflow docs structure in a project | Creates `docs/specs`, `docs/spikes`, `docs/plans`, and `docs/generated` |
 | `he-spec` | Convert request into a concrete initiative spec | `docs/specs/<slug>.md` |
 | `he-spike` | Time-boxed investigation for unclear/high-risk work | `docs/spikes/<slug>-spike.md` |
 | `he-plan` | Convert spec into a PLANS.md-compliant ExecPlan | `docs/plans/active/<slug>.md` |
@@ -297,12 +297,10 @@ test -d docs/plans/active &&
 test -d docs/plans/completed &&
 test -d docs/design-docs &&
 test -d docs/generated &&
-test -d docs/references &&
 test -f AGENTS.md &&
 test -f docs/plans/tech-debt-tracker.md &&
 test -f docs/generated/db-schema.md &&
-test -f docs/design-docs/core-beliefs.md &&
-test -f docs/QUALITY_SCORE.md
+test -f docs/design-docs/core-beliefs.md
 ```
 
 ### Step 3: Run an initiative
