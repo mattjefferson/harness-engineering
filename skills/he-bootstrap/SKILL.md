@@ -64,7 +64,7 @@ Each created file has a source template in `templates/`:
 Plan templates provided by this skill set:
 
 - `skills/he-spec/templates/spec-template.md` (spec output)
-- `skills/he-plan/templates/active-plan-template.md` (`plan_mode: trivial|lightweight|execution`)
+- `skills/he-plan/templates/plan-template.md` (`plan_mode: trivial|lightweight|execution`)
 
 Optional:
 

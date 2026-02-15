@@ -72,7 +72,7 @@ Read `plan_mode` from `docs/specs/<slug>.md` and tune depth, not structure:
 
 ## Plan Template
 
-Use `templates/active-plan-template.md`.
+Use `templates/plan-template.md`.
 
 ## Exit Gate
 

@@ -9,7 +9,7 @@ owner: <name or team>
 
 # <Short, action-oriented description>
 
-This ExecPlan is a living document. Keep `Progress`, `Surprises & Discoveries`, `Decision Log`, `Outcomes & Retrospective`, and `Revision Notes` current as work proceeds.
+This Plan is a living document. Keep `Progress`, `Surprises & Discoveries`, `Decision Log`, `Outcomes & Retrospective`, and `Revision Notes` current as work proceeds.
 
 This plan must be maintained in accordance with `docs/PLANS.md`.
 
