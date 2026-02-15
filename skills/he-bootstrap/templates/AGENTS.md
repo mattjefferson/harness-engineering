@@ -40,6 +40,15 @@ Before doing any work:
 
 intake → spike (optional) → plan → implement → review → verify-release → learn
 
+## Scratchpad (Memory)
+
+Use `docs/generated/memory.md` as an agent scratchpad when something is useful but has no obvious durable home yet.
+
+- Allowed content: temporary notes, commands tried, log snippets, pointers to files, open questions.
+- After any user correction, add a short note capturing the mistake and a prevention rule so it can be processed during `he-learn`.
+- Forbidden content: long-term policy/process, plan progress, or secrets.
+- Processing rule: during `he-learn`, triage everything in this file into a real home under `docs/` or delete it, then clear the file.
+
 ## Conventions
 
 - Slug format: `YYYY-MM-DD-kebab-topic`
