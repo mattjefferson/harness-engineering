@@ -77,6 +77,7 @@ Record drift findings with explicit priority.
 Prefer these commands over subjective scanning when available:
 
 - `bash scripts/ci/he-docs-lint.sh`
+- `bash scripts/ci/he-runbooks-lint.sh`
 - `bash scripts/ci/he-docs-drift.sh`
 - `bash scripts/ci/he-specs-lint.sh`
 - `bash scripts/ci/he-plans-lint.sh`
