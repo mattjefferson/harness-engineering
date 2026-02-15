@@ -17,7 +17,7 @@ Reference for agents: what domain docs exist, how to detect relevant content, an
 
 ## When to Create or Update
 
-- **he-plan**: If domain docs relevant to the plan don't exist or are stubs, create and populate them using auto-detect signals and planning context
+- **he-plan**: If domain docs relevant to the plan don't exist or are placeholders, create and populate them using auto-detect signals and planning context
 - **he-implement**: If implementation reveals a missing, wrong, or incomplete domain doc, create or update it in-place and note in Revision Notes
 - **he-learn**: Post-release policy updates from lessons learned
 - **he-doc-gardening**: Flag stale domain docs for refresh
@@ -26,6 +26,6 @@ Reference for agents: what domain docs exist, how to detect relevant content, an
 
 1. Check if the domain doc file exists
 2. If missing: create the file at the path above with real content — use auto-detect signals and current context to populate it (don't create empty stubs)
-3. If exists but still a stub (`<!-- seed: ... -->` markers only): populate with real content
-4. If has content: append or revise — never overwrite existing real content
-5. Preserve section structure (headers stay, content fills in)
+3. If exists but is effectively empty (frontmatter + headings with no substantive content): populate it with real content
+4. If it has real content: append or revise — never overwrite working policies without replacing them with something better
+5. Preserve section structure (headings stay, content fills in)
