@@ -15,7 +15,7 @@ Run this skill periodically to keep docs accurate and aligned with shipped behav
 3. Queue small fixes: doc-fix initiatives should be small and independently shippable.
 4. Do not block delivery by default: only escalate when a critical invariant is broken.
 5. Mandatory artifacts must exist: missing required runbooks or broken gates are drift to fix.
-6. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `bash scripts/runbooks/select-runbooks.sh --skill <skill>`), but never waive/override anything codified here.
+6. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `python scripts/runbooks/select-runbooks.py --skill <skill>`), but never waive/override anything codified here.
 
 ## Frequency
 
@@ -78,7 +78,7 @@ Record drift findings with explicit priority.
 Prefer these commands over subjective scanning when available:
 
 - `bash scripts/ci/he-docs-lint.sh`
-- `bash scripts/ci/he-runbooks-lint.sh`
+- `python scripts/ci/he-runbooks-lint.py`
 - `bash scripts/ci/he-docs-drift.sh`
 - `bash scripts/ci/he-specs-lint.sh`
 - `bash scripts/ci/he-plans-lint.sh`

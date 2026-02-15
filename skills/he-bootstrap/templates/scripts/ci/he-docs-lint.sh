@@ -159,7 +159,7 @@ main() {
   echo "he-docs-lint: starting (config: $CONFIG_FILE)"
   echo "Repro: bash scripts/ci/he-docs-lint.sh"
   check_required_docs
-  bash scripts/ci/he-runbooks-lint.sh
+  python3 scripts/ci/he-runbooks-lint.py
   check_domain_doc_headings
   check_seed_markers
   check_generated_last_updated

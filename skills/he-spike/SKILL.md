@@ -15,7 +15,7 @@ Run a focused, time-boxed investigation to reduce uncertainty before planning.
 3. Throwaway code, durable doc: prototype can be deleted; findings persist in the spike artifact.
 4. Parallel approaches: one subagent per approach when comparing options.
 5. Decide the next action: update spec/plan direction based on findings.
-6. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `bash scripts/runbooks/select-runbooks.sh --skill <skill>`), but never waive/override anything codified here.
+6. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `python scripts/runbooks/select-runbooks.py --skill <skill>`), but never waive/override anything codified here.
 
 ## When to Use
 

@@ -15,7 +15,7 @@ Prepare safe workspace isolation before running implementation-heavy phases.
 3. No destructive git: do not reset/clean/delete automatically.
 4. Name and verify: branch/worktree naming plus explicit status verification.
 5. Hand off a concrete workspace: strategy, branch name, directory path.
-6. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `bash scripts/runbooks/select-runbooks.sh --skill <skill>`), but never waive/override anything codified here.
+6. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `python scripts/runbooks/select-runbooks.py --skill <skill>`), but never waive/override anything codified here.
 
 ## When To Use
 

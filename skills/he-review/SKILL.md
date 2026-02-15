@@ -13,7 +13,7 @@ Run structured, parallel code review before verify/release.
 1. Security/data review is mandatory (even for trivial changes).
 2. The priority gate is real: unresolved `critical`/`high` blocks progression.
 3. Findings must be actionable: file/symbol + required action + owner.
-4. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `bash scripts/runbooks/select-runbooks.sh --skill <skill>`), but never waive/override any gates codified here.
+4. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `python scripts/runbooks/select-runbooks.py --skill <skill>`), but never waive/override any gates codified here.
 5. Escalate on judgment: unclear risk, ambiguous behavior, or flaky failures.
 
 ## Runbooks
@@ -27,7 +27,7 @@ These runbooks hold the repo-specific procedures that evolve over time:
 
 In addition to the baseline list above, apply any additional runbooks returned by:
 
-`bash scripts/runbooks/select-runbooks.sh --skill he-review`
+`python scripts/runbooks/select-runbooks.py --skill he-review`
 
 ## Inputs
 

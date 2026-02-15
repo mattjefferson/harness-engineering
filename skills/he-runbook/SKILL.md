@@ -56,8 +56,8 @@ Create or update a runbook (process/checklist) that can evolve per project, whil
    - Start with the stable invariant: "skill gates still apply; runbook cannot waive them".
    - Add the repo-specific checklist/commands in the order they should be executed.
 7. Validate integration:
-   - Lint: `bash scripts/ci/he-runbooks-lint.sh`
-   - Verify selection: `bash scripts/runbooks/select-runbooks.sh --skill <skill>` returns the runbook.
+   - Lint: `python scripts/ci/he-runbooks-lint.py`
+   - Verify selection: `python scripts/runbooks/select-runbooks.py --skill <skill>` returns the runbook.
 8. Link if needed:
    - If this runbook will be reused, add it to the AGENTS.md runbook index.
 

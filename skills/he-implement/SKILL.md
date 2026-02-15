@@ -15,7 +15,7 @@ Execute a PLANS-compliant active plan and keep the plan artifact current.
 3. Evidence as you go: run relevant tests/commands continuously; do not batch validation at the end.
 4. Generated context is a tool: refresh only what matters; keep it usable for reasoning.
 5. Unit/e2e by default: avoid mock-only verification unless the repo explicitly documents an exception.
-6. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `bash scripts/runbooks/select-runbooks.sh --skill <skill>`), but never waive/override anything codified here.
+6. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `python scripts/runbooks/select-runbooks.py --skill <skill>`), but never waive/override anything codified here.
 
 ## Inputs
 
