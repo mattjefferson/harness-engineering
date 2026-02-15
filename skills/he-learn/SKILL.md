@@ -28,6 +28,7 @@ Turn execution outcomes into durable improvements.
    - `docs/PRODUCT_SENSE.md`
    - `docs/DESIGN.md`
    - `docs/FRONTEND.md`
+   - `docs/OBSERVABILITY.md`
 3. Move plan to:
    - `docs/plans/completed/<slug>.md`
 

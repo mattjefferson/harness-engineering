@@ -9,7 +9,7 @@ Turn software delivery into a versioned, evidence-backed control system that bot
 How this is different:
 
 - Artifact-first, not meeting-first: the source of truth is committed specs, plans, logs, and decisions, not standups or tribal memory.
-- Two planning modes by intent: lightweight plans for small work, execution plans for complex work.
+- Three planning modes by intent: trivial for single-file fixes, lightweight for small work, execution for complex work.
 - Progressive disclosure: small stable entry point, then deeper context only when needed.
 - Gate-driven flow: movement across phases requires explicit evidence, not subjective "looks good."
 - Agent-native by design: tasks are structured so parallel agents can execute, review, and verify consistently.
@@ -247,6 +247,7 @@ Example:
 
 ### Plan modes
 
+- `trivial`: single-file, low-risk changes that skip `he-plan` entirely — goes straight from spec to implement with single-reviewer review and abbreviated learn
 - `lightweight`: small, low-complexity work captured with fewer milestones and concise prose
 - `execution`: complex work captured with deeper context, milestones, and richer evidence
 
@@ -254,7 +255,7 @@ Example:
 
 1. Human intent: `docs/specs/<slug>.md`
 2. Spike findings: `docs/spikes/<slug>-spike.md` (if a spike was run)
-3. Execution plan: `docs/plans/active/<slug>.md` (`plan_mode: lightweight|execution`)
+3. Execution plan: `docs/plans/active/<slug>.md` (`plan_mode: trivial|lightweight|execution`)
 4. Generated context: `docs/generated/` (for example `docs/generated/db-schema.md`)
 
 ### Hard gates
@@ -310,7 +311,7 @@ test -f docs/design-docs/core-beliefs.md
 
 - Use `he-spec` to create the spec.
 - If feasibility is unclear, use `he-spike` for a time-boxed investigation.
-- Set `plan_mode` in the spec (`lightweight` or `execution`).
+- Set `plan_mode` in the spec (`trivial`, `lightweight`, or `execution`).
 - Use `he-plan` to create the matching active plan file.
 - Use `he-implement` for execution batches.
 - Use `he-review` and resolve blocking findings.

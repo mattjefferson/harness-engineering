@@ -63,6 +63,7 @@ copy_if_missing docs/PLANS.md "docs/PLANS.md"
 copy_if_missing docs/PRODUCT_SENSE.md "docs/PRODUCT_SENSE.md"
 copy_if_missing docs/RELIABILITY.md "docs/RELIABILITY.md"
 copy_if_missing docs/SECURITY.md "docs/SECURITY.md"
+copy_if_missing docs/OBSERVABILITY.md "docs/OBSERVABILITY.md"
 
 # CI gates for domain docs + artifact structure (specs/plans/spikes).
 copy_if_missing scripts/ci/he-docs-config.sh "scripts/ci/he-docs-config.sh"

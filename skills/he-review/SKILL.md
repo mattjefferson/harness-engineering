@@ -22,9 +22,13 @@ Refresh generated context before review if stale:
 - `docs/generated/component-tree.md` (if present)
 - `docs/generated/dependency-graph.md` (if present)
 
+## Fast-Track Mode (Trivial Changes)
+
+When `plan_mode: trivial`, run a single **correctness reviewer** only instead of the full 4-way fanout. Skip architecture, security, and simplicity reviewers — the trivial criteria already guarantee low risk and single-file scope. All other review mechanics (findings format, priority gate, exit gate) still apply.
+
 ## Review Fanout (Parallel)
 
-Launch one subagent per reviewer and run concurrently:
+For `plan_mode: lightweight` or `execution`, launch one subagent per reviewer and run concurrently:
 
 1. correctness reviewer
 2. architecture/invariants reviewer

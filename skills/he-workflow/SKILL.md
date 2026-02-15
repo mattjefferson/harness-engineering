@@ -18,7 +18,7 @@ Run the full lifecycle with phase gates and parallel subagents.
 
 - Human intent: `docs/specs/<slug>.md`
 - Spike findings: `docs/spikes/<slug>-spike.md` (if a spike was run)
-- Execution plan: `docs/plans/active/<slug>.md` (`plan_mode: lightweight|execution`, PLANS-compliant)
+- Execution plan: `docs/plans/active/<slug>.md` (`plan_mode: trivial|lightweight|execution`, PLANS-compliant)
 - Plan contract: `docs/PLANS.md`
 - Generated project context: `docs/generated/` (for example `docs/generated/db-schema.md`)
 
@@ -60,7 +60,8 @@ When a gate fails or a phase reveals issues requiring earlier work:
    - `docs/generated/`
 3. If required directories are missing, run `he-bootstrap`.
 4. Ensure `docs/specs/<slug>.md` exists; if not, run `he-spec`.
-5. If `spike_recommended: yes` in the spec metadata, run `he-spike`.
+5. **Express path check**: if `plan_mode: trivial` in the spec metadata, skip steps 5a–10 and go directly to step 11 (refresh context), then step 12 (`he-implement`), then step 13 (`he-review` in fast-track mode), then step 15 (`he-learn` abbreviated). Skip `he-verify-release` for trivial changes. The docs commit gate and test evidence gate still apply.
+5a. If `spike_recommended: yes` in the spec metadata, run `he-spike`.
 6. Ensure `docs/plans/active/<slug>.md` exists; if missing, run `he-plan`.
 7. Validate active plan has all required PLANS sections:
    - `Purpose / Big Picture`

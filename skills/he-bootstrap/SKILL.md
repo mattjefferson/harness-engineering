@@ -45,6 +45,7 @@ Create these only if missing:
 - `docs/PRODUCT_SENSE.md`
 - `docs/RELIABILITY.md`
 - `docs/SECURITY.md`
+- `docs/OBSERVABILITY.md`
 
 ## Templates
 
@@ -70,11 +71,12 @@ Each created file has a source template in `templates/`:
 - `docs/PRODUCT_SENSE.md` <- `templates/docs/PRODUCT_SENSE.md`
 - `docs/RELIABILITY.md` <- `templates/docs/RELIABILITY.md`
 - `docs/SECURITY.md` <- `templates/docs/SECURITY.md`
+- `docs/OBSERVABILITY.md` <- `templates/docs/OBSERVABILITY.md`
 
 Plan templates provided by this skill set:
 
 - `skills/he-spec/templates/spec-template.md` (spec output)
-- `skills/he-plan/templates/active-plan-template.md` (`plan_mode: lightweight|execution`)
+- `skills/he-plan/templates/active-plan-template.md` (`plan_mode: trivial|lightweight|execution`)
 
 Optional:
 
@@ -124,6 +126,7 @@ Launch subagents to scan the target repo in parallel for:
 - **Test setup** — `jest.config.*`, `vitest.config.*`, `pytest.ini`, test directories, coverage config
 - **CI/CD config** — `.github/workflows/`, `Makefile`, `Dockerfile`, `.gitlab-ci.yml`
 - **Auth patterns** — auth-related deps, middleware files, env var references
+- **Observability config** — logging libraries (`winston`, `pino`, `structlog`, `slog`), metrics endpoints (`/metrics`, Prometheus config), trace config (`opentelemetry`, `jaeger`), health check routes (`/healthz`, `/readyz`)
 - **README and existing docs** — `README.md`, `CONTRIBUTING.md`, existing `docs/` content
 
 Compile a detection summary with suggested values for each domain.
@@ -142,6 +145,7 @@ Ask the following questions in chat. Pre-fill suggestions from auto-detection wh
 | 4 | RELIABILITY.md | What are your reliability requirements? (e.g., uptime targets, error budgets, monitoring) |
 | 5 | SECURITY.md | What security concerns apply? (e.g., auth model, data sensitivity, compliance requirements) |
 | 6 | core-beliefs.md | What are 2-3 non-negotiable engineering beliefs for this project? |
+| 7 | OBSERVABILITY.md | What observability tools do you use? (e.g., structured logging, Prometheus, OpenTelemetry, health checks) |
 
 Auto-detected values appear as pre-filled suggestions. The user can accept, modify, or replace them.
 

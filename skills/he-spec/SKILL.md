@@ -42,6 +42,12 @@ When scoping a new initiative, use subagents to research the codebase in paralle
 
 Select `plan_mode` in the spec frontmatter:
 
+- `trivial` when **all** are true:
+  - Single-file change (or config-only tweak)
+  - No schema migration, auth change, security boundary change, or public API contract break
+  - Overall risk is `low`
+  - No spike needed
+  - Spec can be abbreviated: Purpose + single requirement + success criteria only
 - `lightweight` when all are true:
   - Change is small (typically <= 3 milestones and <= 3 files)
   - No schema migration, auth change, security boundary change, or public API contract break
@@ -49,7 +55,9 @@ Select `plan_mode` in the spec frontmatter:
   - Validation can be covered by a short targeted test set
 - `execution` for all other work
 
-Write `plan_mode: <lightweight|execution>` in the YAML frontmatter of `docs/specs/<slug>.md`.
+Write `plan_mode: <trivial|lightweight|execution>` in the YAML frontmatter of `docs/specs/<slug>.md`.
+
+When `plan_mode: trivial`, the spec may omit optional sections entirely — only `Purpose / Big Picture`, one requirement row, and `Success Criteria` are required.
 
 Set `spike_recommended: yes` in YAML frontmatter if the fuzzy-idea loop concludes a spike is needed, otherwise `spike_recommended: no`.
 
@@ -75,7 +83,7 @@ Use `templates/spec-template.md`.
 - Success criteria are measurable
 - Handoff is explicit
 - Priority assigned
-- `plan_mode` is assigned (`lightweight` or `execution`)
+- `plan_mode` is assigned (`trivial`, `lightweight`, or `execution`)
 - `spike_recommended` is assigned (`yes` or `no`)
 - Docs commit gate passes
 
@@ -83,7 +91,7 @@ Use `templates/spec-template.md`.
 
 Use an interactive question tool at this transition when available (`request_user_input` in Codex Plan mode, `AskUserQuestion` in Claude Code, or equivalent). Offer:
 
-1. Continue to `he-plan` (or `he-spike` when `spike_recommended: yes`) (recommended)
+1. Continue to `he-plan` (or `he-spike` when `spike_recommended: yes`; or `he-implement` when `plan_mode: trivial`) (recommended)
 2. Run one more build-feedback round in `he-spec`
 3. Handoff/pause with status and explicit next action
 
