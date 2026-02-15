@@ -32,7 +32,7 @@ When comparing multiple approaches, **launch one subagent per approach** to expl
 
 ## Output
 
-- `docs/specs/<slug>-spike.md` with:
+- `docs/spikes/<slug>-spike.md` with:
   - **Question**: What we set out to learn
   - **Approach**: What we built or investigated
   - **Findings**: What we learned (with evidence)
@@ -40,15 +40,17 @@ When comparing multiple approaches, **launch one subagent per approach** to expl
   - **Remaining unknowns**: What we still don't know
   - **Time spent**: Actual vs. budgeted
 
+Use the spike template when creating the doc:
+
+- `templates/spike-template.md` (includes required YAML frontmatter)
+
 ## Exit Gate
 
-- Spike findings document exists at `docs/specs/<slug>-spike.md`
+- Spike findings document exists at `docs/spikes/<slug>-spike.md`
 - Original question is answered or explicitly marked as still-unknown with next steps
 - Recommendation is actionable (feeds directly into planning)
 - Docs commit gate passes
 
-## Transition Options
+## Transition
 
-Present 2-3 explicit next-step options with a recommended default. Use `request_user_input` (Codex) or `AskUserQuestion` (Claude Code) in Plan mode; otherwise ask in chat. Wait for user selection before proceeding.
-
-At least one option must be `Next step: he-plan`.
+Default next phase is `he-plan`.

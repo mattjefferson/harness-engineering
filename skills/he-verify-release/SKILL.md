@@ -6,29 +6,29 @@ argument-hint: "[slug or docs/plans/active/<slug>.md]"
 
 # HE Verify/Release
 
-Validate release readiness and record a go/no-go decision.
+Validate release readiness and record a GO/NO-GO decision.
 
 ## Inputs
 
-- `docs/plans/active/<slug>.md` (`plan_mode: lightweight|execution`)
+- `docs/plans/active/<slug>.md`
 - Review findings
 - Test and integration evidence
 
 ## Verification Checklist
 
-**Launch parallel subagents to verify independent checklist items concurrently:**
+Launch parallel subagents for independent verification items:
 
-1. Required tests pass (subagent: run test suites and collect results).
-2. Architecture and safety invariants pass (subagent: check invariants against codebase).
-3. No unresolved critical/high findings (check review findings in plan).
+1. Required tests pass.
+2. Architecture and safety invariants hold.
+3. No unresolved critical/high findings.
 4. Rollback steps are documented and feasible.
 5. Monitoring and post-release checks are defined.
 
-The main thread collects subagent results and records the GO/NO-GO decision.
+If the change includes browser UI behavior, collect agentic E2E evidence via `agent-browser` and store it in `Artifacts and Notes`.
 
 ## Plan Update
 
-Fill in the `## Verify/Release Decision` section in `docs/plans/active/<slug>.md`.
+Fill in `## Verify/Release Decision` in `docs/plans/active/<slug>.md`.
 
 ## Decision Rules
 
@@ -37,11 +37,11 @@ Fill in the `## Verify/Release Decision` section in `docs/plans/active/<slug>.md
 
 ## Re-entry on NO-GO
 
-When the decision is `NO-GO`:
+When decision is `NO-GO`:
 
-- For minor fixes (test failures, small bugs): return to `he-implement` with the specific tasks to fix.
-- For design-level issues (architecture problems, missing requirements): return to `he-plan` with a Decision Log entry.
-- Always create a Progress Log entry explaining the NO-GO reason and the target re-entry phase.
+- For minor fixes: return to `he-implement`.
+- For design-level issues: return to `he-plan` and append `Decision Log` context.
+- Update `Progress` items and append a `Revision Notes` entry describing re-entry reason.
 
 ## Exit Gate
 
@@ -50,8 +50,6 @@ When the decision is `NO-GO`:
 - If NO-GO: re-entry target phase identified with rationale
 - Docs commit gate passes
 
-## Transition Options
+## Transition
 
-Present 2-3 explicit next-step options with a recommended default. Use `request_user_input` (Codex) or `AskUserQuestion` (Claude Code) in Plan mode; otherwise ask in chat. Wait for user selection before proceeding.
-
-At least one option must be `Next step: he-learn` (for GO) or the re-entry phase (for NO-GO).
+Default next phase is `he-learn` for GO, or the identified re-entry phase for NO-GO.

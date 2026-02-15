@@ -4,7 +4,7 @@
 
 - Plans are first-class artifacts.
 - Use ephemeral lightweight plans for small changes.
-- Capture complex work in execution plans with progress logs and decision logs, committed to the repository.
+- Capture complex work in execution plans with `Progress`, `Surprises & Discoveries`, `Decision Log`, and `Outcomes & Retrospective`, committed to the repository.
 - Keep active plans, completed plans, and technical debt versioned and co-located so agents do not depend on external context.
 - Enable progressive disclosure: agents start from a small, stable entry point and follow explicit pointers to deeper context as needed.
 

@@ -1,0 +1,16 @@
+tmp/
+.DS_Store
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Env / secrets
+.env
+.env.*
+
+# agent-browser state (may contain auth tokens)
+auth-state.json
+*.auth-state.json

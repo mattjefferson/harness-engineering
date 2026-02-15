@@ -1,20 +1,20 @@
 ---
 name: he-implement
-description: Executes active plans using dependency-aware parallel batches, isolated task work, and integration checkpoints while using generated project context docs for reference. Use during build execution.
+description: Executes active ExecPlans using milestone-driven progress updates, parallel subagents, and evidence-backed verification.
 argument-hint: "[slug or docs/plans/active/<slug>.md]"
 ---
 
 # HE Implement
 
-Execute plan tasks with DAG-batch parallelism.
+Execute a PLANS-compliant active plan and keep the plan artifact current.
 
 ## Inputs
 
-- `docs/plans/active/<slug>.md` (`plan_mode: lightweight|execution`)
+- `docs/plans/active/<slug>.md`
 
 ## Generated Context
 
-Before starting execution, refresh generated context if stale:
+Before execution, refresh generated context when stale:
 
 - `docs/generated/db-schema.md` (if present)
 - `docs/generated/api-schema.md` (if present)
@@ -26,56 +26,53 @@ Each generated file should include a `last_updated` timestamp.
 
 ## Execution Model
 
-1. Parse task DAG/checklist from active plan and load concrete execution details from `Task Details`.
-   - For `execution` mode: load `files_to_change`, `tests_to_run`, `verify_commands`.
-   - For `lightweight` mode: load `files`, `steps`, `test_type`, `verify`, `done_when`.
-2. Build next ready batch (all dependencies satisfied).
-3. **Launch one subagent per task in the batch.** Each subagent receives the task details, target files, and relevant generated context. Run all subagents in the batch concurrently.
-4. Collect subagent results and integrate batch outputs.
-5. Repeat until no remaining tasks.
+1. Read `Purpose / Big Picture`, `Context and Orientation`, `Milestones`, `Plan of Work`, `Concrete Steps`, and `Validation and Acceptance`.
+2. Build work queue from unchecked `Progress` items (`P1`, `P2`, ...).
+3. Execute in milestone order by default.
+4. Run parallel subagents only for explicitly independent `Progress` items.
+5. Integrate changes after each milestone-sized batch and rerun targeted verification.
+6. Continue until all planned `Progress` items are complete or explicitly deferred.
 
-Use subagents aggressively — every independent task in a batch should be its own subagent. Keep the main context clean by offloading implementation work to subagents and only handling integration and plan updates in the main thread.
+Use subagents aggressively for independent work while keeping integration and plan updates in the main thread.
 
 ## Subagent Return Contract
 
 Each subagent returns:
 
 - changed files
-- planned target files (`files_to_change` or `files`) and whether each was touched (or explicit no-change reason)
-- tests run and results (must match task's `test_type` — unit or e2e, no mocks)
+- implemented `Progress` item IDs
+- tests/verification run and results (`unit` or `e2e`; no mock-only verification)
 - unresolved risks with `priority`
-- integration notes
+- evidence snippets (terminal output, screenshots, or logs)
 
 ## Integration Rules
 
-- Integrate one batch at a time.
-- If conflicts occur, split tasks or sequence conflicting tasks.
-- Re-run targeted tests for integrated batch.
-- If a task is missing concrete file paths or verify commands in `Task Details`, send it back to planning before execution.
+- Integrate one milestone batch at a time.
+- Resolve conflicts before marking related `Progress` items done.
+- If the plan lacks concrete file paths or commands, return to `he-plan` for clarification.
 
-## Branch and PR Convention
+## Plan Update Contract
 
-- Work on the initiative's branch (one branch per slug).
-- Use worktree-per-task for parallel execution when blast radius is non-trivial.
-- Create PR at the implement-to-review boundary.
+After each batch, update `docs/plans/active/<slug>.md`:
 
-## Plan Progress Updates
+- Check completed `Progress` items.
+- Append new discoveries in `Surprises & Discoveries` with evidence.
+- Append decisions in `Decision Log` when approach/scope changes.
+- Update `Outcomes & Retrospective` with milestone outcomes/gaps.
+- Add evidence to `Artifacts and Notes`.
+- Append `Revision Notes` with what changed in the plan and why.
 
-Update `docs/plans/active/<slug>.md` after each batch:
+## Agentic E2E (Optional)
 
-- Update `Task DAG` statuses (`todo|in_progress|blocked|done`) — this is the single source of truth
-- Check/uncheck step checkboxes (`implementation_steps` in execution mode, `steps` in lightweight mode) to reflect executed work
-- Append `Progress Log` entry with evidence
-- Append `Decision Log` entry when scope/approach changes
+For browser UI verification, prefer `agent-browser` flows and store durable evidence in `Artifacts and Notes`.
 
 ## Exit Gate
 
-- All planned tasks completed or explicitly deferred
-- Plan progress is current
+- All planned `Progress` items are completed or explicitly deferred
+- Validation evidence is recorded in the plan
+- Living sections are updated (`Progress`, `Surprises & Discoveries`, `Decision Log`, `Outcomes & Retrospective`, `Revision Notes`)
 - Docs commit gate passes
 
-## Transition Options
+## Transition
 
-Present 2-3 explicit next-step options with a recommended default. Use `request_user_input` (Codex) or `AskUserQuestion` (Claude Code) in Plan mode; otherwise ask in chat. Wait for user selection before proceeding.
-
-At least one option must be `Next step: he-review`.
+Default next phase is `he-review` unless the user asks to pause.

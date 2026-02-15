@@ -1,117 +1,114 @@
-# <title>
+---
+slug: <slug>
+status: active
+phase: plan
+plan_mode: <lightweight|execution>
+priority: <critical|high|medium|low>
+owner: <name or team>
+---
 
-## Metadata
-- slug: <slug>
-- status: active
-- phase: plan
-- plan_mode: <lightweight|execution>
-- overall_priority: <critical|high|medium|low>
+# <Short, action-oriented description>
 
-## Summary
-...
+This ExecPlan is a living document. Keep `Progress`, `Surprises & Discoveries`, `Decision Log`, `Outcomes & Retrospective`, and `Revision Notes` current as work proceeds.
+
+This plan must be maintained in accordance with `docs/PLANS.md`.
+
+## Purpose / Big Picture
+
+Explain what a user can do after this change that they cannot do now, why it matters, and how they can observe it working.
+
+## Progress
+
+Use timestamped checkboxes with stable IDs. Keep this section aligned with actual state at every stop point.
+
+- [ ] (2026-02-15T00:00:00Z) P1 [M1] <first granular step>
+- [ ] (2026-02-15T00:00:00Z) P2 [M1] <second granular step>
+- [ ] (2026-02-15T00:00:00Z) P3 [M2] <follow-up step>
+
+## Surprises & Discoveries
+
+Capture unexpected behavior, constraints, bugs, or performance findings with concise evidence.
+
+- Observation: <what was discovered>
+  Evidence: <test output, log line, or short transcript>
 
 ## Decision Log
-| date | decision_id | decision | rationale | owner |
-|---|---|---|---|---|
-| <YYYY-MM-DD> | D1 | ... | ... | ... |
 
-## Task DAG
-| task_seq | summary | depends_on | parallel_safe | priority | status |
-|---|---|---|---|---|---|
-| 1 | Domain model update | none | yes | low | todo |
-| 1.1 | Controller behavior update | 1 | yes | medium | todo |
-| 1.2 | UI behavior update | 1 | no | medium | todo |
+Record each material decision and why it was made.
 
-Task DAG `status` is the single source of truth for task completion.
+- Decision: <decision>
+  Rationale: <why this path was selected>
+  Date/Author: <YYYY-MM-DD, name>
 
-## Task Details
+## Outcomes & Retrospective
 
-> **Template instruction**: Use one format below based on `plan_mode`. Delete the section you are not using.
+Summarize outcomes, remaining gaps, and lessons at milestones and completion.
 
-### Lightweight Mode
+- <outcome summary>
 
-For `plan_mode: lightweight`, use the minimal task format:
+## Context and Orientation
 
-#### [ ] 1 [Define user domain invariants]
-- files: `src/domain/user.ts`, `src/domain/validator.ts`
-- steps:
-  - [ ] Add/adjust domain invariants and validation logic
-  - [ ] Update call sites that depend on invariant behavior
-- test_type: unit
-- verify: `bun test tests/domain/user.test.ts`
-- done_when: Domain tests pass and behavior matches spec
+Describe the relevant existing system as if the reader has no prior context. Name concrete paths, modules, and functions.
 
-#### [ ] 1.1 [Implement API validation flow]
-- files: `src/api/users.ts`
-- steps:
-  - [ ] Wire invariant checks into request handling path
-  - [ ] Map validation failures to stable API errors
-- test_type: unit
-- verify: `bun test tests/api/users.test.ts`
-- done_when: Invalid requests rejected with expected API responses
+## Milestones
 
-### Execution Mode
+Use narrative milestones with scope, expected results, and proof commands.
 
-For `plan_mode: execution`, use the full task format:
+### Milestone 1 - <title>
 
-#### [ ] 1 [Define user domain invariants]
-- objective: `Codify domain rules and invariants for user entities.`
-- implementation_steps:
-  - [ ] `Add/adjust domain invariants and validation logic.`
-  - [ ] `Update call sites that depend on invariant behavior.`
-- files_to_change: `src/domain/user.ts`, `src/domain/validator.ts`
-- test_type: unit
-- tests_to_run: `bun test tests/domain/user.test.ts`
-- verify_commands: `bun test tests/domain/user.test.ts`
-- dependencies: `none`
-- risks: `Incorrect invariant assumptions may reject valid input.`
-- rollback_impact: `Revert domain invariant changes and rerun domain tests.`
-- acceptance: `Invariant behavior matches spec and existing contracts.`
-- done_when: `Domain tests pass and behavior is reflected in plan evidence.`
-- evidence: `link to commit/test output`
+Describe what will exist after this milestone, where changes occur, and how to verify the result.
 
-#### [ ] 1.1 [Implement API validation flow]
-- objective: `Apply domain invariant checks in the API boundary.`
-- implementation_steps:
-  - [ ] `Wire invariant checks into request handling path.`
-  - [ ] `Map validation failures to stable API errors.`
-- files_to_change: `src/api/users.ts`
-- test_type: e2e
-- tests_to_run: `bun test tests/api/users.test.ts`
-- verify_commands: `bun test tests/api/users.test.ts`
-- dependencies: `1`
-- risks: `Response contract drift if error mapping changes.`
-- rollback_impact: `Revert handler changes and restore prior API mapping.`
-- acceptance: `Invalid requests are rejected with expected API responses.`
-- done_when: `API tests pass with unchanged success-path behavior.`
-- evidence: `link to commit/test output`
+### Milestone 2 - <title>
 
-#### [ ] 1.2 [Update user profile UI behavior]
-- objective: `Reflect updated API/domain behavior in profile flows.`
-- implementation_steps:
-  - [ ] `Update UI validation handling states.`
-  - [ ] `Adjust user-facing error messaging and interaction flow.`
-- files_to_change: `src/ui/UserProfile.tsx`
-- test_type: e2e
-- tests_to_run: `bun test tests/ui/UserProfile.test.tsx`
-- verify_commands: `bun test tests/ui/UserProfile.test.tsx`
-- dependencies: `1`
-- risks: `UI regressions in client-side form state transitions.`
-- rollback_impact: `Revert component changes and rerun UI tests.`
-- acceptance: `UI handles new validation responses without regressions.`
-- done_when: `UI tests pass and acceptance scenarios are satisfied.`
-- evidence: `link to commit/test output`
+Describe incremental value, the edits involved, and the validation signal.
 
-## Progress Log
-| timestamp | task_seq | update | evidence |
-|---|---|---|---|
-| <YYYY-MM-DD HH:MM> | 1 | planned | link to PR/test output |
+## Plan of Work
+
+Describe the edit sequence in prose with specific file paths and symbols to change.
+
+## Concrete Steps
+
+List exact commands with working directory and expected output snippets.
+
+From repo root:
+
+    cd /path/to/repo
+    <command>
+
+Expected:
+
+    <short expected output>
+
+## Validation and Acceptance
+
+Define behavior-level acceptance with exact checks.
+
+- Run: `<project test command>`
+- Expect: `<N> passing; specific new/changed test behavior>`
+- Exercise: `<manual/e2e scenario with concrete input/output>`
+
+## Idempotence and Recovery
+
+Describe safe re-runs, rollback paths, and cleanup steps for partial failures.
+
+## Artifacts and Notes
+
+Add concise evidence snippets that prove progress and correctness.
+
+    <short transcript, diff excerpt, or log snippet>
+
+## Interfaces and Dependencies
+
+Name interfaces, modules, libraries, and service boundaries affected, including required signatures or contracts.
 
 ## Review Findings
-<!-- Populated by he-review -->
+
+Populated by `he-review`.
 
 ## Verify/Release Decision
-<!-- Populated by he-verify-release -->
+
+Populated by `he-verify-release`.
+
 - decision: GO | NO-GO
 - date:
 - open findings by priority (if any):
@@ -119,3 +116,9 @@ For `plan_mode: execution`, use the full task format:
 - rollback:
 - post-release checks:
 - owner:
+
+## Revision Notes
+
+Append-only notes describing what changed in the plan and why.
+
+- 2026-02-15: Initialized plan from template. Reason: establish PLANS-compliant execution baseline.

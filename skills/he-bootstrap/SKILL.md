@@ -1,12 +1,12 @@
 ---
 name: he-bootstrap
-description: Bootstraps a repository for the harness-engineered workflow by creating AGENTS.md, docs/specs, docs/plans, docs/generated, and baseline tracking files. Use when setting up a new project before running he-intake through he-learn.
+description: Bootstraps a repository for the harness-engineered workflow by creating AGENTS.md, docs/specs, docs/spikes, docs/plans, docs/generated, and baseline tracking files aligned to the PLANS.md contract.
 argument-hint: "[optional target repo path; defaults to current directory]"
 ---
 
 # HE Bootstrap
 
-Initialize the docs structure required by the `he-*` workflow while preserving this repo's `docs/specs` and `docs/plans` conventions.
+Initialize the docs structure required by the `he-*` workflow while preserving this repo's docs conventions.
 
 ## Inputs
 
@@ -16,6 +16,7 @@ Initialize the docs structure required by the `he-*` workflow while preserving t
 ## Created Structure
 
 - `docs/specs/`
+- `docs/spikes/`
 - `docs/plans/active/`
 - `docs/plans/completed/`
 - `docs/design-docs/`
@@ -30,6 +31,7 @@ Create these only if missing:
 - `docs/plans/tech-debt-tracker.md`
 - `docs/specs/README.md`
 - `docs/specs/index.md`
+- `docs/spikes/README.md`
 - `docs/plans/README.md`
 - `docs/generated/README.md`
 - `docs/generated/db-schema.md`
@@ -56,6 +58,7 @@ Each created file has a source template in `templates/`:
 - `docs/plans/tech-debt-tracker.md` <- `templates/docs/plans/tech-debt-tracker.md`
 - `docs/specs/README.md` <- `templates/docs/specs/README.md`
 - `docs/specs/index.md` <- `templates/docs/specs/index.md`
+- `docs/spikes/README.md` <- `templates/docs/spikes/README.md`
 - `docs/plans/README.md` <- `templates/docs/plans/README.md`
 - `docs/generated/README.md` <- `templates/docs/generated/README.md`
 - `docs/generated/db-schema.md` <- `templates/docs/generated/db-schema.md`
@@ -106,6 +109,7 @@ bash skills/he-bootstrap/templates/bootstrap.sh --with-architecture
 
 ```bash
 test -d docs/specs &&
+test -d docs/spikes &&
 test -d docs/plans/active &&
 test -d docs/plans/completed &&
 test -d docs/design-docs &&
@@ -139,7 +143,7 @@ Compile a detection summary with suggested values for each domain.
 
 Before asking, check the target domain doc for existing content beyond the template stub. If a doc already has real content, skip that question — the doc itself is the answer record.
 
-Ask the following questions using `AskUserQuestion` (Claude Code) or `request_user_input` (Codex). Pre-fill suggestions from auto-detection where available.
+Ask the following questions in chat. Pre-fill suggestions from auto-detection where available.
 
 | # | Domain Doc | Question |
 |---|---|---|
@@ -181,8 +185,6 @@ Start the first initiative with:
 1. `he-intake` to create `docs/specs/<slug>.md`
 2. `he-plan` to create `docs/plans/active/<slug>.md`
 
-## Transition Options
+## Transition
 
-Present 2-3 explicit next-step options with a recommended default. Use `request_user_input` (Codex) or `AskUserQuestion` (Claude Code) in Plan mode; otherwise ask in chat. Wait for user selection before proceeding.
-
-At least one option must be `Next step: he-intake`.
+Default next phase is `he-intake`.

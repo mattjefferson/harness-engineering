@@ -50,8 +50,6 @@ Record drift findings with explicit priority.
 - Cleanup initiatives are queued as normal slug-based specs/plans
 - Docs commit gate passes
 
-## Transition Options
+## Transition
 
-Present 2-3 explicit next-step options with a recommended default. Use `request_user_input` (Codex) or `AskUserQuestion` (Claude Code) in Plan mode; otherwise ask in chat. Wait for user selection before proceeding.
-
-At least one option must be `Next step: he-intake` for a cleanup initiative slug.
+Default next phase is `he-intake` for a cleanup initiative slug.

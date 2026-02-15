@@ -53,6 +53,7 @@ This approach is influenced by:
   - `he-learn`
   - `he-doc-gardening`
   - `he-workflow` (orchestrator)
+- `agent-browser`: browser automation CLI skill for agentic E2E verification (snapshots, clicks, form fills, screenshots, recordings).
 - Template documents for specs, plans, learnings, and verify/release decisions.
 - `scripts/install.sh` to copy these skills into `.agents` and sync into Claude/extra skill directories.
 
@@ -73,6 +74,10 @@ This approach is influenced by:
 ├── scripts/
 │   └── install.sh
 └── skills/
+    ├── agent-browser/
+    │   ├── SKILL.md
+    │   ├── references/
+    │   └── templates/
     ├── he-bootstrap/
     │   ├── SKILL.md
     │   └── templates/
@@ -197,11 +202,12 @@ Use custom source and agents home:
 
 | Skill | Primary Purpose | Key Output / Gate |
 |---|---|---|
-| `he-bootstrap` | Initialize workflow docs structure in a project | Creates `docs/specs`, `docs/plans`, `docs/generated`, `docs/references` |
+| `agent-browser` | Agentic browser automation for E2E verification | Screenshots/recordings/text extraction as evidence |
+| `he-bootstrap` | Initialize workflow docs structure in a project | Creates `docs/specs`, `docs/spikes`, `docs/plans`, `docs/generated`, `docs/references` |
 | `he-intake` | Convert request into a concrete initiative spec | `docs/specs/<slug>.md` |
-| `he-spike` | Time-boxed investigation for unclear/high-risk work | `docs/specs/<slug>-spike.md` |
-| `he-plan` | Convert spec into executable active plan with DAG | `docs/plans/active/<slug>.md` |
-| `he-implement` | Execute tasks in dependency-aware parallel batches | Updates plan progress and uses `docs/generated/*` context |
+| `he-spike` | Time-boxed investigation for unclear/high-risk work | `docs/spikes/<slug>-spike.md` |
+| `he-plan` | Convert spec into a PLANS.md-compliant ExecPlan | `docs/plans/active/<slug>.md` |
+| `he-implement` | Execute milestones from Progress checkboxes | Updates living plan sections and uses `docs/generated/*` context |
 | `he-review` | Run parallel review fanout + priority gating | Review findings in active plan |
 | `he-verify-release` | Check release readiness and record GO/NO-GO | Verify/release decision section in plan |
 | `he-learn` | Capture post-release lessons + archive plan | Move plan to `docs/plans/completed/<slug>.md` |
@@ -238,25 +244,25 @@ Example:
 
 ### Plan modes
 
-- `lightweight`: small, low-complexity work captured in `docs/plans/active/<slug>.md` with concise sections
-- `execution`: complex work captured in `docs/plans/active/<slug>.md` with full DAG and logs
+- `lightweight`: small, low-complexity work captured with fewer milestones and concise prose
+- `execution`: complex work captured with deeper context, milestones, and richer evidence
 
 ### Source of truth hierarchy (in consuming repos)
 
 1. Human intent: `docs/specs/<slug>.md`
-2. Execution plan: `docs/plans/active/<slug>.md` (`plan_mode: lightweight|execution`)
-3. Generated context: `docs/generated/` (for example `docs/generated/db-schema.md`)
+2. Spike findings: `docs/spikes/<slug>-spike.md` (if a spike was run)
+3. Execution plan: `docs/plans/active/<slug>.md` (`plan_mode: lightweight|execution`)
+4. Generated context: `docs/generated/` (for example `docs/generated/db-schema.md`)
 
 ### Hard gates
 
 - **Doc commit gate** between phase transitions
 - **Priority gate**: unresolved `critical`/`high` findings block progression
-- **Dependency gate**: tasks run only when dependencies are satisfied
-- **Task numbering**: use hierarchical sequence IDs (`1`, `1.1`, `1.2`) for tasks/subtasks
-- **Task detail gate**: each task detail uses `#### [ ] <task_seq> [Action-oriented title]` with concrete files/tests/verification
-- **Testing gate**: every task specifies `test_type` (unit or e2e) — no mocks
-- **Completion visibility gate**: Task DAG status is the single source of truth; implementation step checkboxes track local progress
-- **Plan log gate**: active plans include both `Decision Log` and `Progress Log`
+- **Progress gate**: `## Progress` is the single checklist section and must be timestamped with stable IDs
+- **Section gate**: active plans include all required PLANS sections (`Purpose`, `Progress`, `Surprises`, `Decision Log`, `Outcomes`, `Context`, `Milestones`, `Plan of Work`, `Concrete Steps`, `Validation`, `Idempotence`, `Artifacts`, `Interfaces`, `Revision Notes`)
+- **Validation gate**: plans include concrete commands and observable acceptance outcomes
+- **Testing gate**: verification uses unit/e2e evidence only — no mocks
+- **Living-plan gate**: `Surprises & Discoveries`, `Decision Log`, `Outcomes & Retrospective`, and `Revision Notes` are append-only and current
 
 ### Generated context files
 
@@ -286,6 +292,7 @@ bash path/to/harness-engineering/skills/he-bootstrap/templates/bootstrap.sh --wi
 
 ```bash
 test -d docs/specs &&
+test -d docs/spikes &&
 test -d docs/plans/active &&
 test -d docs/plans/completed &&
 test -d docs/design-docs &&

@@ -23,35 +23,35 @@ When scoping a new initiative, use subagents to research the codebase in paralle
 
 ## Intake Procedure
 
-1. Define a concise goal statement (problem + target user/outcome).
+1. Define a concise purpose/big-picture statement (problem + target user/outcome).
 2. Define scope with `In Scope` and explicit `Boundaries` (deliberate exclusions).
 3. Define requirements in a table with stable IDs (`R1`, `R2`, ...) and priorities.
 4. Define measurable success criteria.
 5. Define constraints (time, risk, compatibility, performance).
 6. Classify overall priority (`critical`, `high`, `medium`, `low`).
-7. Draft initial task graph candidates with rough dependencies using sequence IDs (`1`, `1.1`, `1.2`) and include priority for each task.
-8. Add `Next Steps` and initialize `Change Log`.
+7. Draft initial milestone candidates (`M1`, `M2`, ...) with observable outcomes and likely risk hotspots.
+8. Add `Handoff` and initialize `Revision Notes` (append-only).
 
 ## Progressive Disclosure Rules
 
-- Always include: `Goal`, `Scope`, `Requirements`, `Success Criteria`, `Overall Priority`, `Initial Task Candidates`, `Next Steps`.
+- Always include: `Purpose / Big Picture`, `Scope`, `Non-Goals`, `Risks`, `Rollout`, `Validation and Acceptance Signals`, `Requirements`, `Success Criteria`, `Priority`, `Initial Milestone Candidates`, `Handoff`.
 - Include only when needed: `Chosen Direction`, `Alternatives Considered`, `Key Decisions`, `Open Questions`.
 - Keep implementation detail out of intake spec (libraries/endpoints/schema details belong in planning).
 
 ## Plan Path Selection (Required)
 
-Select `plan_mode` in the spec metadata:
+Select `plan_mode` in the spec frontmatter:
 
 - `lightweight` when all are true:
-  - Change is small (typically <= 3 tasks and <= 3 files)
+  - Change is small (typically <= 3 milestones and <= 3 files)
   - No schema migration, auth change, security boundary change, or public API contract break
   - Overall risk is not `critical`
-  - Verification can be covered by a short targeted test set
+  - Validation can be covered by a short targeted test set
 - `execution` for all other work
 
-Write `plan_mode: <lightweight|execution>` in `docs/specs/<slug>.md`.
+Write `plan_mode: <lightweight|execution>` in the YAML frontmatter of `docs/specs/<slug>.md`.
 
-Set `spike_recommended: yes` if the fuzzy-idea loop concludes a spike is needed, otherwise `spike_recommended: no`.
+Set `spike_recommended: yes` in YAML frontmatter if the fuzzy-idea loop concludes a spike is needed, otherwise `spike_recommended: no`.
 
 ## Fuzzy-Idea Loop
 
@@ -69,18 +69,16 @@ Use `templates/spec-template.md`.
 ## Exit Gate
 
 - Spec exists at `docs/specs/<slug>.md`
-- Goal is explicit
+- Purpose / Big Picture is explicit
 - Scope includes explicit boundaries
 - Requirements table exists with stable requirement IDs (`R1+`)
 - Success criteria are measurable
-- Next steps are explicit
+- Handoff is explicit
 - Priority assigned
 - `plan_mode` is assigned (`lightweight` or `execution`)
 - `spike_recommended` is assigned (`yes` or `no`)
 - Docs commit gate passes
 
-## Transition Options
+## Transition
 
-Present 2-3 explicit next-step options with a recommended default. Use `request_user_input` (Codex) or `AskUserQuestion` (Claude Code) in Plan mode; otherwise ask in chat. Wait for user selection before proceeding.
-
-At least one option must be `Next step: he-plan` (or `Next step: he-spike` if a spike is recommended).
+Default next phase is `he-plan` (or `he-spike` when `spike_recommended: yes`).

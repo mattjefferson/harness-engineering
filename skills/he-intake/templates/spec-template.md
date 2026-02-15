@@ -1,14 +1,16 @@
+---
+slug: <slug>
+status: intake-complete
+date: <YYYY-MM-DD>
+owner: <name or team>
+plan_mode: <lightweight|execution>
+spike_recommended: <yes|no>
+priority: <critical|high|medium|low>
+---
+
 # <title>
 
-## Metadata
-- slug: <slug>
-- status: intake-complete
-- date: <YYYY-MM-DD>
-- owner: <name or team>
-- plan_mode: <lightweight|execution>
-- spike_recommended: <yes|no>
-
-## Goal
+## Purpose / Big Picture
 ...
 
 ## Scope
@@ -18,6 +20,18 @@
 ### Boundaries
 - ... (explicitly excluded and why)
 
+## Non-Goals
+- ...
+
+## Risks
+- ...
+
+## Rollout
+- ...
+
+## Validation and Acceptance Signals
+- ...
+
 ## Requirements
 | ID | Priority | Requirement |
 |---|---|---|
@@ -25,7 +39,6 @@
 | R2 | high | ... |
 | R3 | medium | ... |
 | R4 | low | ... |
-| R5 | out | ... (explicit exclusion rationale) |
 
 ## Chosen Direction (Optional)
 - ...
@@ -43,26 +56,26 @@
 - **[Affects Direction]** ...
 
 ## Success Criteria
-- [ ] ... (measurable)
+- ... (measurable)
 
 ## Constraints
 - ...
 
-## Overall Priority
-- level: <critical|high|medium|low>
+## Priority
+- priority: <critical|high|medium|low> (must match frontmatter)
 - rationale: ...
 
-## Initial Task Candidates
-| task_seq | summary | priority | depends_on |
-|---|---|---|---|
-| 1 | ... | medium | none |
-| 1.1 | ... | high | 1 |
-| 1.2 | ... | low | 1 |
+## Initial Milestone Candidates
+- M1: ... (observable outcome, likely files/surfaces)
+- M2: ... (observable outcome, likely files/surfaces)
+- M3: ... (optional follow-up)
 
-## Next Steps
-- `Next step: he-plan` (or `Next step: he-spike` if spike_recommended is yes)
+## Handoff
+- default: `he-plan`
+- if `spike_recommended: yes`: `he-spike`
 
-## Change Log
-| date | change | rationale |
-|---|---|---|
-| <YYYY-MM-DD> | Initial intake spec created | Establish baseline scope and requirements |
+## Revision Notes
+
+Append-only notes describing what changed in the spec and why.
+
+- <YYYY-MM-DD>: Initialized spec from template. Reason: establish intake baseline.
