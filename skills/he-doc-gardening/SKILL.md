@@ -52,4 +52,4 @@ Record drift findings with explicit priority.
 
 ## Transition
 
-Default next phase is `he-intake` for a cleanup initiative slug.
+Default next phase is `he-spec` for a cleanup initiative slug.

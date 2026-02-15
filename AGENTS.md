@@ -13,7 +13,7 @@
 | Skill | Purpose |
 |---|---|
 | `he-bootstrap` | Initialize workflow docs structure |
-| `he-intake` | Convert request into spec |
+| `he-spec` | Convert request into spec |
 | `he-spike` | Time-boxed investigation for unclear work |
 | `he-plan` | Convert spec into executable plan |
 | `he-implement` | Execute tasks in parallel batches |

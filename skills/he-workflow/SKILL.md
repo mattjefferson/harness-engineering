@@ -60,7 +60,7 @@ When a gate fails or a phase reveals issues requiring earlier work:
    - `docs/generated/`
    - `docs/references/`
 3. If required directories are missing, run `he-bootstrap`.
-4. Ensure `docs/specs/<slug>.md` exists; if not, run `he-intake`.
+4. Ensure `docs/specs/<slug>.md` exists; if not, run `he-spec`.
 5. If `spike_recommended: yes` in the spec metadata, run `he-spike`.
 6. Ensure `docs/plans/active/<slug>.md` exists; if missing, run `he-plan`.
 7. Validate active plan has all required PLANS sections:

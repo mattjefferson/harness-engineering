@@ -44,7 +44,7 @@ This approach is influenced by:
 
 - A complete `he-*` skill set for harness-oriented delivery:
   - `he-bootstrap`
-  - `he-intake`
+  - `he-spec`
   - `he-spike`
   - `he-plan`
   - `he-implement`
@@ -86,7 +86,7 @@ This approach is influenced by:
     │       └── bootstrap.sh
     ├── he-doc-gardening/SKILL.md
     ├── he-implement/SKILL.md
-    ├── he-intake/
+    ├── he-spec/
     │   ├── SKILL.md
     │   └── templates/spec-template.md
     ├── he-learn/
@@ -204,7 +204,7 @@ Use custom source and agents home:
 |---|---|---|
 | `agent-browser` | Agentic browser automation for E2E verification | Screenshots/recordings/text extraction as evidence |
 | `he-bootstrap` | Initialize workflow docs structure in a project | Creates `docs/specs`, `docs/spikes`, `docs/plans`, `docs/generated`, `docs/references` |
-| `he-intake` | Convert request into a concrete initiative spec | `docs/specs/<slug>.md` |
+| `he-spec` | Convert request into a concrete initiative spec | `docs/specs/<slug>.md` |
 | `he-spike` | Time-boxed investigation for unclear/high-risk work | `docs/spikes/<slug>-spike.md` |
 | `he-plan` | Convert spec into a PLANS.md-compliant ExecPlan | `docs/plans/active/<slug>.md` |
 | `he-implement` | Execute milestones from Progress checkboxes | Updates living plan sections and uses `docs/generated/*` context |
@@ -307,7 +307,7 @@ test -f docs/QUALITY_SCORE.md
 
 ### Step 3: Run an initiative
 
-- Use `he-intake` to create the spec.
+- Use `he-spec` to create the spec.
 - If feasibility is unclear, use `he-spike` for a time-boxed investigation.
 - Set `plan_mode` in the spec (`lightweight` or `execution`).
 - Use `he-plan` to create the matching active plan file.

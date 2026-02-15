@@ -1,10 +1,10 @@
 ---
-name: he-intake
+name: he-spec
 description: Converts fuzzy requests into a concrete initiative spec in docs/specs using a single slug and measurable success criteria. Use at the start of non-trivial work.
 argument-hint: "[initiative description]"
 ---
 
-# HE Intake
+# HE Spec
 
 Create a decision-ready spec artifact for a new initiative.
 

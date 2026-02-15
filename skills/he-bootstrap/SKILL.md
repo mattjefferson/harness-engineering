@@ -78,7 +78,7 @@ Each created file has a source template in `templates/`:
 
 Plan templates provided by this skill set:
 
-- `skills/he-intake/templates/spec-template.md` (intake output)
+- `skills/he-spec/templates/spec-template.md` (spec output)
 - `skills/he-plan/templates/active-plan-template.md` (`plan_mode: lightweight|execution`)
 
 Optional reference examples (not auto-created by bootstrap):
@@ -182,9 +182,9 @@ If reference repos/projects were provided:
 
 Start the first initiative with:
 
-1. `he-intake` to create `docs/specs/<slug>.md`
+1. `he-spec` to create `docs/specs/<slug>.md`
 2. `he-plan` to create `docs/plans/active/<slug>.md`
 
 ## Transition
 
-Default next phase is `he-intake`.
+Default next phase is `he-spec`.

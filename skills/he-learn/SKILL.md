@@ -58,4 +58,4 @@ Use `templates/learning-entry-template.md`.
 
 ## Transition
 
-Default next phase is `he-doc-gardening` (or `he-intake` for the next initiative).
+Default next phase is `he-doc-gardening` (or `he-spec` for the next initiative).
