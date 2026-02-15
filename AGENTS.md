@@ -21,6 +21,7 @@
 | `he-implement` | Execute tasks in parallel batches |
 | `he-review` | Parallel review fanout + priority gating |
 | `he-verify-release` | Release readiness GO/NO-GO |
+| `he-create-runbook` | Create/update `docs/runbooks/` entries (frontmatter + additive-only integration) |
 | `he-learn` | Capture lessons + archive plan |
 | `he-doc-gardening` | Periodic doc maintenance |
 | `he-worktree` | Isolated workspace setup via git worktree/branch |
