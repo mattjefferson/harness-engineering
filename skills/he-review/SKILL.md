@@ -8,6 +8,15 @@ argument-hint: "[slug or docs/plans/active/<slug>.md]"
 
 Run structured, parallel code review before verify/release.
 
+## Runbooks
+
+These runbooks hold the repo-specific procedures that evolve over time:
+
+- `docs/runbooks/code-review.md`
+- `docs/runbooks/review-findings.md`
+- `docs/runbooks/address-review-findings.md`
+- `docs/runbooks/escalation.md`
+
 ## Inputs
 
 - `docs/plans/active/<slug>.md`
@@ -24,7 +33,12 @@ Refresh generated context before review if stale:
 
 ## Fast-Track Mode (Trivial Changes)
 
-When `plan_mode: trivial`, run a single **correctness reviewer** only instead of the full 4-way fanout. Skip architecture, security, and simplicity reviewers — the trivial criteria already guarantee low risk and single-file scope. All other review mechanics (findings format, priority gate, exit gate) still apply.
+When `plan_mode: trivial`, keep review lightweight but do not waive non-negotiable gates:
+
+- Run **correctness reviewer**
+- Run **security/data reviewer**
+
+Skip architecture and simplicity reviewers — the trivial criteria already guarantee low risk and single-file scope. All other review mechanics (findings format, priority gate, exit gate) still apply.
 
 ## Review Fanout (Parallel)
 
@@ -36,6 +50,16 @@ For `plan_mode: lightweight` or `execution`, launch one subagent per reviewer an
 4. simplicity reviewer
 
 Each subagent receives the active plan, diffs, and generated context.
+
+## Non-Negotiable Gates
+
+Runbooks are additive guidance only. They may add repo-specific checks, but they must not remove or relax these gates:
+
+- A security/data review is always performed.
+- Unresolved `critical` or `high` findings block progression.
+- Mock-based tests remain a `high` priority finding unless the repo explicitly documents an exception.
+
+If a runbook suggests skipping a non-negotiable gate, treat it as policy drift: record a `high` finding and escalate.
 
 ## Review Dimensions
 
@@ -57,6 +81,8 @@ Each finding includes:
 - required action
 - owner
 
+The priority rubric and acceptance conventions live in `docs/runbooks/review-findings.md`.
+
 ## Consolidation
 
 Write consolidated findings into `## Review Findings` in the active plan, including rationale for accepted medium/low findings.
@@ -65,6 +91,15 @@ Write consolidated findings into `## Review Findings` in the active plan, includ
 
 - Any unresolved `critical` or `high` finding blocks progression.
 - `medium` and `low` findings can proceed only if explicitly accepted in writing.
+
+## Judgment Required (Escalate)
+
+Stop and escalate via `docs/runbooks/escalation.md` when:
+
+- Expected behavior is ambiguous or disputed
+- Risk to users/data is unclear
+- Failures are flaky/non-deterministic
+- A "fix" would weaken the evidence or remove meaningful assertions
 
 ## Re-entry on Fundamental Issues
 

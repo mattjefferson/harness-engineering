@@ -66,6 +66,9 @@ copy_if_missing docs/runbooks/record-evidence.md "docs/runbooks/record-evidence.
 copy_if_missing docs/runbooks/ci-failures.md "docs/runbooks/ci-failures.md"
 copy_if_missing docs/runbooks/escalation.md "docs/runbooks/escalation.md"
 copy_if_missing docs/runbooks/merge-change.md "docs/runbooks/merge-change.md"
+copy_if_missing docs/runbooks/code-review.md "docs/runbooks/code-review.md"
+copy_if_missing docs/runbooks/review-findings.md "docs/runbooks/review-findings.md"
+copy_if_missing docs/runbooks/address-review-findings.md "docs/runbooks/address-review-findings.md"
 
 # CI gates for domain docs + artifact structure (specs/plans/spikes).
 copy_if_missing scripts/ci/he-docs-config.sh "scripts/ci/he-docs-config.sh"

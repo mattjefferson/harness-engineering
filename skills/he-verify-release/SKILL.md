@@ -30,7 +30,7 @@ Launch parallel subagents for independent gate items:
 
 1. Required tests pass.
 2. Architecture and safety invariants hold.
-3. No unresolved critical/high findings.
+3. Review gate passed (including security/data review) and there are no unresolved critical/high findings.
 4. Rollback steps are documented and feasible.
 5. Monitoring and post-release checks are defined.
 
