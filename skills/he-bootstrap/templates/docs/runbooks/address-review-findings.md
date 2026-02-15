@@ -23,6 +23,6 @@ called_from:
 5. Update `Progress`, `Decision Log`, and `Revision Notes` in the plan to reflect what changed and why.
 6. Re-run `he-review` if the change materially altered behavior or implementation.
 
-## Re-entry Rule
+## Re-entry Rules
 
-If a review finding reveals a design-level mismatch with the plan's intent, re-enter `he-plan` (not just `he-implement`) and record the decision in the plan.
+See `he-review` SKILL.md § Re-entry Rules for the canonical gates (design-level issues and material behavior changes).

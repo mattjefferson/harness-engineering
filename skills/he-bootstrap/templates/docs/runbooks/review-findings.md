@@ -19,20 +19,9 @@ Each finding includes:
 - required action: what must change or what proof is missing
 - owner: who is responsible (team/name/agent)
 
-## Priority Rubric (Default)
+## Priority Rubric, No-Mocks Policy, Mandatory Coverage
 
-- `critical`: data loss/security issue, correctness bug with high blast radius, or unsafe merge risk
-- `high`: user-visible bug, missing rollback/evidence for a risky change, or tests that do not prove behavior
-- `medium`: maintainability/clarity issues that should be addressed soon, small correctness edge cases
-- `low`: nits, stylistic consistency, small refactors that improve readability
-
-## No-Mocks Policy
-
-If the repo follows a "unit or e2e only" philosophy, mock-based tests are a `high` finding unless the repo explicitly documents an exception.
-
-## Mandatory Coverage
-
-- Missing the security/data review is a `high` finding (non-negotiable gate).
+Canonical definitions live in `he-review` SKILL.md. Add repo-specific examples or exceptions below — do not redefine the severity levels or gate rules.
 
 ## Acceptance Rules
 

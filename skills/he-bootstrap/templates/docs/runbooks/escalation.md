@@ -30,4 +30,4 @@ Provide:
 
 ## Default Safe Action
 
-If in doubt: record `NO-GO`, identify re-entry target (`he-implement` or `he-plan`), and list the missing evidence.
+See `he-verify-release` SKILL.md § Decision Rules for the canonical default-safe-action gate.

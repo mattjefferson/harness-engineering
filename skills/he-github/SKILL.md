@@ -15,7 +15,7 @@ Drive the PR lifecycle end-to-end with `gh`, while keeping harness artifacts (sp
 3. **Plan is canonical**: the PR description links to the active plan and key evidence; it does not replace it.
 4. **CI is evidence**: treat failing checks as signal; follow `docs/runbooks/ci-failures.md`.
 5. **Feedback loop**: respond to review comments by updating code + plan + evidence, then push and re-check.
-6. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `python scripts/runbooks/select-runbooks.py --skill <skill>`).
+6. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `bash scripts/runbooks/select-runbooks.sh --skill <skill>`).
 
 ## Runbooks
 
@@ -28,7 +28,7 @@ Runbooks are additive (not required). A bootstrapped repo usually includes:
 
 In addition, apply any runbooks returned by:
 
-`python scripts/runbooks/select-runbooks.py --skill he-github`
+`bash scripts/runbooks/select-runbooks.sh --skill he-github`
 
 ## Inputs
 
@@ -87,9 +87,11 @@ If a PR already exists:
 
 ## Merge (Consent + GO Required)
 
-Preconditions:
+Preconditions (canonical — runbooks may add repo-specific items but must not remove these):
 
 - `he-verify-release` decision is `GO` in the active plan.
-- Required checks are green.
+- All required checks are green (local and/or CI).
+- Evidence is linked in the plan (and PR body if present).
+- No unresolved `critical` or `high` review findings.
 
 When approved, merge using the repo policy in `docs/runbooks/merge-change.md` (often via `gh pr merge`).

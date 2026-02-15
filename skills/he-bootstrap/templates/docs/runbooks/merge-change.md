@@ -11,9 +11,7 @@ This runbook captures the repo-specific merge gate. Keep it short and make it ob
 
 ## Preconditions
 
-- `he-verify-release` decision is `GO` in `docs/plans/active/<slug>.md`
-- All required checks are green (local and/or CI, per repo policy)
-- Evidence is linked in the plan (and PR if present)
+See `he-github` SKILL.md § Merge for the canonical merge gate. Add repo-specific preconditions below.
 
 ## Merge Checklist (Customize Per Repo)
 

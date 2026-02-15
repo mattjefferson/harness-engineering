@@ -15,7 +15,7 @@ Validate release readiness and record a GO/NO-GO decision.
 3. Rollback is required: explicit and feasible, not hand-wavy.
 4. Evidence for user-visible changes: capture agentic E2E artifacts when UI/behavior changes.
 5. Escalate when uncertain: flaky failures, missing evidence, or unclear user/data risk.
-6. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `python scripts/runbooks/select-runbooks.py --skill <skill>`), but never waive/override anything codified here.
+6. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `bash scripts/runbooks/select-runbooks.sh --skill <skill>`), but never waive/override anything codified here.
 
 ## Runbooks
 
@@ -31,7 +31,7 @@ Runbooks are additive only. If a runbook is missing or low-quality, do not block
 
 In addition to the baseline list above, apply any additional runbooks returned by:
 
-`python scripts/runbooks/select-runbooks.py --skill he-verify-release`
+`bash scripts/runbooks/select-runbooks.sh --skill he-verify-release`
 
 ## Inputs
 
@@ -61,6 +61,7 @@ Fill in `## Verify/Release Decision` in `docs/plans/active/<slug>.md`.
 
 - `NO-GO` if any blocking gate fails.
 - `GO` only with complete evidence and explicit rollback path.
+- **Default safe action**: when uncertain, the decision is `NO-GO`. Record the re-entry target (`he-implement` or `he-plan`) and list the missing evidence. Do not default to `GO` with caveats.
 
 ## Judgment Required (Escalate)
 

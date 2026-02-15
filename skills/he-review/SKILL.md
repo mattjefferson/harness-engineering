@@ -13,7 +13,7 @@ Run structured, parallel code review before verify/release.
 1. Security/data review is mandatory (even for trivial changes).
 2. The priority gate is real: unresolved `critical`/`high` blocks progression.
 3. Findings must be actionable: file/symbol + required action + owner.
-4. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `python scripts/runbooks/select-runbooks.py --skill <skill>`), but never waive/override any gates codified here.
+4. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `bash scripts/runbooks/select-runbooks.sh --skill <skill>`), but never waive/override any gates codified here.
 5. Escalate on judgment: unclear risk, ambiguous behavior, or flaky failures.
 
 ## Runbooks
@@ -29,7 +29,7 @@ Runbooks are additive only. If a runbook is missing or low-quality, do not block
 
 In addition to the baseline list above, apply any additional runbooks returned by:
 
-`python scripts/runbooks/select-runbooks.py --skill he-review`
+`bash scripts/runbooks/select-runbooks.sh --skill he-review`
 
 ## Inputs
 
@@ -95,7 +95,22 @@ Each finding includes:
 - required action
 - owner
 
-The priority rubric and acceptance conventions live in `docs/runbooks/review-findings.md`.
+## Priority Rubric (Canonical)
+
+These definitions are the system of record. Runbooks may add repo-specific examples but must not redefine severity levels.
+
+- `critical`: data loss/security issue, correctness bug with high blast radius, or unsafe merge risk
+- `high`: user-visible bug, missing rollback/evidence for a risky change, or tests that do not prove behavior
+- `medium`: maintainability/clarity issues that should be addressed soon, small correctness edge cases
+- `low`: nits, stylistic consistency, small refactors that improve readability
+
+### No-Mocks Policy
+
+Mock-based tests are a `high` finding unless the repo explicitly documents an exception. Repos following a "unit or e2e only" philosophy must not use mocks as a substitute for real integration coverage.
+
+### Mandatory Security Coverage
+
+Missing the security/data review is a `high` finding (non-negotiable gate).
 
 ## Consolidation
 
@@ -115,13 +130,19 @@ Stop and escalate via `docs/runbooks/escalation.md` when:
 - Failures are flaky/non-deterministic
 - A "fix" would weaken the evidence or remove meaningful assertions
 
-## Re-entry on Fundamental Issues
+## Re-entry Rules
+
+### Fundamental Design Issues
 
 When review reveals a design-level issue:
 
 - Return to `he-plan`.
 - Append a `Decision Log` entry describing the issue and chosen correction.
 - Update affected `Progress` items and `Revision Notes`.
+
+### Material Behavior Changes
+
+When addressing review findings materially alters behavior or implementation (not just style/formatting fixes), re-run `he-review` before proceeding to `he-verify-release`. This is a gate, not optional guidance.
 
 ## Exit Gate
 
