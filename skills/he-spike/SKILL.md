@@ -1,6 +1,6 @@
 ---
 name: he-spike
-description: Runs a time-boxed investigation or throwaway prototype to validate feasibility, reduce ambiguity, or compare approaches before planning. Use between intake and plan when the path forward is unclear.
+description: Runs a time-boxed investigation or throwaway prototype to validate feasibility, reduce ambiguity, or compare approaches before planning. Use between spec and plan when the path forward is unclear.
 argument-hint: "[slug or docs/specs/<slug>.md]"
 ---
 
@@ -17,7 +17,7 @@ Run a focused, time-boxed investigation to reduce uncertainty before planning.
 
 ## Inputs
 
-- `docs/specs/<slug>.md` (the intake spec that triggered the spike)
+- `docs/specs/<slug>.md` (the spec that triggered the spike)
 - Specific questions to answer or hypotheses to validate
 
 ## Spike Contract
@@ -33,12 +33,18 @@ When comparing multiple approaches, **launch one subagent per approach** to expl
 ## Output
 
 - `docs/spikes/<slug>-spike.md` with:
-  - **Question**: What we set out to learn
+  - **Context**: Why the spike exists and what uncertainty is being reduced
+  - **Validation Goal**: What understanding the spike must produce
   - **Approach**: What we built or investigated
+  - **Progress**: Temporary in-progress notes (remove at finalization)
   - **Findings**: What we learned (with evidence)
-  - **Recommendation**: Which approach to take and why
+  - **Decisions**: Decisions and rationale based on findings
+  - **Recommendation**: Which path to take and why
+  - **Impact on Upstream Docs**: Required spec/plan updates
+  - **Spike Code**: Prototype/worktree/branch artifact references
   - **Remaining unknowns**: What we still don't know
   - **Time spent**: Actual vs. budgeted
+  - **Revision Notes**: Append-only changes to the spike doc
 
 Use the spike template when creating the doc:
 
@@ -47,7 +53,7 @@ Use the spike template when creating the doc:
 ## Exit Gate
 
 - Spike findings document exists at `docs/spikes/<slug>-spike.md`
-- Original question is answered or explicitly marked as still-unknown with next steps
+- Validation goal is answered or explicitly marked as still-unknown with next steps
 - Recommendation is actionable (feeds directly into planning)
 - Docs commit gate passes
 

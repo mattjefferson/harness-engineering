@@ -74,12 +74,17 @@ default_required_keys=(
 )
 
 default_required_headings=(
-  "## Question"
+  "## Context"
+  "## Validation Goal"
   "## Approach"
   "## Findings"
+  "## Decisions"
   "## Recommendation"
+  "## Impact on Upstream Docs"
+  "## Spike Code"
   "## Remaining Unknowns"
   "## Time Spent"
+  "## Revision Notes"
 )
 
 check_placeholders() {
