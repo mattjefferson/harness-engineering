@@ -1,10 +1,10 @@
 ---
-name: he-create-runbook
+name: he-runbook
 description: Creates or edits repo runbooks in docs/runbooks/ with correct frontmatter (title/use_when/called_from), additive-only semantics, and predictable linkage so skills can automatically apply them.
 argument-hint: "[runbook topic or target path under docs/runbooks/]"
 ---
 
-# HE Create Runbook
+# HE Runbook
 
 Create or update a runbook (process/checklist) that can evolve per project, while keeping skill-enforced gates immutable.
 
@@ -34,7 +34,7 @@ Create or update a runbook (process/checklist) that can evolve per project, whil
 2. Choose filename:
    - `docs/runbooks/<kebab-topic>.md` (short, stable, descriptive).
 3. Start from the template:
-   - `skills/he-create-runbook/templates/runbook-template.md`
+   - `skills/he-runbook/templates/runbook-template.md`
 4. Set required frontmatter:
    - `title`: human readable.
    - `use_when`: a single-sentence trigger.
@@ -53,4 +53,3 @@ Create or update a runbook (process/checklist) that can evolve per project, whil
 ## Conflict Rule (Non-Negotiable)
 
 If a runbook contradicts a skill gate, the skill wins. Treat the runbook as drift and escalate/update it.
-
