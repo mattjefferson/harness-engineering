@@ -38,14 +38,8 @@ Create these only if missing:
 - `docs/generated/component-tree.md`
 - `docs/generated/dependency-graph.md`
 - `docs/design-docs/index.md`
-- `docs/design-docs/core-beliefs.md`
-- `docs/DESIGN.md`
-- `docs/FRONTEND.md`
 - `docs/PLANS.md`
-- `docs/PRODUCT_SENSE.md`
-- `docs/RELIABILITY.md`
-- `docs/SECURITY.md`
-- `docs/OBSERVABILITY.md`
+- `docs/DOMAIN_DOCS.md`
 
 ## Templates
 
@@ -64,14 +58,8 @@ Each created file has a source template in `templates/`:
 - `docs/generated/component-tree.md` <- `templates/docs/generated/component-tree.md`
 - `docs/generated/dependency-graph.md` <- `templates/docs/generated/dependency-graph.md`
 - `docs/design-docs/index.md` <- `templates/docs/design-docs/index.md`
-- `docs/design-docs/core-beliefs.md` <- `templates/docs/design-docs/core-beliefs.md`
-- `docs/DESIGN.md` <- `templates/docs/DESIGN.md`
-- `docs/FRONTEND.md` <- `templates/docs/FRONTEND.md`
 - `docs/PLANS.md` <- `templates/docs/PLANS.md`
-- `docs/PRODUCT_SENSE.md` <- `templates/docs/PRODUCT_SENSE.md`
-- `docs/RELIABILITY.md` <- `templates/docs/RELIABILITY.md`
-- `docs/SECURITY.md` <- `templates/docs/SECURITY.md`
-- `docs/OBSERVABILITY.md` <- `templates/docs/OBSERVABILITY.md`
+- `docs/DOMAIN_DOCS.md` <- `templates/docs/DOMAIN_DOCS.md`
 
 Plan templates provided by this skill set:
 
@@ -110,54 +98,12 @@ test -d docs/generated &&
 test -f AGENTS.md &&
 test -f docs/plans/tech-debt-tracker.md &&
 test -f docs/generated/db-schema.md &&
-test -f docs/design-docs/core-beliefs.md
+test -f docs/DOMAIN_DOCS.md
 ```
 
-## Seeding Phase
+## Domain Docs
 
-After creating the file structure, seed domain docs with real project context so agents have guidance from the first initiative.
-
-### Step 1: Auto-Detect
-
-Launch subagents to scan the target repo in parallel for:
-
-- **Package manifests** — `package.json`, `Cargo.toml`, `pyproject.toml`, `go.mod`, `Gemfile`
-- **Framework config** — `next.config.*`, `vite.config.*`, `tsconfig.json`, `angular.json`, etc.
-- **Test setup** — `jest.config.*`, `vitest.config.*`, `pytest.ini`, test directories, coverage config
-- **CI/CD config** — `.github/workflows/`, `Makefile`, `Dockerfile`, `.gitlab-ci.yml`
-- **Auth patterns** — auth-related deps, middleware files, env var references
-- **Observability config** — logging libraries (`winston`, `pino`, `structlog`, `slog`), metrics endpoints (`/metrics`, Prometheus config), trace config (`opentelemetry`, `jaeger`), health check routes (`/healthz`, `/readyz`)
-- **README and existing docs** — `README.md`, `CONTRIBUTING.md`, existing `docs/` content
-
-Compile a detection summary with suggested values for each domain.
-
-### Step 2: Quick Q&A
-
-Before asking, check the target domain doc for existing content beyond the template stub. If a doc already has real content, skip that question — the doc itself is the answer record.
-
-Ask the following questions in chat. Pre-fill suggestions from auto-detection where available.
-
-| # | Domain Doc | Question |
-|---|---|---|
-| 1 | DESIGN.md | What are your core design principles? (e.g., "mobile-first", "minimalist", "data-dense dashboards") |
-| 2 | FRONTEND.md | What's your frontend stack and key conventions? (e.g., React/Next.js, component library, styling approach) |
-| 3 | PRODUCT_SENSE.md | Who are your target users and what outcomes matter most? |
-| 4 | RELIABILITY.md | What are your reliability requirements? (e.g., uptime targets, error budgets, monitoring) |
-| 5 | SECURITY.md | What security concerns apply? (e.g., auth model, data sensitivity, compliance requirements) |
-| 6 | core-beliefs.md | What are 2-3 non-negotiable engineering beliefs for this project? |
-| 7 | OBSERVABILITY.md | What observability tools do you use? (e.g., structured logging, Prometheus, OpenTelemetry, health checks) |
-
-Auto-detected values appear as pre-filled suggestions. The user can accept, modify, or replace them.
-
-### Step 3: Populate Domain Docs
-
-Write answers into the domain doc templates, replacing `<!-- seed: ... -->` markers with real content. Each domain doc has structured sections ready for population.
-
-### Seeding Behavior Notes
-
-- **Existing content wins** — if a domain doc already has real content beyond the template stub, skip seeding for that doc
-- **Graceful degradation** — if nothing is detected (empty repo), skip auto-detect and rely on Q&A answers alone
-- **Additive only** — `he-learn` can update seeded docs without conflict; seed comments get replaced, section structure remains
+Domain docs (DESIGN.md, FRONTEND.md, SECURITY.md, etc.) are **not** created at bootstrap. They are created on-demand by downstream skills (`he-plan`, `he-implement`, `he-learn`) when they have real context to populate them. See `docs/DOMAIN_DOCS.md` for the full registry, auto-detect signals, and seed questions.
 
 ## Next Step
 

@@ -98,16 +98,18 @@ check_headings_for() {
 }
 
 check_domain_doc_headings() {
-  check_headings_for "docs/SECURITY.md" HARNESS_REQUIRED_HEADINGS_docs_SECURITY_md
-  check_headings_for "docs/RELIABILITY.md" HARNESS_REQUIRED_HEADINGS_docs_RELIABILITY_md
-  check_headings_for "docs/FRONTEND.md" HARNESS_REQUIRED_HEADINGS_docs_FRONTEND_md
-  check_headings_for "docs/DESIGN.md" HARNESS_REQUIRED_HEADINGS_docs_DESIGN_md
-  check_headings_for "docs/PRODUCT_SENSE.md" HARNESS_REQUIRED_HEADINGS_docs_PRODUCT_SENSE_md
+  # Domain docs are created on-demand — only lint headings for docs that exist.
+  [[ -f "docs/SECURITY.md" ]] && check_headings_for "docs/SECURITY.md" HARNESS_REQUIRED_HEADINGS_docs_SECURITY_md
+  [[ -f "docs/RELIABILITY.md" ]] && check_headings_for "docs/RELIABILITY.md" HARNESS_REQUIRED_HEADINGS_docs_RELIABILITY_md
+  [[ -f "docs/FRONTEND.md" ]] && check_headings_for "docs/FRONTEND.md" HARNESS_REQUIRED_HEADINGS_docs_FRONTEND_md
+  [[ -f "docs/DESIGN.md" ]] && check_headings_for "docs/DESIGN.md" HARNESS_REQUIRED_HEADINGS_docs_DESIGN_md
+  [[ -f "docs/PRODUCT_SENSE.md" ]] && check_headings_for "docs/PRODUCT_SENSE.md" HARNESS_REQUIRED_HEADINGS_docs_PRODUCT_SENSE_md
+  return 0
 }
 
 check_seed_markers() {
   local doc
-  for doc in "docs/DESIGN.md" "docs/FRONTEND.md" "docs/PRODUCT_SENSE.md" "docs/RELIABILITY.md" "docs/SECURITY.md"; do
+  for doc in "${HARNESS_DOMAIN_DOCS[@]}"; do
     if [[ -f "$doc" ]] && grep -n "<!-- seed:" "$doc" >/dev/null 2>&1; then
       local msg="Template seed markers remain in '$doc'. Fix: replace/remove <!-- seed: ... --> blocks once this repo has real domain context."
       if [[ "$HARNESS_FAIL_ON_SEED_MARKERS" == "1" ]]; then

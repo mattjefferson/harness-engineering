@@ -22,13 +22,7 @@ Turn execution outcomes into durable improvements.
    - prevention action
    - priority
    - lesson_applied status (`pending|applied`)
-2. Update relevant quality domain docs if policy changed:
-   - `docs/SECURITY.md`
-   - `docs/RELIABILITY.md`
-   - `docs/PRODUCT_SENSE.md`
-   - `docs/DESIGN.md`
-   - `docs/FRONTEND.md`
-   - `docs/OBSERVABILITY.md`
+2. Update relevant domain docs per `docs/DOMAIN_DOCS.md` registry if policy changed.
 3. Move plan to:
    - `docs/plans/completed/<slug>.md`
 

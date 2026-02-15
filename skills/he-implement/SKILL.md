@@ -26,7 +26,7 @@ Each generated file should include a `last_updated` timestamp.
 
 ## Execution Model
 
-1. Read `Purpose / Big Picture`, `Context and Orientation`, `Milestones`, `Plan of Work`, `Concrete Steps`, and `Validation and Acceptance`.
+1. Read `Purpose / Big Picture`, `Context and Orientation`, `Milestones`, `Plan of Work`, `Concrete Steps`, and `Validation and Acceptance`. If implementation reveals a domain doc is missing, wrong, or incomplete, create or update it in-place and note the change in `Revision Notes`. See `docs/DOMAIN_DOCS.md` for the registry.
 2. Build work queue from unchecked `Progress` items (`P1`, `P2`, ...).
 3. Execute in milestone order by default.
 4. Run parallel subagents only for explicitly independent `Progress` items.

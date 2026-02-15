@@ -27,6 +27,10 @@ Convert a spec into a self-contained, novice-guiding execution plan.
 
 Use subagents to gather implementation context before drafting the plan. Run parallel subagents for independent codebase areas (for example data, API, UI, infra), then synthesize findings into one coherent plan in the main thread.
 
+## Domain Doc Check
+
+Before drafting the plan, check `docs/DOMAIN_DOCS.md` for domain docs relevant to this initiative. If a relevant domain doc doesn't exist yet, create it with real content using auto-detect signals and planning context. If it exists but is still a stub, populate it. Domain docs are created on-demand — this is often the first skill that has enough context to write them.
+
 ## Planning Requirements
 
 1. Read `docs/PLANS.md` in full before writing.
@@ -76,6 +80,7 @@ Use `templates/active-plan-template.md`.
 - Milestones describe observable outcomes and verification
 - Concrete commands and expected behavior are documented
 - `Decision Log`, `Surprises & Discoveries`, `Outcomes & Retrospective`, and `Revision Notes` are initialized
+- Domain docs relevant to this initiative exist and have real content (not stubs)
 - Docs commit gate passes
 
 ## Transition

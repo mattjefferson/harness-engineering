@@ -23,6 +23,7 @@ Run this skill periodically to keep docs accurate and aligned with shipped behav
 4. High-churn or complexity hotspots
 5. Flaky test patterns
 6. Stale generated context in `docs/generated/` (check `last_updated` timestamps)
+7. Domain doc staleness — check docs listed in `docs/DOMAIN_DOCS.md` for stubs still containing only `<!-- seed: -->` markers
 
 Each subagent scans one area and returns a list of drift findings with priority. The main thread consolidates and queues fix-up work.
 

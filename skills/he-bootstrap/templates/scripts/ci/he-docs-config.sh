@@ -7,11 +7,18 @@ set -euo pipefail
 HARNESS_REQUIRED_DOCS=(
   "AGENTS.md"
   "docs/PLANS.md"
+  "docs/DOMAIN_DOCS.md"
+)
+
+# Domain docs are created on-demand by skills. Only lint them when they exist.
+HARNESS_DOMAIN_DOCS=(
   "docs/DESIGN.md"
   "docs/FRONTEND.md"
   "docs/PRODUCT_SENSE.md"
   "docs/RELIABILITY.md"
   "docs/SECURITY.md"
+  "docs/OBSERVABILITY.md"
+  "docs/design-docs/core-beliefs.md"
 )
 
 # Required headings per doc (exact heading lines, including the leading ##).
