@@ -52,4 +52,10 @@ When decision is `NO-GO`:
 
 ## Transition
 
-Default next phase is `he-learn` for GO, or the identified re-entry phase for NO-GO.
+Use an interactive question tool at this transition when available (`request_user_input` in Codex Plan mode, `AskUserQuestion` in Claude Code, or equivalent). Offer:
+
+1. Continue to `he-learn` for GO (or the identified re-entry phase for NO-GO) (recommended)
+2. Run one more build-feedback round in `he-verify-release`
+3. Handoff/pause with status and explicit next action
+
+If running autonomously or no interactive tool is available, follow the recommended path automatically and log an `Autonomous transition` note in `Decision Log` or `Revision Notes`.

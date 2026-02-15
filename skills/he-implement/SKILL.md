@@ -75,4 +75,10 @@ For browser UI verification, prefer `agent-browser` flows and store durable evid
 
 ## Transition
 
-Default next phase is `he-review` unless the user asks to pause.
+Use an interactive question tool at this transition when available (`request_user_input` in Codex Plan mode, `AskUserQuestion` in Claude Code, or equivalent). Offer:
+
+1. Continue to `he-review` (recommended)
+2. Run one more build-feedback round in `he-implement`
+3. Handoff/pause with status and explicit next action
+
+If running autonomously or no interactive tool is available, continue with `he-review` and log an `Autonomous transition` note in `Decision Log` or `Revision Notes`.

@@ -121,6 +121,24 @@ Workflow is complete when:
 - Learn updates are written
 - Docs are committed
 
-## Transition
+## Transition Interaction Protocol
 
-Default phase progression is automatic unless the user explicitly asks to stop.
+At every phase boundary, use an interactive question tool when a human is in the loop:
+
+- Codex (Plan mode): `request_user_input`
+- Claude Code: `AskUserQuestion`
+- Equivalent interactive prompt tool on other runtimes
+
+Present these options at each transition point:
+
+1. Continue to the default next phase (recommended)
+2. Run one more build-feedback round in the current phase
+3. Handoff/pause with a concise status summary and explicit next action
+
+Never only print options as plain text when an interactive question tool is available.
+
+If running autonomously (no user interaction possible), do not block waiting for input:
+
+- Continue to the default next phase when gates pass
+- Record an `Autonomous transition` note in `Decision Log` or `Revision Notes` with source phase, target phase, and reason
+- If a gate fails, stop and record the blocking condition plus required user decision

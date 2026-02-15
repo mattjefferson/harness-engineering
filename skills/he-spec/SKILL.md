@@ -81,4 +81,10 @@ Use `templates/spec-template.md`.
 
 ## Transition
 
-Default next phase is `he-plan` (or `he-spike` when `spike_recommended: yes`).
+Use an interactive question tool at this transition when available (`request_user_input` in Codex Plan mode, `AskUserQuestion` in Claude Code, or equivalent). Offer:
+
+1. Continue to `he-plan` (or `he-spike` when `spike_recommended: yes`) (recommended)
+2. Run one more build-feedback round in `he-spec`
+3. Handoff/pause with status and explicit next action
+
+If running autonomously or no interactive tool is available, continue with the recommended next phase and log an `Autonomous transition` note in `Decision Log` or `Revision Notes`.

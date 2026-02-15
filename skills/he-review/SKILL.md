@@ -80,4 +80,10 @@ When review reveals a design-level issue:
 
 ## Transition
 
-Default next phase is `he-verify-release` unless blocked by unresolved findings.
+Use an interactive question tool at this transition when available (`request_user_input` in Codex Plan mode, `AskUserQuestion` in Claude Code, or equivalent). Offer:
+
+1. Continue to `he-verify-release` (recommended when not blocked)
+2. Run one more build-feedback round in `he-review`
+3. Handoff/pause with status and explicit next action
+
+If running autonomously or no interactive tool is available, continue with `he-verify-release` when gates pass; otherwise stop at the gate and log the blocking reason plus required decision.

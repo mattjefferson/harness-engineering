@@ -80,4 +80,10 @@ Use `templates/active-plan-template.md`.
 
 ## Transition
 
-Default next phase is `he-implement` unless the user asks to pause or revise scope.
+Use an interactive question tool at this transition when available (`request_user_input` in Codex Plan mode, `AskUserQuestion` in Claude Code, or equivalent). Offer:
+
+1. Continue to `he-implement` (recommended)
+2. Run one more build-feedback round in `he-plan`
+3. Handoff/pause with status and explicit next action
+
+If running autonomously or no interactive tool is available, continue with `he-implement` and log an `Autonomous transition` note in `Decision Log` or `Revision Notes`.

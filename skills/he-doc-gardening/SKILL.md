@@ -51,4 +51,10 @@ Record drift findings with explicit priority.
 
 ## Transition
 
-Default next phase is `he-spec` for a cleanup initiative slug.
+Use an interactive question tool at this transition when available (`request_user_input` in Codex Plan mode, `AskUserQuestion` in Claude Code, or equivalent). Offer:
+
+1. Continue to `he-spec` for a cleanup initiative slug (recommended)
+2. Run one more build-feedback round in `he-doc-gardening`
+3. Handoff/pause with status and explicit next action
+
+If running autonomously or no interactive tool is available, continue with `he-spec` and log an `Autonomous transition` note in `Decision Log` or `Revision Notes`.
