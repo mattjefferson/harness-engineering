@@ -2,76 +2,73 @@
 set -euo pipefail
 
 # ---------------------------------------------------------------------------
-# install.sh — Sync repo skills into ~/.agents/skills, then install them into
-# extra tool dirs.  Legacy ~/.codex/skills is removed safely when present.
+# install.sh — Sync repo skills into ~/.agents/skills and ~/.claude/skills.
+# Use --project <path> to install into a project's local directories instead.
 # ---------------------------------------------------------------------------
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
 # ── defaults ──────────────────────────────────────────────────────────────────
 source_dir="$REPO_ROOT/skills"
-agents_home="${AGENTS_HOME:-$HOME/.agents}"
-declare -a extra_targets=()
-no_claude=false
+project_dir=""
 dry_run=false
+
+usage() {
+  cat <<EOF
+Usage: install.sh [OPTIONS]
+
+Install skills from this repo into agents and claude skill directories.
+
+Options:
+  --source <dir>     Source skills directory (default: <repo>/skills)
+  --project <dir>    Install into a project's local .agents/skills and
+                     .claude/skills instead of the global home directories
+  --dry-run          Show what would be done without making changes
+
+By default, skills are installed to:
+  ~/.agents/skills
+  ~/.claude/skills
+
+With --project <dir>, skills are installed to:
+  <dir>/.agents/skills
+  <dir>/.claude/skills
+EOF
+  exit 0
+}
 
 # ── arg parsing ───────────────────────────────────────────────────────────────
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --source)
       source_dir="$2"; shift 2 ;;
-    --agents-home)
-      agents_home="$2"; shift 2 ;;
-    --target)
-      extra_targets+=("$2"); shift 2 ;;
-    --no-claude)
-      no_claude=true; shift ;;
+    --project)
+      project_dir="$2"; shift 2 ;;
     --dry-run)
       dry_run=true; shift ;;
+    --help|-h)
+      usage ;;
     *)
       echo "Error: unknown argument: $1" >&2; exit 1 ;;
   esac
 done
 
 # ── resolve paths ─────────────────────────────────────────────────────────────
-# Expand ~ but leave it to the shell (already handled by not quoting ~).
 source_dir="$(cd "$source_dir" 2>/dev/null && pwd)" || {
   echo "Error: Source directory not found: $source_dir" >&2
   exit 2
 }
 
-agents_skills_dir="$agents_home/skills"
-legacy_codex_skills_dir="$HOME/.codex/skills"
-
-# ── legacy codex cleanup ─────────────────────────────────────────────────────
-if [[ -d "$legacy_codex_skills_dir" ]]; then
-  if $dry_run; then
-    echo "[dry-run] remove legacy Codex skills dir '$legacy_codex_skills_dir'"
-  elif command -v trash &>/dev/null; then
-    echo "Removing legacy Codex skills dir with trash: $legacy_codex_skills_dir"
-    trash "$legacy_codex_skills_dir"
-  elif [[ -d "$HOME/.Trash" ]]; then
-    timestamp="$(date -u +%Y%m%d-%H%M%S)"
-    dest="$HOME/.Trash/codex-skills-$timestamp"
-    echo "Moving legacy Codex skills dir to: $dest"
-    mv "$legacy_codex_skills_dir" "$dest"
-  else
-    timestamp="$(date -u +%Y%m%d-%H%M%S)"
-    mkdir -p "$HOME/.trash"
-    dest="$HOME/.trash/codex-skills-$timestamp"
-    echo "Moving legacy Codex skills dir to: $dest"
-    mv "$legacy_codex_skills_dir" "$dest"
-  fi
+if [[ -n "$project_dir" ]]; then
+  project_dir="$(cd "$project_dir" 2>/dev/null && pwd)" || {
+    echo "Error: Project directory not found: $project_dir" >&2
+    exit 2
+  }
+  agents_skills_dir="$project_dir/.agents/skills"
+  claude_skills_dir="$project_dir/.claude/skills"
+else
+  agents_skills_dir="${AGENTS_HOME:-$HOME/.agents}/skills"
+  claude_skills_dir="$HOME/.claude/skills"
 fi
-
-# ── build targets list ────────────────────────────────────────────────────────
-declare -a targets=()
-if ! $no_claude; then
-  targets+=("$HOME/.claude/skills")
-fi
-for t in "${extra_targets[@]+"${extra_targets[@]}"}"; do
-  targets+=("$t")
-done
 
 # ── discover skills ──────────────────────────────────────────────────────────
 declare -a skill_names=()
@@ -87,16 +84,10 @@ if [[ ${#skill_names[@]} -eq 0 ]]; then
 fi
 
 # ── print summary ────────────────────────────────────────────────────────────
-echo "Source: $source_dir"
-echo "Agents: $agents_skills_dir"
+echo "Source:  $source_dir"
 echo "Targets:"
-if [[ ${#targets[@]} -eq 0 ]]; then
-  echo "  - (none)"
-else
-  for t in "${targets[@]}"; do
-    echo "  - $t"
-  done
-fi
+echo "  - $agents_skills_dir"
+echo "  - $claude_skills_dir"
 echo "Skills:"
 for s in "${skill_names[@]}"; do
   echo "  - $s"
@@ -113,21 +104,16 @@ copy_tree() {
   cp -R "$src/." "$dst/"
 }
 
-# ── install into agents_home ─────────────────────────────────────────────────
-if $dry_run; then
-  echo "[dry-run] mkdir -p '$agents_skills_dir'"
-else
-  mkdir -p "$agents_skills_dir"
-fi
+# ── install ──────────────────────────────────────────────────────────────────
+for target_dir in "$agents_skills_dir" "$claude_skills_dir"; do
+  if $dry_run; then
+    echo "[dry-run] mkdir -p '$target_dir'"
+  else
+    mkdir -p "$target_dir"
+  fi
 
-for skill_name in "${skill_names[@]}"; do
-  copy_tree "$source_dir/$skill_name" "$agents_skills_dir/$skill_name"
-done
-
-# ── install into extra targets ───────────────────────────────────────────────
-for target in "${targets[@]+"${targets[@]}"}"; do
   for skill_name in "${skill_names[@]}"; do
-    copy_tree "$agents_skills_dir/$skill_name" "$target/$skill_name"
+    copy_tree "$source_dir/$skill_name" "$target_dir/$skill_name"
   done
 done
 
