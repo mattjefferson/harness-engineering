@@ -186,14 +186,14 @@ _check_generated_last_updated() {
     local text
     text="$(cat "$path")"
 
-    # Check for missing last_updated line
-    if ! echo "$text" | grep -Pq '^[ \t]*-[ \t]*last_updated:[ \t]*'; then
+    # Check for missing last_updated line (BSD/GNU portable; avoid grep -P)
+    if ! echo "$text" | grep -Eq '^[[:space:]]*-[[:space:]]*last_updated:[[:space:]]*'; then
       _emit "error" "$rel" "Missing last_updated" \
         "Generated doc '$rel' must include a 'last_updated' line. Fix: add e.g. '- last_updated: 2026-02-15 12:34'."
     fi
 
     # Check for placeholder last_updated value
-    if echo "$text" | grep -q 'last_updated:[ \t]*<YYYY-'; then
+    if echo "$text" | grep -Eq 'last_updated:[[:space:]]*<YYYY-'; then
       _emit "$fail_level" "$rel" "Placeholder last_updated" \
         "Generated doc '$rel' has a placeholder last_updated value. Fix: replace with a real timestamp."
     fi
