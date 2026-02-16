@@ -1,54 +1,47 @@
 # Architecture
 
-This file is intentionally short. It exists to help a new contributor answer: "Where do I change code to do X?"
+This file is a compact map to answer: "Where do I change code to do X?"
 
-Only write down things that are unlikely to change frequently. Do not try to keep this synchronized with the codebase. Revisit a couple of times a year.
+Write only stable facts. Do not include procedures, external links, or volatile implementation details.
 
-Name important directories, modules, and types. Avoid external links and step-by-step procedures (those belong in `docs/` or inline docs).
+Keep this file small:
 
-## Bird's-Eye Overview
+- Prefer bullets over paragraphs
+- Keep each bullet concise
+- If it grows, move detail to `docs/` and keep only pointers here
 
-In 3-8 sentences:
+## Purpose
 
-- What problem does this system solve?
-- Who uses it and what are the primary flows?
-- What are the major runtime pieces (CLI, server, workers, UI, etc.)?
+2-4 bullets, max 6 lines total:
 
-## Codemap (Where Is X?)
+- System purpose: <what this repo/system does>
+- Primary users/actors: <who uses it>
+- Main runtime pieces: <CLI/API/worker/UI/etc>
+- Primary flows: <highest-value flows>
 
-List coarse-grained areas and what each owns. Keep it at "map of a country" granularity.
+## Codemap (Where To Change Code)
 
-- `path/or/module`: owns <what>, responsible for <what>, key types: <TypeA>, <TypeB>
-- `path/or/module`: owns <what>, responsible for <what>, key types: <TypeC>
+4-8 bullets plus one flow line, max 14 lines total:
 
-Add a short data/control-flow sketch in plain text:
+- `path/or/module` -> owns <what>; key types: <TypeA>, <TypeB>
+- `path/or/module` -> owns <what>; key types: <TypeC>
 
-`<entrypoint>` -> `<layer>` -> `<layer>` -> `<storage/service>`
+Flow: `<entry>` -> `<layer>` -> `<layer>` -> `<store/service>`
 
-## Boundaries
+## Invariants (Must Remain True)
 
-Call out the boundaries between layers/systems and what is allowed to cross them.
-
-- Boundary: <A> owns <X>; <B> owns <Y>; allowed interactions: <...>
-- Boundary: <internal vs external API>; stable contracts live in <...>
-
-## Architectural Invariants (Must Remain True)
-
-List the non-obvious rules that prevent drift. Invariants are often expressed as the absence of a dependency.
+3-7 bullets, max 10 lines total:
 
 - `X` must not depend on `Y`.
-- No business logic in <UI/controller layer>.
-- Side effects only occur in <explicit boundary/module>.
+- Side effects occur only in `<boundary/module>`.
+- Business rules live in `<layer>` and not in `<layer>`.
+- Security/data boundary: `<what is sensitive and where it may flow>`.
 
-## Cross-Cutting Concerns
+## Details Live Elsewhere
 
-Brief pointers to the stable conventions:
+3-6 pointers, max 8 lines total. Use path + short label only:
 
-- Logging/metrics/tracing: <where + key conventions>
-- Error handling: <where + conventions>
-- Configuration: <where + precedence rules>
-- Security/data boundaries: <where + sensitivity rules>
-
-## Where Details Live
-
-If you need more detail than this file provides, put it in `docs/` (runbooks, policies, plans) or in inline module documentation, and then add a short pointer here (file paths and names, not URLs).
+- `docs/PLANS.md` - workflow and artifact contract
+- `docs/runbooks/` - procedures and checklists
+- `docs/<DOMAIN>.md` - domain-specific guardrails
+- `docs/generated/` - generated context snapshots

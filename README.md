@@ -10,7 +10,7 @@ This repository packages a set of `he-*` skills plus templates that turn "ship s
 - `he-github` helpers for PR lifecycle (open/update/checks/merge) via `gh`
 - `he-bootstrap` templates for `docs/` structure, plans, runbooks, and generated context
 - Parallel review + verify/release gates that produce a written GO/NO-GO decision
-- A compounding learning loop that routes learnings to AGENTS.md, golden principles, or mechanical guardrails (`scripts/ci/` + domain docs)
+- A harness learning loop that routes learnings to AGENTS.md, golden principles, or mechanical guardrails (`scripts/ci/` + domain docs)
 - `agent-browser` and `he-video` helpers for capturing agentic E2E evidence
 
 ## Philosophy
@@ -369,7 +369,7 @@ Records GO/NO-GO in the plan with evidence, rollback readiness, and post-release
 
 ### `he-learn`
 
-Turns execution outcomes into durable improvements via a compound learning loop: AGENTS.md updates (setup/workflow/escalation changes), golden principles (mechanically enforceable invariants), guardrail promotion (rule in domain doc + enforcement in `scripts/ci/`), and runbook updates. Also processes the scratchpad and archives the plan.
+Turns execution outcomes into durable improvements via a harness learning loop: AGENTS.md updates (setup/workflow/escalation changes), golden principles (mechanically enforceable invariants), guardrail promotion (rule in domain doc + enforcement in `scripts/ci/`), runbook updates, and `ARCHITECTURE.md` review/update as needed. Also processes the scratchpad and archives the plan.
 
 ### `he-doc-gardening`
 
@@ -392,11 +392,14 @@ as an API contract. Consuming repos will rely on these semantics.
 
 ### `ARCHITECTURE.md` template is intentionally short
 
-The architecture template is a "codemap + invariants" document:
+The architecture template is a compact 4-section document:
 
-- It should help new contributors find where to change code.
-- It should capture stable boundaries and non-obvious invariants.
-- It should avoid long procedures (those belong in runbooks).
+- `Purpose`: what the system does and who uses it.
+- `Codemap`: where to change code (paths/modules + one flow line).
+- `Invariants`: non-obvious rules that must stay true.
+- `Details Live Elsewhere`: pointers to deeper docs.
+
+The template enforces a minimal-context style: short bullets, stable facts only, no long procedures.
 
 Template: `skills/he-bootstrap/templates/ARCHITECTURE.md`
 

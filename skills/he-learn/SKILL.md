@@ -15,12 +15,14 @@ Turn execution outcomes into durable improvements.
 
 ## Key Principles
 
-1. **Convert failures into guardrails** — record prevention actions in the tracker.
-2. **Update durable policy** — domain docs and runbooks reflect new learnings.
-3. **Process the scratchpad** — triage and clear `docs/generated/memory.md`.
-4. **Archive cleanly** — move the plan to completed and keep append-only semantics.
-5. **Promote enforcement** — repeated issues should become lint/test/CI guardrails.
-6. **Runbooks are additive only** — apply any runbook whose frontmatter `called_from` matches this skill (`bash scripts/runbooks/select-runbooks.sh --skill he-learn`), but never waive/override anything codified here.
+1. **Capture reusable learnings** — document what we learned so future agents can prevent repeat failures and answer similar questions quickly.
+2. **Convert failures into guardrails** — record prevention actions in the tracker.
+3. **Update durable policy** — domain docs and runbooks reflect new learnings.
+4. **Keep architecture legible** — review `ARCHITECTURE.md` and make any updates needed.
+5. **Process the scratchpad** — triage and clear `docs/generated/memory.md`.
+6. **Archive cleanly** — move the plan to completed and keep append-only semantics.
+7. **Promote enforcement** — repeated issues should become lint/test/CI guardrails.
+8. **Runbooks are additive only** — apply any runbook whose frontmatter `called_from` matches this skill (`bash scripts/runbooks/select-runbooks.sh --skill he-learn`), but never waive/override anything codified here.
 
 ## Workflow
 
@@ -34,12 +36,13 @@ Turn execution outcomes into durable improvements.
 
 ### Phase 1: Capture Learnings
 
-For each learning, evaluate the compound learning loop:
+For each learning, evaluate the harness learning loop:
 
-1. **AGENTS.md update** — does this change setup commands, workflow entry points, doc index links, or escalation rules? Updates go in `## Source Of Truth`, `## Gates`, or `## Conventions`. AGENTS.md is a table of contents — if you're writing more than one sentence, it belongs in `docs/` with a link from here.
+1. **AGENTS.md update** — does this change setup commands, workflow entry points, doc index links, or escalation rules? Update `AGENTS.md` as needed. AGENTS.md is a table of contents — if you're writing more than one sentence, it belongs in `docs/` with a link from here.
 2. **Golden principle** — is this a universal invariant the project should never violate? Add it to `AGENTS.md ## Golden Principles`. A golden principle must be enforceable mechanically — if a machine can't check it, it's guidance (belongs in a runbook or domain doc), not a principle.
 3. **Guardrail promotion** — should this become a mechanical enforcement? The rule goes in the appropriate domain doc (`docs/SECURITY.md`, `docs/RELIABILITY.md`, etc.) or runbook (`docs/runbooks/`). The enforcement goes in `scripts/ci/` (lint script or config entry in `he-docs-config.json`). Both are required — a rule without enforcement is just a suggestion.
 4. **Runbook update** — should this pattern update a runbook? If yes, update `docs/runbooks/<topic>.md` (or add a new one). Ensure new/updated runbooks include frontmatter `called_from` so relevant skills pick them up automatically.
+5. **Architecture review** — review `ARCHITECTURE.md` and make any updates needed.
 
 Use `templates/learning-entry-template.md`.
 
@@ -47,6 +50,7 @@ Use `templates/learning-entry-template.md`.
 
 1. Update relevant domain docs per `docs/DOMAIN_DOCS.md` registry if policy changed.
 2. Update or create any affected runbooks in `docs/runbooks/` when learnings change process, checklists, or "how we do it here" guidance.
+3. Review `ARCHITECTURE.md` and make any updates needed.
 
 ### Phase 3: Process Scratchpad and Archive
 
@@ -66,8 +70,9 @@ Use `templates/learning-entry-template.md`.
 ## Exit Gate
 
 - At least one concrete prevention action is captured for each meaningful issue
-- Each learning is evaluated against the compound learning loop
+- Each learning is evaluated against the harness learning loop
 - Runbooks are updated when process/checklists changed (or explicitly marked "no runbook update needed")
+- `ARCHITECTURE.md` is reviewed and updated as needed
 - `docs/generated/memory.md` is processed and cleared (or explicitly marked empty/not present)
 - Active plan is archived to completed
 - Docs commit gate passes
@@ -87,6 +92,7 @@ Use `templates/learning-entry-template.md`.
 | Recording learnings without prevention actions | Every issue needs a concrete prevention action |
 | Leaving memory scratchpad unprocessed | Promote or delete every item; clear the inbox |
 | Updating runbooks without `called_from` frontmatter | Skills discover runbooks via frontmatter; always include it |
+| Skipping architecture review during learn | Review `ARCHITECTURE.md` and update it as needed |
 | Archiving without updating living sections | Ensure plan living sections are final before archiving |
 
 ## Transition Points

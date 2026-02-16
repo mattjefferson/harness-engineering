@@ -78,6 +78,8 @@ Plan templates provided by this skill set:
 Optional:
 
 - `ARCHITECTURE.md` (when `--with-architecture` is passed)
+  - Compact contract: `Purpose`, `Codemap`, `Invariants`, `Details Live Elsewhere`
+  - Keep content map-level and stable to minimize agent context usage
 
 ## Bootstrap Commands
 
