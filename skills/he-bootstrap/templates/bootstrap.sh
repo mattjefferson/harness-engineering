@@ -97,6 +97,7 @@ done
 # ---------------------------------------------------------------------------
 # Root-level files
 # ---------------------------------------------------------------------------
+copy_if_missing ".gitignore" ".gitignore"
 ensure_agents_md
 if [[ "$WITH_ARCHITECTURE" == true ]]; then
   copy_if_missing "ARCHITECTURE.md" "ARCHITECTURE.md"

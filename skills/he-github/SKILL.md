@@ -64,7 +64,7 @@ Drive the PR lifecycle end-to-end with `gh`, while keeping harness artifacts (sp
 3. Ensure the PR body links:
    - spec: `docs/specs/<slug>-spec.md`
    - plan: `docs/plans/active/<slug>-plan.md`
-   - evidence: paths under `docs/artifacts/<slug>/` (if any)
+   - evidence: raw paths under `tmp/artifacts/<slug>/` and promoted minimal set under `docs/artifacts/<slug>/` (if any)
 4. Update the active plan `## Pull Request` section with pr URL, branch name, current commit SHA, CI link/status.
 
 **Updating an existing PR:**

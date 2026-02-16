@@ -1,6 +1,6 @@
 ---
 name: he-video
-description: Captures paired browser bug evidence videos using agent-browser (`failure` before fix and `resolution` after fix), then records durable artifact paths for implement and verify-release gates. Use for browser/UI bug fixes and release evidence.
+description: Captures paired browser bug evidence videos using agent-browser (`failure` before fix and `resolution` after fix), stores raw captures in `tmp/artifacts`, and supports minimal manual promotion for durable review evidence. Use for browser/UI bug fixes and release evidence.
 argument-hint: "--slug <slug> --scenario <scenario-id> --phase <failure|resolution> --flow-script <path>"
 ---
 
@@ -22,7 +22,7 @@ This skill is first-party and uses `agent-browser` as the execution engine.
 ## Key Principles
 
 1. **Same scenario before/after** — `failure` and `resolution` must represent the same flow.
-2. **Durable artifacts** — predictable paths and names so evidence can be linked from plan/PR.
+2. **Tmp-first artifacts** — store raw captures in `tmp/artifacts` by default; promote only minimal evidence when durable sharing is needed.
 3. **Keep clips reviewable** — short, focused captures beat long walkthroughs.
 4. **Do not "fix the repro" silently** — any changes to the flow must be explicit and explained.
 5. **Evidence is a gate** — missing paired videos for a UI bug fix implies `NO-GO`.
@@ -62,9 +62,25 @@ bash skills/he-video/scripts/record-browser-evidence.sh \
 
 ### Phase 2: Link Artifacts
 
-1. Add both artifact paths to plan `Artifacts and Notes`.
-2. Include both artifact paths in `Verify/Release Decision` `evidence`.
+1. Add raw artifact paths from `tmp/artifacts/...` to plan `Artifacts and Notes`.
+2. Include evidence references in `Verify/Release Decision`.
 3. Use `templates/evidence-entry-template.md` as the plan snippet format.
+
+### Phase 2.5: Promote Minimal Committed Evidence (Optional)
+
+When durable/committed evidence is needed for PR or release review, promote only the minimal set:
+
+```bash
+bash skills/he-video/scripts/promote-browser-evidence.sh \
+  --slug 2026-02-15-login-timeout \
+  --scenario login-timeout \
+  --phase resolution
+```
+
+This copies only:
+
+- latest `<phase>-final-<timestamp>.png`
+- `manifest.tsv`
 
 ## Flow Script Contract
 
@@ -83,17 +99,22 @@ For `failure`, non-zero exit is allowed and logged.
 1. Capture `failure` before changing code.
 2. Implement fix.
 3. Capture `resolution` using the same flow.
-4. Add both artifact paths to plan `Artifacts and Notes`.
-5. Include both artifact paths in `Verify/Release Decision` `evidence`.
+4. Add raw artifact paths to plan `Artifacts and Notes`.
+5. If durable shared evidence is needed, run minimal promotion and add promoted paths.
 
 ## Output
 
-Artifacts written to:
+Raw artifacts written to:
 
-- `docs/artifacts/<slug>/browser/<scenario>/failure-<timestamp>.webm`
-- `docs/artifacts/<slug>/browser/<scenario>/resolution-<timestamp>.webm`
+- `tmp/artifacts/<slug>/browser/<scenario>/failure-<timestamp>.webm`
+- `tmp/artifacts/<slug>/browser/<scenario>/resolution-<timestamp>.webm`
+- `tmp/artifacts/<slug>/browser/<scenario>/<phase>-final-<timestamp>.png`
+- `tmp/artifacts/<slug>/browser/<scenario>/<phase>-<timestamp>.log`
+- `tmp/artifacts/<slug>/browser/<scenario>/manifest.tsv`
+
+Optional promoted minimal set (committed when needed):
+
 - `docs/artifacts/<slug>/browser/<scenario>/<phase>-final-<timestamp>.png`
-- `docs/artifacts/<slug>/browser/<scenario>/<phase>-<timestamp>.log`
 - `docs/artifacts/<slug>/browser/<scenario>/manifest.tsv`
 
 `manifest.tsv` is append-only and tracks each capture.
@@ -102,7 +123,7 @@ Artifacts written to:
 
 - Both `failure` and `resolution` videos exist and are non-empty
 - Scenario IDs match across both captures
-- Plan artifact references are updated
+- Plan artifact references are updated (raw and, if applicable, promoted paths)
 - If this is a browser bug fix and paired videos are missing, release decision should be `NO-GO`
 
 ## When Things Go Wrong
@@ -121,3 +142,4 @@ Artifacts written to:
 | Missing artifact links in the plan | Always update `Artifacts and Notes` and `Verify/Release Decision` |
 | Skipping failure capture ("we know it's broken") | Evidence is a gate; capture both sides |
 | Manual screenshots instead of automated evidence | Use `agent-browser` for reproducible, durable artifacts |
+| Committing full raw recordings by default | Keep raw captures in `tmp/artifacts`; promote only minimal set when needed |

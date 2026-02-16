@@ -9,7 +9,7 @@ slug=""
 scenario=""
 phase=""
 flow_script=""
-output_root="docs/artifacts"
+output_root="tmp/artifacts"
 session=""
 agent_browser_args=()
 keep_browser_open=false
@@ -41,7 +41,7 @@ while [[ $# -gt 0 ]]; do
       echo "  --scenario              Required. Scenario name."
       echo "  --phase                 Required. One of: failure, resolution."
       echo "  --flow-script           Required. Path to a flow script (.py, .sh, or executable)."
-      echo "  --output-root           Output root directory (default: docs/artifacts)."
+      echo "  --output-root           Output root directory (default: tmp/artifacts)."
       echo "  --session               Browser session name."
       echo "  --agent-browser-arg     Extra agent-browser CLI arg. Repeatable."
       echo "  --keep-browser-open     Do not close the browser after recording."

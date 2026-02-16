@@ -35,6 +35,7 @@ Initialize the docs structure required by the `he-*` workflow while preserving t
 
 Create these only if missing:
 
+- `.gitignore`
 - `AGENTS.md`
 - `docs/plans/tech-debt-tracker.md`
 - `docs/specs/README.md`
@@ -51,6 +52,7 @@ Create these only if missing:
 Each created file has a source template in `templates/`:
 
 - `AGENTS.md` <- `templates/AGENTS.md`
+- `.gitignore` <- `templates/.gitignore`
 - `ARCHITECTURE.md` <- `templates/ARCHITECTURE.md` (optional with `--with-architecture`)
 - `docs/plans/tech-debt-tracker.md` <- `templates/docs/plans/tech-debt-tracker.md`
 - `docs/specs/README.md` <- `templates/docs/specs/README.md`
@@ -106,6 +108,7 @@ test -d docs/plans/active &&
 test -d docs/plans/completed &&
 test -d docs/design-docs &&
 test -d docs/generated &&
+test -f .gitignore &&
 test -f AGENTS.md &&
 test -f docs/plans/tech-debt-tracker.md &&
 test -f docs/generated/README.md &&

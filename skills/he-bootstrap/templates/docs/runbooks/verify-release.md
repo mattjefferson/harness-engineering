@@ -40,7 +40,7 @@ Document the exact commands for this repo:
 ## Evidence Requirements
 
 - Prefer evidence that a reviewer can reproduce (commands + short transcripts).
-- For UI changes, include screenshots or a short recording (see `docs/runbooks/record-evidence.md`).
+- For UI changes, keep raw recordings in `tmp/artifacts/<slug>/...`; promote minimal committed evidence (screenshot + manifest) to `docs/artifacts/<slug>/...` when needed for shared review.
 - For regressions, include a "before vs after" behavior description in plain language.
 
 ## Rollback And Recovery

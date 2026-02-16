@@ -1,0 +1,20 @@
+tmp/
+.DS_Store
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Env / secrets
+.env
+.env.*
+
+# Python
+__pycache__/
+*.pyc
+
+# agent-browser state (may contain auth tokens)
+auth-state.json
+*.auth-state.json

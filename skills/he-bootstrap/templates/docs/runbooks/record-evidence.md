@@ -21,6 +21,8 @@ Evidence should be easy to review, easy to find, and tied to an artifact (plan/P
 
 ## Where To Put It
 
+- Raw browser/video captures: `tmp/artifacts/<slug>/...` (gitignored, local-first)
+- Optional committed minimal set: `docs/artifacts/<slug>/...` (typically screenshot + manifest only)
 - Link evidence from:
   - `docs/plans/active/<slug>-plan.md` under `Artifacts and Notes` and `Verify/Release Decision`
   - the PR description (if one exists)

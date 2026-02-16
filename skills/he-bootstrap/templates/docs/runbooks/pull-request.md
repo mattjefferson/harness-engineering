@@ -34,7 +34,7 @@ Recommended `gh` flow:
 
 - Spec: `docs/specs/<slug>-spec.md`
 - Plan: `docs/plans/active/<slug>-plan.md`
-- Evidence (if any): `docs/artifacts/<slug>/...`
+- Evidence (if any): raw paths under `tmp/artifacts/<slug>/...` and promoted minimal set under `docs/artifacts/<slug>/...`
 
 ## Checks
 
@@ -42,4 +42,3 @@ Recommended `gh` flow:
   - `gh pr checks`
 - View a failing run:
   - `gh run view --log-failed`
-
