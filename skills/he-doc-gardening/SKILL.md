@@ -59,8 +59,8 @@ Each subagent scans one area and returns a list of drift findings with priority.
 2. Update `docs/plans/tech-debt-tracker.md`.
 3. Refresh stale generated context files in `docs/generated/`.
 4. Create one or more doc-fix specs and plans:
-   - `docs/specs/<slug>.md`
-   - `docs/plans/active/<slug>.md`
+   - `docs/specs/<slug>-spec.md`
+   - `docs/plans/active/<slug>-plan.md`
 
 Keep each doc-fix plan small and independently shippable.
 

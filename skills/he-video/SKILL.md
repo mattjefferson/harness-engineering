@@ -32,7 +32,7 @@ This skill is first-party and uses `agent-browser` as the execution engine.
 
 ### Phase 0: Load Inputs
 
-1. `slug`: initiative slug (`YYYY-MM-DD-kebab-topic`)
+1. `slug`: initiative slug (`YYYY-MM-DD-<type>-<description>`)
 2. `scenario`: short scenario ID (`login-timeout`, `checkout-coupon`, etc.)
 3. `phase`: `failure` or `resolution`
 4. `flow-script`: script that runs the browser flow with `agent-browser` (Python preferred)

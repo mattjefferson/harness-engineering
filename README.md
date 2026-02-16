@@ -238,10 +238,10 @@ Notes:
 
 ### A typical initiative flow
 
-1. `he-spec`: write intent into `docs/specs/<slug>.md`
+1. `he-spec`: write intent into `docs/specs/<slug>-spec.md`
 2. `he-research` (optional): answer investigatable open questions; update the spec
 3. `he-spike` (optional): time-box feasibility UX/behavior exploration; write findings
-4. `he-plan`: write the executable plan into `docs/plans/active/<slug>.md`
+4. `he-plan`: write the executable plan into `docs/plans/active/<slug>-plan.md`
 5. `he-worktree` (recommended for non-trivial): isolate workspace for implementation
 6. `he-implement`: execute the plan and keep the plan's living sections current
 7. `he-review`: parallel review fanout into the plan's `## Review Findings`
@@ -259,7 +259,7 @@ flowchart TD
     C --> D["Phase 3: Execute<br/>he-implement (+ optional he-github)"]
     D --> E["Phase 4: Quality Gate<br/>he-review (+ he-verify-release unless plan_mode=trivial)"]
     E -->|GO| F["Phase 5: Close<br/>he-learn + archive plan"]
-    F --> G["Completed artifact<br/>docs/plans/completed/<slug>.md"]
+    F --> G["Completed artifact<br/>docs/plans/completed/<slug>-plan.md"]
 
     E -->|NO-GO / blocking findings| R["Re-entry required<br/>update Progress + Decision Log + Revision Notes"]
     R --> C
@@ -270,13 +270,17 @@ flowchart TD
 All initiative artifacts share one slug:
 
 ```text
-YYYY-MM-DD-kebab-topic
+YYYY-MM-DD-<type>-<3-5-word-description>
 ```
+
+Types: `feat`, `fix`, `refactor`, `build`, `ci`, `chore`, `docs`, `style`, `perf`, `test` (conventional commits).
+
+Artifact suffixes (`-spec`, `-spike`, `-plan`) are appended to filenames automatically — they are not part of the slug.
 
 Example:
 
 ```text
-2026-02-14-install-skill-sync
+2026-02-14-feat-install-skill-sync
 ```
 
 ### Plan modes
@@ -287,9 +291,9 @@ Example:
 
 ### Source of truth hierarchy (in consuming repos)
 
-1. Human intent: `docs/specs/<slug>.md`
+1. Human intent: `docs/specs/<slug>-spec.md`
 2. Spike findings: `docs/spikes/<slug>-spike.md` (if a spike was run)
-3. Execution plan: `docs/plans/active/<slug>.md` (`plan_mode: trivial|lightweight|execution`)
+3. Execution plan: `docs/plans/active/<slug>-plan.md` (`plan_mode: trivial|lightweight|execution`)
 4. Generated context: `docs/generated/` (schema snapshots, graphs, scratchpad)
 
 ### Hard gates (non-negotiable)
@@ -318,13 +322,13 @@ Bootstraps a repo with a predictable `docs/` artifact structure.
 Converts an initiative request into a written spec.
 
 - Template: `skills/he-spec/templates/spec-template.md`
-- Output: `docs/specs/<slug>.md`
+- Output: `docs/specs/<slug>-spec.md`
 
 ### `he-research`
 
 Resolves investigatable open questions and updates the spec with evidence.
 
-- Output: updates `docs/specs/<slug>.md`
+- Output: updates `docs/specs/<slug>-spec.md`
 
 ### `he-spike`
 
@@ -338,7 +342,7 @@ Time-boxed feasibility exploration for unknown UX/behavior or risky approach que
 Creates a PLANS-compliant executable plan with milestones, proof commands, and living sections.
 
 - Template: `skills/he-plan/templates/plan-template.md`
-- Output: `docs/plans/active/<slug>.md`
+- Output: `docs/plans/active/<slug>-plan.md`
 
 ### `he-worktree`
 

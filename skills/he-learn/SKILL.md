@@ -1,7 +1,7 @@
 ---
 name: he-learn
 description: Captures post-release learning, updates debt and quality guidance, and archives active plans to completed for future reuse.
-argument-hint: "[slug or docs/plans/active/<slug>.md]"
+argument-hint: "[slug or docs/plans/active/<slug>-plan.md]"
 ---
 
 # HE Learn
@@ -26,7 +26,7 @@ Turn execution outcomes into durable improvements.
 
 ### Phase 0: Gather Learning Inputs
 
-1. Read `docs/plans/active/<slug>.md`.
+1. Read `docs/plans/active/<slug>-plan.md`.
 2. Gather implementation/review/verify outcomes plus generated context updates (if any).
 3. Gather incident or friction notes (if any).
 4. Use subagents in parallel — e.g., one to analyze review findings and recurring patterns, another to scan implementation friction from `Progress` and `Surprises & Discoveries`.
@@ -54,14 +54,14 @@ Use `templates/learning-entry-template.md`.
    - Promote keepers to the correct durable location in `docs/` or `docs/runbooks/`.
    - Delete anything no longer needed.
    - Clear `docs/generated/memory.md` back to an empty scratchpad (keep the header/sections).
-2. Move plan to `docs/plans/completed/<slug>.md`.
+2. Move plan to `docs/plans/completed/<slug>-plan.md`.
 
 ## Output
 
 - Updated `docs/plans/tech-debt-tracker.md`
 - Updated domain docs and runbooks as needed
 - Processed `docs/generated/memory.md`
-- Archived plan at `docs/plans/completed/<slug>.md`
+- Archived plan at `docs/plans/completed/<slug>-plan.md`
 
 ## Exit Gate
 

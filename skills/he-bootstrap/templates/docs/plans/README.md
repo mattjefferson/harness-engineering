@@ -1,10 +1,10 @@
 # Plans
 
 Active plans:
-- `docs/plans/active/<slug>.md` (`plan_mode: lightweight|execution`)
+- `docs/plans/active/<slug>-plan.md` (`plan_mode: lightweight|execution`)
 
 Completed plans:
-- `docs/plans/completed/<slug>.md`
+- `docs/plans/completed/<slug>-plan.md`
 
 All plan files must start with YAML frontmatter and follow `docs/PLANS.md` with required living sections, especially:
 

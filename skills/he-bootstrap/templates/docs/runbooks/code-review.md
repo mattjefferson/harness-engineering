@@ -9,7 +9,7 @@ called_from:
 
 This runbook is repo-specific and **additive only**. It must not waive or override any gates enforced by skills.
 
-The skill `he-review` enforces stable gates (fanout, findings format, and priority blocking). This document carries the details that change per project. Inputs: active plan (`docs/plans/active/<slug>.md` with `## Review Findings`) and current branch diff/test evidence.
+The skill `he-review` enforces stable gates (fanout, findings format, and priority blocking). This document carries the details that change per project. Inputs: active plan (`docs/plans/active/<slug>-plan.md` with `## Review Findings`) and current branch diff/test evidence.
 
 ## Output
 

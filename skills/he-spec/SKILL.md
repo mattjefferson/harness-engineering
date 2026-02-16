@@ -45,7 +45,7 @@ If the user provides an existing spec, PRD, requirements document, or reference 
 5. Use the gap list to drive Phase 0c questions (only ask about what's missing, not what's already covered).
 6. Write the normalized spec, preserving the user's intent and wording where possible.
 
-This means he-spec works as both a creator (from scratch) and an adapter (from external input). The output is always our standard `docs/specs/<slug>.md` format.
+This means he-spec works as both a creator (from scratch) and an adapter (from external input). The output is always our standard `docs/specs/<slug>-spec.md` format.
 
 **Reference artifacts** — Users may provide supporting materials at any point during spec creation: UI mockups/screenshots, links to other repos, API docs, design files, architecture diagrams, etc. When provided:
 1. Copy files into `docs/specs/artifacts/<slug>/` (create dir if needed). For URLs, save the URL reference rather than downloading.
@@ -77,8 +77,12 @@ Continue until approach is clear OR user says "proceed."
 
 ### Phase 1: Create the Slug
 
-- Format: `YYYY-MM-DD-kebab-topic`
-- Use this slug for all subsequent phase artifacts.
+1. **Draft a clear title** using conventional commit format: `feat: Add user authentication`, `fix: Cart total calculation`, `refactor: Extract payment module`.
+2. **Convert to slug**: date prefix + type + kebab-cased title (3–5 words):
+   - `feat: Add User Authentication` → `2026-02-16-feat-add-user-authentication`
+   - `fix: Cart Total Calculation` → `2026-02-16-fix-cart-total-calculation`
+   - `refactor: Extract Payment Module` → `2026-02-16-refactor-extract-payment-module`
+3. **Use this slug** for all subsequent phase artifacts. The artifact suffix (`-spec`, `-spike`, `-plan`) is appended to filenames automatically — it is not part of the slug itself.
 
 ### Phase 2: Write the Spec
 
@@ -95,10 +99,10 @@ Continue until approach is clear OR user says "proceed."
 
 After writing the spec draft, run a review loop before classifying:
 
-1. Commit the initial draft: `git add docs/specs/<slug>.md && git commit -m "docs(spec): <slug> draft"`
+1. Commit the initial draft: `git add docs/specs/<slug>-spec.md && git commit -m "docs(spec): <slug> draft"`
 2. Summarize spec in 3–5 bullet points highlighting key decisions.
 3. Ask: "Review the spec. What would you change? Or say 'looks good' to proceed."
-4. If changes requested: revise, append revision note, commit the revision (`docs(spec): <slug> revision — <what changed>`), then show the diff (`git diff HEAD~1 -- docs/specs/<slug>.md`) so the user sees exactly what changed.
+4. If changes requested: revise, append revision note, commit the revision (`docs(spec): <slug> revision — <what changed>`), then show the diff (`git diff HEAD~1 -- docs/specs/<slug>-spec.md`) so the user sees exactly what changed.
 5. Repeat until user approves — tight loop, no phase transition. Each round = one commit, so the full revision history is in git.
 
 ### Phase 3: Classify and Finalize
@@ -126,11 +130,11 @@ Use `templates/spec-template.md`.
 
 ## Output
 
-- `docs/specs/<slug>.md`
+- `docs/specs/<slug>-spec.md`
 
 ## Exit Gate
 
-- Spec exists at `docs/specs/<slug>.md`
+- Spec exists at `docs/specs/<slug>-spec.md`
 - Purpose / Big Picture is explicit
 - Scope includes explicit boundaries
 - Requirements table exists with stable requirement IDs (`R1+`)

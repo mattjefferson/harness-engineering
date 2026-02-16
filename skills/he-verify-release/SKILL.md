@@ -1,7 +1,7 @@
 ---
 name: he-verify-release
 description: Performs release-readiness verification with test evidence, invariant checks, rollback readiness, and go/no-go decision recording in the active plan.
-argument-hint: "[slug or docs/plans/active/<slug>.md]"
+argument-hint: "[slug or docs/plans/active/<slug>-plan.md]"
 ---
 
 # HE Verify/Release
@@ -26,7 +26,7 @@ Validate release readiness and record a GO/NO-GO decision.
 
 ### Phase 0: Load Context
 
-- Read `docs/plans/active/<slug>.md`.
+- Read `docs/plans/active/<slug>-plan.md`.
 - Gather review findings and test/integration evidence.
 - Load repo-specific verification procedures from `docs/runbooks/verify-release.md` and `docs/runbooks/record-evidence.md`.
 
@@ -44,7 +44,7 @@ If the change includes browser UI behavior, collect agentic E2E evidence via `ag
 
 ### Phase 2: Record Decision
 
-Fill in `## Verify/Release Decision` in `docs/plans/active/<slug>.md`.
+Fill in `## Verify/Release Decision` in `docs/plans/active/<slug>-plan.md`.
 
 **Decision rules:**
 
@@ -81,7 +81,7 @@ Provide at minimum:
 
 ## Output
 
-- `## Verify/Release Decision` filled in `docs/plans/active/<slug>.md`.
+- `## Verify/Release Decision` filled in `docs/plans/active/<slug>-plan.md`.
 
 ## Exit Gate
 

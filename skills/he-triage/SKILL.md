@@ -120,7 +120,7 @@ Only after the human confirms the decision summary:
 
 **Promoted items:**
 1. Update tracker status from `new` → `queued`.
-2. Create a lightweight spec at `docs/specs/<slug>.md` that references the tracker IDs.
+2. Create a lightweight spec at `docs/specs/<slug>-spec.md` that references the tracker IDs.
 3. The spec feeds into the normal `he-spec → he-plan → he-implement` flow.
 
 **Won't-fix items:**
@@ -136,7 +136,7 @@ Only after the human confirms the decision summary:
 ## Output
 
 - Updated `docs/plans/tech-debt-tracker.md` with status changes
-- Lightweight specs at `docs/specs/<slug>.md` for promoted groups
+- Lightweight specs at `docs/specs/<slug>-spec.md` for promoted groups
 - Decision summary: promoted count, deferred count, wont_fix count, overlap count
 
 ## Exit Gate

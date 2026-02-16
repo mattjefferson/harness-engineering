@@ -110,8 +110,8 @@ Domain docs (DESIGN.md, FRONTEND.md, SECURITY.md, etc.) are **not** created at b
 
 Start the first initiative with:
 
-1. `he-spec` to create `docs/specs/<slug>.md`
-2. `he-plan` to create `docs/plans/active/<slug>.md`
+1. `he-spec` to create `docs/specs/<slug>-spec.md`
+2. `he-plan` to create `docs/plans/active/<slug>-plan.md`
 
 ## Transition
 

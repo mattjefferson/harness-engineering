@@ -1,6 +1,6 @@
 ---
 title: "Review Findings"
-use_when: "Writing or interpreting review findings in docs/plans/active/<slug>.md under the Review Findings section."
+use_when: "Writing or interpreting review findings in docs/plans/active/<slug>-plan.md under the Review Findings section."
 called_from:
   - he-review
 ---

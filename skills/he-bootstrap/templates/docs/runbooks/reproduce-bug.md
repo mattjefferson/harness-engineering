@@ -35,7 +35,7 @@ The goal is a smallest-possible reproducer you can run repeatedly to prove the b
 
 ## Plan Updates
 
-Update `docs/plans/active/<slug>.md`:
+Update `docs/plans/active/<slug>-plan.md`:
 
 - `Progress`: add/mark the repro artifact as complete only when repeatable
 - `Artifacts and Notes`: link the repro command/script and evidence paths

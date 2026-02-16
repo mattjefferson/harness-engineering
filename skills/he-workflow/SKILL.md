@@ -35,13 +35,13 @@ Run the full lifecycle with phase gates and parallel subagents.
 
 ### Phase 1: Intake
 
-1. Ensure `docs/specs/<slug>.md` exists; if not, run `he-spec`.
+1. Ensure `docs/specs/<slug>-spec.md` exists; if not, run `he-spec`.
 2. If the spec has meaningful open questions that are investigatable, run `he-research`.
 3. If `spike_recommended: yes` in the spec metadata, run `he-spike`.
 
 ### Phase 2: Plan
 
-1. Ensure `docs/plans/active/<slug>.md` exists; if missing, run `he-plan` (use an abbreviated plan for `plan_mode: trivial`).
+1. Ensure `docs/plans/active/<slug>-plan.md` exists; if missing, run `he-plan` (use an abbreviated plan for `plan_mode: trivial`).
 2. Validate active plan has all required PLANS sections:
    - `Purpose / Big Picture`, `Progress`, `Surprises & Discoveries`, `Decision Log`, `Outcomes & Retrospective`, `Context and Orientation`, `Milestones`, `Plan of Work`, `Concrete Steps`, `Validation and Acceptance`, `Idempotence and Recovery`, `Artifacts and Notes`, `Interfaces and Dependencies`, `Pull Request`, `Revision Notes`, `Review Findings`, `Verify/Release Decision`
 3. Validate `Progress` entries are timestamped checkboxes with stable IDs.
@@ -65,9 +65,9 @@ Run the full lifecycle with phase gates and parallel subagents.
 
 ## Source of Truth
 
-- Human intent: `docs/specs/<slug>.md`
+- Human intent: `docs/specs/<slug>-spec.md`
 - Spike findings: `docs/spikes/<slug>-spike.md` (if a spike was run)
-- Execution plan: `docs/plans/active/<slug>.md` (`plan_mode: trivial|lightweight|execution`, PLANS-compliant)
+- Execution plan: `docs/plans/active/<slug>-plan.md` (`plan_mode: trivial|lightweight|execution`, PLANS-compliant)
 - Plan contract: `docs/PLANS.md`
 - Generated project context: `docs/generated/`
 
@@ -75,20 +75,22 @@ Run the full lifecycle with phase gates and parallel subagents.
 
 Forward progress must depend on stable, versioned artifacts — not mutable runbooks.
 
-- **intake → plan**: `docs/specs/<slug>.md` exists and is lint-clean.
-- **plan → implement**: `docs/plans/active/<slug>.md` exists and is PLANS-compliant.
+- **intake → plan**: `docs/specs/<slug>-spec.md` exists and is lint-clean.
+- **plan → implement**: `docs/plans/active/<slug>-plan.md` exists and is PLANS-compliant.
 - **implement → github** (optional): code + tests + evidence are recorded in the plan; PR metadata is written into `## Pull Request`.
 - **implement → review**: implementation evidence is linked in `Artifacts and Notes`; `Progress` reflects current state.
 - **review → verify-release**: consolidated findings are written into `## Review Findings` in the plan.
 - **verify-release → merge**: GO/NO-GO is written into `## Verify/Release Decision` with evidence + rollback.
-- **merge → learn**: learnings + prevention actions are recorded; plan is archived to `docs/plans/completed/<slug>.md`.
+- **merge → learn**: learnings + prevention actions are recorded; plan is archived to `docs/plans/completed/<slug>-plan.md`.
 
 Runbooks are additive: if they are missing, stale, or wrong, do not block — proceed using the skill gates and artifact contracts above.
 
 ## Slug Rules
 
-- Format: `YYYY-MM-DD-kebab-topic`
-- Reuse one slug across spec and plan artifacts
+- Format: `YYYY-MM-DD-<type>-<3-5-word-description>` (types: `feat`, `fix`, `refactor`, `build`, `ci`, `chore`, `docs`, `style`, `perf`, `test`)
+- Artifact suffix (`-spec`, `-spike`, `-plan`) is appended to filenames automatically — not part of the slug itself
+- The `slug` field in frontmatter stays the base (without suffix)
+- Reuse one slug across spec, spike, and plan artifacts
 - Never create a second slug for the same initiative
 
 ## Re-entry Rules
@@ -125,7 +127,7 @@ The orchestrator integrates results, updates plan artifacts, and enforces gates.
 
 ## Exit Gate
 
-- Plan is moved to `docs/plans/completed/<slug>.md`
+- Plan is moved to `docs/plans/completed/<slug>-plan.md`
 - Learn updates are written
 - All artifacts are committed (enforced by he-implement exit gate)
 

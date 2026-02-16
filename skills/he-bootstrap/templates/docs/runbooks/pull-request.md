@@ -32,8 +32,8 @@ Recommended `gh` flow:
 
 ## Required Links In PR Description
 
-- Spec: `docs/specs/<slug>.md`
-- Plan: `docs/plans/active/<slug>.md`
+- Spec: `docs/specs/<slug>-spec.md`
+- Plan: `docs/plans/active/<slug>-plan.md`
 - Evidence (if any): `docs/artifacts/<slug>/...`
 
 ## Checks

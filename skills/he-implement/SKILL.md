@@ -1,7 +1,7 @@
 ---
 name: he-implement
 description: Executes active ExecPlans using milestone-driven progress updates, parallel subagents, and evidence-backed verification.
-argument-hint: "[slug or docs/plans/active/<slug>.md]"
+argument-hint: "[slug or docs/plans/active/<slug>-plan.md]"
 ---
 
 # HE Implement
@@ -35,7 +35,7 @@ Execute a PLANS-compliant active plan and keep the plan artifact current.
 
 ### Phase 1: Load Context
 
-1. Read `docs/plans/active/<slug>.md`: `Purpose / Big Picture`, `Context and Orientation`, `Milestones`, `Plan of Work`, `Concrete Steps`, and `Validation and Acceptance`.
+1. Read `docs/plans/active/<slug>-plan.md`: `Purpose / Big Picture`, `Context and Orientation`, `Milestones`, `Plan of Work`, `Concrete Steps`, and `Validation and Acceptance`.
 2. Refresh generated context in `docs/generated/` when stale:
    1. Read `docs/generated/README.md` first (if present) for project-specific expectations.
    2. Refresh only the generated files relevant to the current milestones.
@@ -70,7 +70,7 @@ Use subagents aggressively for independent work while keeping integration and pl
 
 ### Phase 3: Update Plan and Commit
 
-After each batch, update `docs/plans/active/<slug>.md`:
+After each batch, update `docs/plans/active/<slug>-plan.md`:
 
 1. Check completed `Progress` items.
 2. Append new discoveries in `Surprises & Discoveries` with evidence.
@@ -90,7 +90,7 @@ For browser UI verification, prefer `agent-browser` flows and store durable evid
 
 ## Output
 
-- Updated `docs/plans/active/<slug>.md` with completed progress, evidence, and living sections current.
+- Updated `docs/plans/active/<slug>-plan.md` with completed progress, evidence, and living sections current.
 
 ## Exit Gate
 

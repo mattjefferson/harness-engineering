@@ -1,7 +1,7 @@
 ---
 name: he-plan
 description: Produces a PLANS.md-compliant executable plan from a spec. Use after intake.
-argument-hint: "[slug or docs/specs/<slug>.md]"
+argument-hint: "[slug or docs/specs/<slug>-spec.md]"
 ---
 
 # HE Plan
@@ -29,7 +29,7 @@ Convert a spec into a self-contained, novice-guiding execution plan.
 
 ### Phase 0: Gather Context
 
-1. Read `docs/specs/<slug>.md`. If invoked with an external document (file path, pasted content) instead of a `docs/specs/<slug>.md` reference:
+1. Read `docs/specs/<slug>-spec.md`. If invoked with an external document (file path, pasted content) instead of a `docs/specs/<slug>-spec.md` reference:
    a. Read the external document and extract: purpose, requirements, constraints, tech decisions, open questions.
    b. If the external doc is rich enough to plan from (has clear requirements + success criteria), proceed directly — don't force the user through he-spec first.
    c. If the external doc has significant gaps, offer two paths: (a) run he-spec to normalize it first, or (b) fill gaps inline via Phase 0.5 questions and proceed.
@@ -98,10 +98,10 @@ Ask: "How much detail do you want in the plan?"
 
 After drafting the plan, run an interactive review loop before tuning depth:
 
-1. Commit the initial draft: `git add docs/plans/active/<slug>.md && git commit -m "docs(plan): <slug> draft"`
+1. Commit the initial draft: `git add docs/plans/active/<slug>-plan.md && git commit -m "docs(plan): <slug> draft"`
 2. Summarize plan in 3–5 bullet points covering key decisions and milestone structure.
 3. Ask: "Review the plan. What would you change?"
-4. If changes requested: revise, append revision note, commit (`docs(plan): <slug> revision — <what changed>`), show diff (`git diff HEAD~1 -- docs/plans/active/<slug>.md`).
+4. If changes requested: revise, append revision note, commit (`docs(plan): <slug> revision — <what changed>`), show diff (`git diff HEAD~1 -- docs/plans/active/<slug>-plan.md`).
 5. **Recommendation logic**:
    - Critical/High severity issues found and fixed → recommend another review round
    - Medium/Low only → fix and recommend proceeding to implement
@@ -129,11 +129,11 @@ Use `templates/plan-template.md`.
 
 ## Output
 
-- `docs/plans/active/<slug>.md`
+- `docs/plans/active/<slug>-plan.md`
 
 ## Exit Gate
 
-- Plan exists at `docs/plans/active/<slug>.md`
+- Plan exists at `docs/plans/active/<slug>-plan.md`
 - Plan includes every required PLANS section
 - `Progress` contains timestamped checklist entries with stable progress IDs
 - Milestones describe observable outcomes and verification

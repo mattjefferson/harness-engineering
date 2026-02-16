@@ -65,7 +65,7 @@ When interactive tools are available, ask the user to choose:
 - `fix/<topic>` for bug fixes
 - `chore/<topic>` for maintenance
 
-When a slug exists, prefer embedding the topic part from `YYYY-MM-DD-topic`.
+When a slug exists, prefer embedding the topic part from `YYYY-MM-DD-<type>-<description>`.
 
 **Worktree path:**
 

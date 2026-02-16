@@ -22,7 +22,7 @@ Evidence should be easy to review, easy to find, and tied to an artifact (plan/P
 ## Where To Put It
 
 - Link evidence from:
-  - `docs/plans/active/<slug>.md` under `Artifacts and Notes` and `Verify/Release Decision`
+  - `docs/plans/active/<slug>-plan.md` under `Artifacts and Notes` and `Verify/Release Decision`
   - the PR description (if one exists)
 
 ## Naming Convention

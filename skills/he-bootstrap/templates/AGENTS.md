@@ -16,7 +16,7 @@ Before doing any work:
 
 1. Check `docs/plans/active/` for in-progress work.
 2. If a plan exists, open it and read `## Progress`; resume from the first incomplete item.
-3. If no plan exists, ask what initiative to run and start at `docs/specs/<slug>.md`.
+3. If no plan exists, ask what initiative to run and start at `docs/specs/<slug>-spec.md`.
 
 ## Source Of Truth (Table Of Contents)
 
@@ -51,7 +51,7 @@ Use `docs/generated/memory.md` as an agent scratchpad when something is useful b
 
 ## Conventions
 
-- Slug format: `YYYY-MM-DD-kebab-topic`
+- Slug format: `YYYY-MM-DD-<type>-<description>` (types: `feat`, `fix`, `refactor`, `build`, `ci`, `chore`, `docs`, `style`, `perf`, `test`)
 - One slug per initiative across specs/spikes/plans
 
 ## Gates (Reminders)

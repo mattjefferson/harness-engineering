@@ -1,7 +1,7 @@
 ---
 name: he-github
 description: Opens/updates GitHub PRs, checks CI, responds to feedback, and merges after GO using gh CLI with explicit consent gates.
-argument-hint: "[slug, docs/plans/active/<slug>.md, or PR number/url]"
+argument-hint: "[slug, docs/plans/active/<slug>-plan.md, or PR number/url]"
 ---
 
 # HE GitHub
@@ -47,7 +47,7 @@ Drive the PR lifecycle end-to-end with `gh`, while keeping harness artifacts (sp
 
 ### Phase 0: Preflight
 
-1. Read `docs/plans/active/<slug>.md` or accept initiative slug/PR reference.
+1. Read `docs/plans/active/<slug>-plan.md` or accept initiative slug/PR reference.
 2. Verify current git workspace context (branch/worktree) from `he-worktree`.
 3. Run and record results in plan `Artifacts and Notes` or `Decision Log`:
    - `git status --short --branch`
@@ -62,8 +62,8 @@ Drive the PR lifecycle end-to-end with `gh`, while keeping harness artifacts (sp
 1. Push the branch: `git push -u origin HEAD`
 2. Create a PR: `gh pr create --fill`
 3. Ensure the PR body links:
-   - spec: `docs/specs/<slug>.md`
-   - plan: `docs/plans/active/<slug>.md`
+   - spec: `docs/specs/<slug>-spec.md`
+   - plan: `docs/plans/active/<slug>-plan.md`
    - evidence: paths under `docs/artifacts/<slug>/` (if any)
 4. Update the active plan `## Pull Request` section with pr URL, branch name, current commit SHA, CI link/status.
 

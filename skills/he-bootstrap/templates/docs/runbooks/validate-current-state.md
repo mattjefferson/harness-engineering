@@ -34,7 +34,7 @@ Record the exact commands used and a short excerpt of the output in the active p
 
 ## Evidence
 
-Link evidence from `docs/plans/active/<slug>.md` under:
+Link evidence from `docs/plans/active/<slug>-plan.md` under:
 
 - `Surprises & Discoveries` (what you observed)
 - `Artifacts and Notes` (logs, screenshots, recordings)

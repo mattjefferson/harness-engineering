@@ -1,7 +1,7 @@
 ---
 slug: <slug>
 status: spike-complete
-date: <YYYY-MM-DD>
+date: <YYYY-MM-DDTHH:MM:SSZ>
 owner: <name or team>
 timebox: <e.g. 2h>
 ---
@@ -36,8 +36,8 @@ Which path to take next and why.
 Summarize changes needed in upstream artifacts:
 
 - follow `references/spec-update-guide.md` for exact spec-update mapping
-- spec updates needed in `docs/specs/<slug>.md` (name exact sections changed)
-- planning implications for `docs/plans/active/<slug>.md`
+- spec updates needed in `docs/specs/<slug>-spec.md` (name exact sections changed)
+- planning implications for `docs/plans/active/<slug>-plan.md`
 - if none: `Standalone spike — no upstream doc updates`
 
 ## Spike Code
@@ -57,4 +57,4 @@ What we still don't know.
 ## Revision Notes
 Append-only notes describing what changed in the spike doc and why.
 
-- <YYYY-MM-DD>: Initialized spike from template. Reason: establish investigation baseline.
+- <YYYY-MM-DDTHH:MM:SSZ>: Initialized spike from template. Reason: establish investigation baseline.

@@ -1,7 +1,7 @@
 ---
 name: he-research
 description: Investigates open questions before planning by running parallel research across docs, codebase patterns, and external references, then updates initiative artifacts with evidence-backed findings.
-argument-hint: "[slug, docs/specs/<slug>.md, or question set]"
+argument-hint: "[slug, docs/specs/<slug>-spec.md, or question set]"
 ---
 
 # HE Research
@@ -21,7 +21,7 @@ Use this skill when answers are discoverable through research. For unknowns that
 
 1. **Categorize first** — only research questions where the answer can be found.
 2. **Evidence-backed** — record confidence and source notes; separate fact from inference.
-3. **Update the source of truth** — write findings into `docs/specs/<slug>.md` with revision notes.
+3. **Update the source of truth** — write findings into `docs/specs/<slug>-spec.md` with revision notes.
 4. **Prefer primary sources** — repo evidence and official docs beat summaries.
 5. **Do not plan here** — research clarifies constraints; planning is `he-plan`.
 6. **Runbooks are additive only** — apply any runbook whose frontmatter `called_from` matches this skill (`bash scripts/runbooks/select-runbooks.sh --skill he-research`), but never waive/override anything codified here.
@@ -30,7 +30,7 @@ Use this skill when answers are discoverable through research. For unknowns that
 
 ### Phase 0: Gather Questions
 
-1. Read `docs/specs/<slug>.md` (preferred) or direct question list from user.
+1. Read `docs/specs/<slug>-spec.md` (preferred) or direct question list from user.
 2. Optionally pull context from `docs/plans/completed/`, `docs/spikes/`, `docs/generated/`.
 3. Run `bash scripts/runbooks/select-runbooks.sh --skill he-research` and read any returned runbooks. Apply their additions throughout — they must not waive or override gates codified here.
 
@@ -62,7 +62,7 @@ Category outcomes:
 
 ### Phase 3: Update Artifacts
 
-1. Update `docs/specs/<slug>.md`:
+1. Update `docs/specs/<slug>-spec.md`:
    - Move answered questions out of open state.
    - Update `Requirements`, `Risks`, `Constraints`, or `Boundaries` as needed.
    - Append `Revision Notes` describing what changed and why.
@@ -88,8 +88,8 @@ Do not add implementation-level details that belong in `he-plan`.
 
 ## Output
 
-- Research findings embedded in `docs/specs/<slug>.md` (when spec exists), or
-- A standalone research summary in `docs/specs/<slug>.md` for new initiative intake
+- Research findings embedded in `docs/specs/<slug>-spec.md` (when spec exists), or
+- A standalone research summary in `docs/specs/<slug>-spec.md` for new initiative intake
 
 ## Exit Gate
 

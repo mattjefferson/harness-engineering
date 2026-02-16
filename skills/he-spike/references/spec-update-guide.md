@@ -1,6 +1,6 @@
 # Spec Update Guide (From Spikes)
 
-When a spike concludes, update `docs/specs/<slug>.md` using what was learned.
+When a spike concludes, update `docs/specs/<slug>-spec.md` using what was learned.
 
 The spec must be self-sufficient for `he-plan`: capture full rationale in the spec itself, not only in the spike doc.
 
@@ -19,7 +19,7 @@ The spec must be self-sufficient for `he-plan`: capture full rationale in the sp
 
 ## Required Update Pattern
 
-1. Apply spec edits directly in `docs/specs/<slug>.md`.
+1. Apply spec edits directly in `docs/specs/<slug>-spec.md`.
 2. Keep rationale in the spec (do not rely on "see spike doc" only).
 3. Add spike linkage in relevant sections for traceability.
 4. Append a `Revision Notes` entry in the spec describing what changed and why.
@@ -29,5 +29,5 @@ The spec must be self-sufficient for `he-plan`: capture full rationale in the sp
 
 If the spike does not change spec intent:
 
-- Keep `docs/specs/<slug>.md` unchanged.
+- Keep `docs/specs/<slug>-spec.md` unchanged.
 - In spike `Impact on Upstream Docs`, state: `No spec changes required` with rationale.

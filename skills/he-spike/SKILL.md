@@ -1,7 +1,7 @@
 ---
 name: he-spike
 description: Runs a time-boxed investigation or throwaway prototype to validate feasibility, reduce ambiguity, or compare approaches before planning. Use between spec and plan when the path forward is unclear.
-argument-hint: "[slug or docs/specs/<slug>.md]"
+argument-hint: "[slug or docs/specs/<slug>-spec.md]"
 ---
 
 # HE Spike
@@ -28,7 +28,7 @@ Run a focused, time-boxed investigation to reduce uncertainty before planning.
 
 ### Phase 0: Load Inputs
 
-1. Read `docs/specs/<slug>.md` (the spec that triggered the spike).
+1. Read `docs/specs/<slug>-spec.md` (the spec that triggered the spike).
 2. Gather specific questions to answer or hypotheses to validate.
 3. Run `bash scripts/runbooks/select-runbooks.sh --skill he-spike` and read any returned runbooks. Apply their additions throughout — they must not waive or override gates codified here.
 
@@ -46,7 +46,7 @@ Run a focused, time-boxed investigation to reduce uncertainty before planning.
 ### Phase 3: Document and Finish
 
 1. Document findings — not the prototype code.
-2. If spike findings change scope/requirements/direction, update `docs/specs/<slug>.md` in the same pass using `references/spec-update-guide.md`.
+2. If spike findings change scope/requirements/direction, update `docs/specs/<slug>-spec.md` in the same pass using `references/spec-update-guide.md`.
 
 ## Output
 
@@ -66,14 +66,14 @@ Run a focused, time-boxed investigation to reduce uncertainty before planning.
 - **Revision Notes**: Append-only changes to the spike doc
 
 Use `templates/spike-template.md` (includes required YAML frontmatter).
-Use `references/spec-update-guide.md` for exact mapping when updating `docs/specs/<slug>.md` from spike findings.
+Use `references/spec-update-guide.md` for exact mapping when updating `docs/specs/<slug>-spec.md` from spike findings.
 
 ## Exit Gate
 
 - Spike findings document exists at `docs/spikes/<slug>-spike.md`
 - Validation goal is answered or explicitly marked as still-unknown with next steps
 - Recommendation is actionable (feeds directly into planning)
-- `Impact on Upstream Docs` clearly states whether `docs/specs/<slug>.md` was updated and why
+- `Impact on Upstream Docs` clearly states whether `docs/specs/<slug>-spec.md` was updated and why
 - Docs commit gate passes
 
 ## When Things Go Wrong
