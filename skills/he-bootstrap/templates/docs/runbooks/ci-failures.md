@@ -8,6 +8,8 @@ called_from:
 
 # Remediate CI Failures
 
+This runbook is repo-specific and **additive only**. It must not waive or override any gates enforced by skills.
+
 Treat CI failures as signal. The goal is not to make CI green by any means; it is to restore correctness with minimal, root-cause fixes.
 
 ## Triage Order

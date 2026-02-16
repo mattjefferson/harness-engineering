@@ -7,6 +7,8 @@ called_from:
 
 # Review Findings
 
+This runbook is repo-specific and **additive only**. It must not waive or override any gates enforced by skills.
+
 Review findings must be actionable and verifiable. The goal is to let a future reader fix issues without rediscovering context.
 
 ## Required Fields

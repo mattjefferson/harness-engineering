@@ -9,20 +9,15 @@ called_from:
 
 This runbook is repo-specific and **additive only**. It must not waive or override any gates enforced by skills.
 
-## Inputs
-
-- <inputs needed (plan path, branch, env, etc.)>
-
-## Outputs
-
-- <what gets updated/written>
-
-## Steps
+## Workflow
 
 1. <step>
 2. <step>
 
+## Output
+
+- <what gets updated/written>
+
 ## Escalation
 
 Escalate when judgment is required, evidence is missing, or risk is unclear.
-

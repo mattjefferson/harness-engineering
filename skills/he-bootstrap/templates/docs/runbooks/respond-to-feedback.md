@@ -9,6 +9,8 @@ called_from:
 
 # Respond To Feedback
 
+This runbook is repo-specific and **additive only**. It must not waive or override any gates enforced by skills.
+
 Treat feedback as new requirements. The objective is to address comments with the smallest correct change and keep the plan/evidence accurate.
 
 ## Triage

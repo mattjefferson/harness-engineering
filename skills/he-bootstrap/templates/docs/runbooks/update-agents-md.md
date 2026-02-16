@@ -9,6 +9,8 @@ called_from:
 
 # Update AGENTS.md
 
+This runbook is repo-specific and **additive only**. It must not waive or override any gates enforced by skills.
+
 AGENTS.md is the agent-facing README: a predictable place to put the few repo-specific instructions an agent needs to work effectively.
 
 ## What To Optimize For

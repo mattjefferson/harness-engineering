@@ -9,9 +9,9 @@ called_from:
 
 # Pull Request
 
-This runbook describes repo-specific PR conventions (title/body conventions, labels, reviewers, and required checks).
+This runbook is repo-specific and **additive only**. It must not waive or override any gates enforced by skills.
 
-Skill gates still apply: do not push/open/merge without the required validation and explicit consent when a human is present.
+This runbook describes repo-specific PR conventions (title/body conventions, labels, reviewers, and required checks).
 
 ## Preflight
 

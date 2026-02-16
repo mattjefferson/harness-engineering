@@ -51,12 +51,14 @@ Create or update a runbook (process/checklist) that can evolve per project, whil
 4. Write the body:
    - Start with the stable invariant: "skill gates still apply; runbook cannot waive them".
    - Add the repo-specific checklist/commands in execution order.
+5. Audit against `skills/he-runbook/references/audit-rules.md` — verify no prohibited content (escalation weakening, gate waiving, priority redefinition, evidence weakening, mock allowance, consent bypass).
 
 ### Phase 3: Validate and Link
 
-1. Lint: `bash scripts/ci/he-runbooks-lint.sh`
-2. Verify selection: `bash scripts/runbooks/select-runbooks.sh --skill <skill>` returns the runbook.
-3. If this runbook will be reused, add it to the AGENTS.md runbook index.
+1. Audit: verify runbook content against `skills/he-runbook/references/audit-rules.md` (no prohibited content).
+2. Lint: `bash scripts/ci/he-runbooks-lint.sh`
+3. Verify selection: `bash scripts/runbooks/select-runbooks.sh --skill <skill>` returns the runbook.
+4. If this runbook will be reused, add it to the AGENTS.md runbook index.
 
 ## Conflict Rule (Non-Negotiable)
 

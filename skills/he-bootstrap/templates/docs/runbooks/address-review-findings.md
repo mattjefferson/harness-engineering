@@ -8,6 +8,8 @@ called_from:
 
 # Address Review Findings
 
+This runbook is repo-specific and **additive only**. It must not waive or override any gates enforced by skills.
+
 ## Workflow
 
 1. Triage findings by priority.

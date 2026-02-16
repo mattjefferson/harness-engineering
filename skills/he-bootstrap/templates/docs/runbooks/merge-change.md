@@ -7,6 +7,8 @@ called_from:
 
 # Merge Change
 
+This runbook is repo-specific and **additive only**. It must not waive or override any gates enforced by skills.
+
 This runbook captures the repo-specific merge gate. Keep it short and make it objective where possible.
 
 ## Preconditions

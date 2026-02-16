@@ -10,6 +10,8 @@ called_from:
 
 # Update Domain Docs
 
+This runbook is repo-specific and **additive only**. It must not waive or override any gates enforced by skills.
+
 Domain docs live under `docs/` and capture stable, repo-specific policy. Update them when you learn something that will prevent future bugs, regressions, or confusion.
 
 ## What Counts As A Domain-Doc Change

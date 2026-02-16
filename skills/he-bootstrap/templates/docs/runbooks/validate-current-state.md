@@ -8,7 +8,9 @@ called_from:
 
 # Validate Current State
 
-This runbook defines the minimum baseline checks before claiming you understand “what’s broken” (or “what exists”) today.
+This runbook is repo-specific and **additive only**. It must not waive or override any gates enforced by skills.
+
+This runbook defines the minimum baseline checks before claiming you understand "what's broken" (or "what exists") today.
 
 ## Repo Baseline
 

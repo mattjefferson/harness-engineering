@@ -7,16 +7,11 @@ called_from:
 
 # Code Review
 
-This runbook is the repo-specific playbook for reviews. The skill `he-review` enforces stable gates (fanout, findings format, and priority blocking). This document carries the details that change per project.
+This runbook is repo-specific and **additive only**. It must not waive or override any gates enforced by skills.
 
-Runbooks must not waive non-negotiable gates enforced by the skill (for example: security/data review and the critical/high priority block).
+The skill `he-review` enforces stable gates (fanout, findings format, and priority blocking). This document carries the details that change per project. Inputs: active plan (`docs/plans/active/<slug>.md` with `## Review Findings`) and current branch diff/test evidence.
 
-## Inputs
-
-- Active plan: `docs/plans/active/<slug>.md` (must contain `## Review Findings`)
-- Current branch diff and test evidence (local or CI)
-
-## Output (Write Into The Plan)
+## Output
 
 Populate `## Review Findings` with:
 

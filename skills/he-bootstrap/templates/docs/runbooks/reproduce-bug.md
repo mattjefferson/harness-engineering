@@ -8,6 +8,8 @@ called_from:
 
 # Reproduce Bug
 
+This runbook is repo-specific and **additive only**. It must not waive or override any gates enforced by skills.
+
 The goal is a smallest-possible reproducer you can run repeatedly to prove the bug exists and prove it is fixed.
 
 ## Repro Checklist

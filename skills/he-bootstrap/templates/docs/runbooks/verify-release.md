@@ -7,14 +7,11 @@ called_from:
 
 # Verify/Release
 
-This runbook is the evolving, repo-specific checklist for the verify/release gate. The skill `he-verify-release` enforces the stable invariants; this document carries the details that change per project.
+This runbook is repo-specific and **additive only**. It must not waive or override any gates enforced by skills.
 
-## Inputs
+The skill `he-verify-release` enforces the stable invariants; this document carries the details that change per project. Inputs: active plan (`docs/plans/active/<slug>.md` with `## Verify/Release Decision`) and review findings (populated by `he-review`).
 
-- Active plan: `docs/plans/active/<slug>.md` (must contain `## Verify/Release Decision`)
-- Review findings section in the plan (populated by `he-review`)
-
-## Required Outputs (Write Into The Plan)
+## Output
 
 Fill in `## Verify/Release Decision` with:
 
@@ -62,7 +59,7 @@ Record the minimum set of checks to run after merge/release:
 - key metrics / dashboards (if any)
 - error logs / alerts (if any)
 
-## Escalation Triggers
+## Escalation
 
 If any of these apply, stop and escalate per `he-verify-release` SKILL.md § Escalation:
 

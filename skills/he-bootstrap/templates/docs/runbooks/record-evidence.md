@@ -9,6 +9,8 @@ called_from:
 
 # Record Evidence
 
+This runbook is repo-specific and **additive only**. It must not waive or override any gates enforced by skills.
+
 Evidence should be easy to review, easy to find, and tied to an artifact (plan/PR) so it does not get lost.
 
 ## What To Capture
