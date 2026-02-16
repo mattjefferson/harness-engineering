@@ -99,22 +99,11 @@ done
 copy_if_missing "docs/design-docs/core-beliefs.md" "docs/design-docs/core-beliefs.md"
 
 # ---------------------------------------------------------------------------
-# Runbooks
+# Runbooks — copy all templates (no selector filtering at bootstrap)
 # ---------------------------------------------------------------------------
-for rb in \
-  update-agents-md.md \
-  update-domain-docs.md \
-  verify-release.md \
-  record-evidence.md \
-  ci-failures.md \
-  merge-change.md \
-  code-review.md \
-  review-findings.md \
-  address-review-findings.md \
-  validate-current-state.md \
-  reproduce-bug.md \
-  pull-request.md \
-  respond-to-feedback.md; do
+for rb_path in "${TEMPLATE_ROOT}"/docs/runbooks/*.md; do
+  [[ -f "$rb_path" ]] || continue
+  rb="$(basename "$rb_path")"
   copy_if_missing "docs/runbooks/${rb}" "docs/runbooks/${rb}"
 done
 
@@ -141,5 +130,15 @@ make_executable "scripts/ci/he-specs-lint.sh"
 make_executable "scripts/ci/he-plans-lint.sh"
 make_executable "scripts/ci/he-spikes-lint.sh"
 make_executable "scripts/runbooks/select-runbooks.sh"
+
+# ---------------------------------------------------------------------------
+# Commit bootstrapped files
+# ---------------------------------------------------------------------------
+if git -C "$TARGET_ROOT" rev-parse --is-inside-work-tree &>/dev/null; then
+  git -C "$TARGET_ROOT" add -A
+  if ! git -C "$TARGET_ROOT" diff --cached --quiet; then
+    git -C "$TARGET_ROOT" commit -m "chore: bootstrap harness-engineered workflow structure"
+  fi
+fi
 
 exit 0

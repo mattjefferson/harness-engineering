@@ -17,7 +17,6 @@ DEFAULT_REQUIRED_HEADINGS=(
   "## Success Criteria"
   "## Priority"
   "## Initial Milestone Candidates"
-  "## Handoff"
   "## Revision Notes"
 )
 

@@ -70,10 +70,6 @@ priority: <critical|high|medium|low>
 - M2: ... (observable outcome, likely files/surfaces)
 - M3: ... (optional follow-up)
 
-## Handoff
-- default: `he-plan`
-- if `spike_recommended: yes`: `he-spike`
-
 ## Revision Notes
 
 Append-only notes describing what changed in the spec and why.
