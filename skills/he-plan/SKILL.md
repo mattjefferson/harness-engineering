@@ -104,7 +104,7 @@ After drafting the plan, run an interactive review loop before tuning depth:
 3. Present interactive options (one decision) instead of an open-ended-only prompt:
    - Approve plan and continue (Recommended)
    - Chat about the plan
-   - Run a technical review pass
+   - Run `he-plan` again (full review pass)
    - Request plan changes
    - Handoff/pause
 4. If changes requested: revise, append revision note, commit (`docs(plan): <slug> revision — <what changed>`), show diff (`git diff HEAD~1 -- docs/plans/active/<slug>-plan.md`).
@@ -181,7 +181,7 @@ After the review loop, **present the plan with explicit next actions**. Use `Ask
 
 1. Approve plan and continue to `he-implement` (Recommended)
 2. Chat about the plan (Q&A/tradeoffs, no edits yet)
-3. Run a technical review (re-examine for gaps, risks, edge cases)
+3. Run `he-plan` again (full review pass for gaps, risks, and edge cases)
 4. Request plan changes (return to Phase 3.5)
 5. Handoff/pause with status and explicit next action
 
