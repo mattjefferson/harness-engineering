@@ -31,6 +31,7 @@ Run the full lifecycle with phase gates and parallel subagents.
 2. Validate workflow structure exists:
    - `docs/specs/`, `docs/spikes/`, `docs/plans/active/`, `docs/plans/completed/`, `docs/generated/`
 3. If required directories are missing, run `he-bootstrap`.
+4. Run `bash scripts/runbooks/select-runbooks.sh --skill he-workflow` and read any returned runbooks. Apply their additions throughout — they must not waive or override gates codified here.
 
 ### Phase 1: Intake
 
@@ -126,7 +127,7 @@ The orchestrator integrates results, updates plan artifacts, and enforces gates.
 
 - Plan is moved to `docs/plans/completed/<slug>.md`
 - Learn updates are written
-- Docs are committed
+- All artifacts are committed (enforced by he-implement exit gate)
 
 ## When Things Go Wrong
 

@@ -34,6 +34,7 @@ Prepare safe workspace isolation before running implementation-heavy phases.
 4. Detect whether already in a worktree: `git rev-parse --git-dir` contains `/worktrees/`
 5. Refresh refs: `git fetch --all --prune`
 6. Accept optional initiative slug/topic/branch hint.
+7. Run `bash scripts/runbooks/select-runbooks.sh --skill he-worktree` and read any returned runbooks. Apply their additions throughout — they must not waive or override gates codified here.
 
 ### Phase 1: Choose Strategy
 

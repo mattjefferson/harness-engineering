@@ -17,25 +17,45 @@ Drive the PR lifecycle end-to-end with `gh`, while keeping harness artifacts (sp
 
 ## Key Principles
 
-1. **Consent gate for remote ops** — do not push, open a PR, request review, or merge without explicit user approval.
+1. **Tiered consent for remote ops** — push and PR on feature branches are autonomous; merge and force-push require explicit user approval.
 2. **One PR per initiative slug** — the PR title/body should reference the same slug used in `docs/specs/` and `docs/plans/`.
 3. **Plan is canonical** — the PR description links to the active plan and key evidence; it does not replace it.
 4. **CI is evidence** — treat failing checks as signal; follow `docs/runbooks/ci-failures.md`.
 5. **Feedback loop** — respond to review comments by updating code + plan + evidence, then push and re-check.
 6. **Runbooks are additive only** — apply any runbook whose frontmatter `called_from` matches this skill (`bash scripts/runbooks/select-runbooks.sh --skill he-github`).
 
+## Consent Model
+
+| Operation | On feature branch | On main/protected branch |
+|---|---|---|
+| `git push` | Autonomous | Consent required |
+| `gh pr create` | Autonomous | N/A |
+| `gh pr edit` / respond to feedback | Autonomous | N/A |
+| Request agent review | Autonomous | N/A |
+| Request human review | Consent required | Consent required |
+| `gh pr merge` | Consent required | Consent required |
+| `git push --force` | Consent required | Consent required |
+
+**Safety invariants (non-negotiable):**
+
+- Never push directly to main/default branch without explicit consent
+- Never force-push without explicit consent
+- Never merge without explicit consent
+- Merge still requires `he-verify-release` GO decision
+
 ## Workflow
 
 ### Phase 0: Preflight
 
-- Read `docs/plans/active/<slug>.md` or accept initiative slug/PR reference.
-- Verify current git workspace context (branch/worktree) from `he-worktree`.
-- Run and record results in plan `Artifacts and Notes` or `Decision Log`:
-  - `git status --short --branch`
-  - `git remote -v`
-  - `gh auth status`
+1. Read `docs/plans/active/<slug>.md` or accept initiative slug/PR reference.
+2. Verify current git workspace context (branch/worktree) from `he-worktree`.
+3. Run and record results in plan `Artifacts and Notes` or `Decision Log`:
+   - `git status --short --branch`
+   - `git remote -v`
+   - `gh auth status`
+4. Run `bash scripts/runbooks/select-runbooks.sh --skill he-github` and read any returned runbooks. Apply their additions throughout — they must not waive or override gates codified here.
 
-### Phase 1: Open or Update PR (Consent Required)
+### Phase 1: Open or Update PR (autonomous on feature branches)
 
 **Creating a new PR:**
 
@@ -60,7 +80,7 @@ Drive the PR lifecycle end-to-end with `gh`, while keeping harness artifacts (sp
    - `gh pr view --json reviews`
 2. Make the smallest root-cause fix.
 3. Update plan `Review Findings`, `Progress`, and any evidence references.
-4. Push and re-run checks (consent required):
+4. Push and re-run checks (autonomous on feature branches):
    - `git push`
    - `gh pr checks`
 
@@ -103,7 +123,7 @@ When approved, merge using the repo policy in `docs/runbooks/merge-change.md` (o
 
 | Anti-Pattern | Better Approach |
 |---|---|
-| Pushing without user consent | Consent gate for all remote operations |
+| Pushing to main without consent | Tiered consent: autonomous on feature branches, consent for main/merge/force-push |
 | PR description replaces the plan | PR links to the plan; plan is the system of record |
 | Merging with failing CI | CI is evidence; failures must be resolved |
 | Force-pushing without explicit approval | Always get consent for destructive remote ops |

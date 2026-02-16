@@ -29,12 +29,13 @@ Run this skill periodically to keep docs accurate and aligned with shipped behav
 
 Prefer these commands over subjective scanning when available:
 
-- `bash scripts/ci/he-docs-lint.sh`
-- `bash scripts/ci/he-runbooks-lint.sh`
-- `bash scripts/ci/he-docs-drift.sh`
-- `bash scripts/ci/he-specs-lint.sh`
-- `bash scripts/ci/he-plans-lint.sh`
-- `bash scripts/ci/he-spikes-lint.sh`
+1. `bash scripts/ci/he-docs-lint.sh`
+2. `bash scripts/ci/he-runbooks-lint.sh`
+3. `bash scripts/ci/he-docs-drift.sh`
+4. `bash scripts/ci/he-specs-lint.sh`
+5. `bash scripts/ci/he-plans-lint.sh`
+6. `bash scripts/ci/he-spikes-lint.sh`
+7. Run `bash scripts/runbooks/select-runbooks.sh --skill he-doc-gardening` and read any returned runbooks. Apply their additions throughout — they must not waive or override gates codified here.
 
 ### Phase 1: Scan Targets (Parallel)
 

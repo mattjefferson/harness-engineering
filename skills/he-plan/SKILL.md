@@ -26,9 +26,10 @@ Convert a spec into a self-contained, novice-guiding execution plan.
 
 ### Phase 0: Gather Context
 
-- Read `docs/specs/<slug>.md`.
-- Read `docs/spikes/<slug>-spike.md` (if a spike was run — fold findings directly into the plan).
-- Use subagents to gather implementation context in parallel for independent codebase areas (e.g., data, API, UI, infra).
+1. Read `docs/specs/<slug>.md`.
+2. Read `docs/spikes/<slug>-spike.md` (if a spike was run — fold findings directly into the plan).
+3. Use subagents to gather implementation context in parallel for independent codebase areas (e.g., data, API, UI, infra).
+4. Run `bash scripts/runbooks/select-runbooks.sh --skill he-plan` and read any returned runbooks. Apply their additions throughout — they must not waive or override gates codified here.
 
 ### Phase 1: Domain Doc Check
 

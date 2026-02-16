@@ -32,10 +32,11 @@ This skill is first-party and uses `agent-browser` as the execution engine.
 
 ### Phase 0: Load Inputs
 
-- `slug`: initiative slug (`YYYY-MM-DD-kebab-topic`)
-- `scenario`: short scenario ID (`login-timeout`, `checkout-coupon`, etc.)
-- `phase`: `failure` or `resolution`
-- `flow-script`: script that runs the browser flow with `agent-browser` (Python preferred)
+1. `slug`: initiative slug (`YYYY-MM-DD-kebab-topic`)
+2. `scenario`: short scenario ID (`login-timeout`, `checkout-coupon`, etc.)
+3. `phase`: `failure` or `resolution`
+4. `flow-script`: script that runs the browser flow with `agent-browser` (Python preferred)
+5. Run `bash scripts/runbooks/select-runbooks.sh --skill he-video` and read any returned runbooks. Apply their additions throughout — they must not waive or override gates codified here.
 
 ### Phase 1: Capture Evidence
 

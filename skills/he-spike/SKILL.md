@@ -28,8 +28,9 @@ Run a focused, time-boxed investigation to reduce uncertainty before planning.
 
 ### Phase 0: Load Inputs
 
-- Read `docs/specs/<slug>.md` (the spec that triggered the spike).
-- Gather specific questions to answer or hypotheses to validate.
+1. Read `docs/specs/<slug>.md` (the spec that triggered the spike).
+2. Gather specific questions to answer or hypotheses to validate.
+3. Run `bash scripts/runbooks/select-runbooks.sh --skill he-spike` and read any returned runbooks. Apply their additions throughout — they must not waive or override gates codified here.
 
 ### Phase 1: Define the Spike
 

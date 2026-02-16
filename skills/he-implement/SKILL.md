@@ -34,12 +34,13 @@ Execute a PLANS-compliant active plan and keep the plan artifact current.
 
 ### Phase 1: Load Context
 
-- Read `docs/plans/active/<slug>.md`: `Purpose / Big Picture`, `Context and Orientation`, `Milestones`, `Plan of Work`, `Concrete Steps`, and `Validation and Acceptance`.
-- Refresh generated context in `docs/generated/` when stale:
-  1. Read `docs/generated/README.md` first (if present) for project-specific expectations.
-  2. Refresh only the generated files relevant to the current milestones.
-  3. Ensure refreshed files include an updated `last_updated` timestamp when the project uses that convention.
-  4. If expected generated context is missing and cannot be refreshed, record the gap in `Revision Notes`.
+1. Read `docs/plans/active/<slug>.md`: `Purpose / Big Picture`, `Context and Orientation`, `Milestones`, `Plan of Work`, `Concrete Steps`, and `Validation and Acceptance`.
+2. Refresh generated context in `docs/generated/` when stale:
+   1. Read `docs/generated/README.md` first (if present) for project-specific expectations.
+   2. Refresh only the generated files relevant to the current milestones.
+   3. Ensure refreshed files include an updated `last_updated` timestamp when the project uses that convention.
+   4. If expected generated context is missing and cannot be refreshed, record the gap in `Revision Notes`.
+3. Run `bash scripts/runbooks/select-runbooks.sh --skill he-implement` and read any returned runbooks. Apply their additions throughout — they must not waive or override gates codified here.
 
 ### Phase 2: Execute
 
@@ -66,16 +67,21 @@ Use subagents aggressively for independent work while keeping integration and pl
 - Resolve conflicts before marking related `Progress` items done.
 - If the plan lacks concrete file paths or commands, return to `he-plan` for clarification.
 
-### Phase 3: Update Plan
+### Phase 3: Update Plan and Commit
 
 After each batch, update `docs/plans/active/<slug>.md`:
 
-- Check completed `Progress` items.
-- Append new discoveries in `Surprises & Discoveries` with evidence.
-- Append decisions in `Decision Log` when approach/scope changes.
-- Update `Outcomes & Retrospective` with milestone outcomes/gaps.
-- Add evidence to `Artifacts and Notes`.
-- Append `Revision Notes` with what changed in the plan and why.
+1. Check completed `Progress` items.
+2. Append new discoveries in `Surprises & Discoveries` with evidence.
+3. Append decisions in `Decision Log` when approach/scope changes.
+4. Update `Outcomes & Retrospective` with milestone outcomes/gaps.
+5. Add evidence to `Artifacts and Notes`.
+6. Append `Revision Notes` with what changed in the plan and why.
+7. Commit the batch:
+   - Stage only files changed by this batch — name them explicitly: `git add path/to/file ...`
+   - Never use `git add .` or `git add -A` on main/default branch.
+   - Commit with conventional message: `<type>(<slug>): <milestone summary>`
+   - This is a local operation; no consent gate required.
 
 ## Agentic E2E (Optional)
 
@@ -91,6 +97,7 @@ For browser UI verification, prefer `agent-browser` flows and store durable evid
 - Validation evidence is recorded in the plan
 - Living sections are updated (`Progress`, `Surprises & Discoveries`, `Decision Log`, `Outcomes & Retrospective`, `Revision Notes`)
 - Workspace strategy/branch/path are documented for reproducibility
+- All completed work is committed (no uncommitted changes for completed progress items)
 - Docs commit gate passes
 
 ## When Things Go Wrong

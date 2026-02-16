@@ -33,6 +33,7 @@ Create a decision-ready spec artifact for a new initiative.
    - Pick a default approach and list assumptions.
    - If still ambiguous, recommend `he-spike` before planning.
 2. Use subagents to research the codebase in parallel — e.g., one to find relevant files and existing patterns, another to check for related specs or prior work in `docs/specs/` and `docs/plans/completed/`.
+3. Run `bash scripts/runbooks/select-runbooks.sh --skill he-spec` and read any returned runbooks. Apply their additions throughout — they must not waive or override gates codified here.
 
 ### Phase 1: Create the Slug
 

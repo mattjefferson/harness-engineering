@@ -26,10 +26,11 @@ Turn execution outcomes into durable improvements.
 
 ### Phase 0: Gather Learning Inputs
 
-- Read `docs/plans/active/<slug>.md`.
-- Gather implementation/review/verify outcomes plus generated context updates (if any).
-- Gather incident or friction notes (if any).
-- Use subagents in parallel — e.g., one to analyze review findings and recurring patterns, another to scan implementation friction from `Progress` and `Surprises & Discoveries`.
+1. Read `docs/plans/active/<slug>.md`.
+2. Gather implementation/review/verify outcomes plus generated context updates (if any).
+3. Gather incident or friction notes (if any).
+4. Use subagents in parallel — e.g., one to analyze review findings and recurring patterns, another to scan implementation friction from `Progress` and `Surprises & Discoveries`.
+5. Run `bash scripts/runbooks/select-runbooks.sh --skill he-learn` and read any returned runbooks. Apply their additions throughout — they must not waive or override gates codified here.
 
 ### Phase 1: Capture Learnings
 

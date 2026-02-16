@@ -30,8 +30,9 @@ Use this skill when answers are discoverable through research. For unknowns that
 
 ### Phase 0: Gather Questions
 
-- Read `docs/specs/<slug>.md` (preferred) or direct question list from user.
-- Optionally pull context from `docs/plans/completed/`, `docs/spikes/`, `docs/generated/`.
+1. Read `docs/specs/<slug>.md` (preferred) or direct question list from user.
+2. Optionally pull context from `docs/plans/completed/`, `docs/spikes/`, `docs/generated/`.
+3. Run `bash scripts/runbooks/select-runbooks.sh --skill he-research` and read any returned runbooks. Apply their additions throughout — they must not waive or override gates codified here.
 
 ### Phase 1: Categorize
 
