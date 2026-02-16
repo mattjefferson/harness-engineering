@@ -3,6 +3,7 @@ slug: <slug>
 status: active
 phase: plan
 plan_mode: <trivial|lightweight|execution>
+detail_level: <minimal|more|a_lot>
 priority: <critical|high|medium|low>
 owner: <name or team>
 ---
@@ -38,7 +39,7 @@ Record each material decision and why it was made.
 
 - Decision: <decision>
   Rationale: <why this path was selected>
-  Date/Author: <YYYY-MM-DD, name>
+  Date/Author: <YYYY-MM-DDTHH:MM:SSZ, name>
 
 ## Outcomes & Retrospective
 
@@ -130,4 +131,4 @@ Populated by `he-verify-release`.
 
 Append-only notes describing what changed in the plan and why.
 
-- 2026-02-15: Initialized plan from template. Reason: establish PLANS-compliant execution baseline.
+- <YYYY-MM-DDTHH:MM:SSZ>: Initialized plan from template. Reason: establish PLANS-compliant execution baseline.

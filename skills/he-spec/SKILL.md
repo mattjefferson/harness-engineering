@@ -22,18 +22,58 @@ Create a decision-ready spec artifact for a new initiative.
 4. **Route unknowns** — investigatable questions go to `he-research`; experience-dependent unknowns go to `he-spike`.
 5. **No fake certainty** — capture ambiguity explicitly instead of guessing.
 6. **Runbooks are additive only** — apply any runbook whose frontmatter `called_from` matches this skill (`bash scripts/runbooks/select-runbooks.sh --skill he-spec`), but never waive/override anything codified here.
+7. **One question at a time** — ask a single focused question per turn. Never batch. User can say "proceed" at any point to skip remaining questions.
+8. **No code** — he-spec is a discovery and intent-capture phase. Do not write, generate, or suggest code. Implementation belongs in he-plan and he-implement.
 
 ## Workflow
 
 ### Phase 0: Understand the Request
 
-1. If request is unclear, run the Fuzzy-Idea Loop:
-   - Capture intended outcome in one sentence.
-   - Offer 2–3 possible approaches with tradeoffs.
-   - Pick a default approach and list assumptions.
-   - If still ambiguous, recommend `he-spike` before planning.
-2. Use subagents to research the codebase in parallel — e.g., one to find relevant files and existing patterns, another to check for related specs or prior work in `docs/specs/` and `docs/plans/completed/`.
-3. Run `bash scripts/runbooks/select-runbooks.sh --skill he-spec` and read any returned runbooks. Apply their additions throughout — they must not waive or override gates codified here.
+**Run subagents and runbooks first** — before any user interaction:
+1. Use subagents to research the codebase in parallel — e.g., one to find relevant files and existing patterns, another to check for related specs or prior work in `docs/specs/` and `docs/plans/completed/`.
+2. Run `bash scripts/runbooks/select-runbooks.sh --skill he-spec` and read any returned runbooks. Apply their additions throughout — they must not waive or override gates codified here.
+
+#### Phase 0-pre: Detect External Input
+
+If the user provides an existing spec, PRD, requirements document, or reference artifacts (file path, pasted content, or URL), treat them as the starting point instead of a blank slate:
+
+**External specs/PRDs:**
+1. Read/parse the external document.
+2. Map its content onto our spec template sections (Purpose, Scope, Requirements, etc.).
+3. Identify gaps — which sections from our template are missing or underspecified in the external doc.
+4. Present the mapping summary: "Here's what I found in your doc and what's missing: [list gaps]."
+5. Use the gap list to drive Phase 0c questions (only ask about what's missing, not what's already covered).
+6. Write the normalized spec, preserving the user's intent and wording where possible.
+
+This means he-spec works as both a creator (from scratch) and an adapter (from external input). The output is always our standard `docs/specs/<slug>.md` format.
+
+**Reference artifacts** — Users may provide supporting materials at any point during spec creation: UI mockups/screenshots, links to other repos, API docs, design files, architecture diagrams, etc. When provided:
+1. Copy files into `docs/specs/artifacts/<slug>/` (create dir if needed). For URLs, save the URL reference rather than downloading.
+2. Reference them in the spec using relative links: `![UI mockup](artifacts/<slug>/mockup.png)`
+3. Extract relevant details from the artifacts into the appropriate spec sections (e.g., UI screenshots inform scope and requirements, external repo links inform constraints/dependencies).
+4. Ask the user what aspects of the artifact matter: "What should I take from this screenshot — the layout, the data shown, or both?"
+
+If artifacts arrive mid-conversation (during Phase 0b/0c or Phase 2.5 review), handle them the same way — capture, reference, and fold into the spec.
+
+#### Phase 0a: Assess Clarity
+
+If the request is already detailed (clear requirements, success criteria, scope), offer to skip exploration: "Your request is clear enough to draft directly. Want to proceed or explore further?" Prevents forcing a dialogue loop on users who know exactly what they want.
+
+#### Phase 0b: Explore with Focused Questions (Fuzzy-Idea Loop)
+
+Ask questions ONE AT A TIME, starting with highest-uncertainty areas. After 2–3 mapping questions, present 2–3 broad directions with tradeoffs (lead with recommendation). User picks direction or says "proceed" to accept recommendation.
+
+Escape hatch: "proceed" / "just do it" / "move on" stops questions; remaining uncertainties become Open Questions in the spec.
+
+#### Phase 0c: Deep Exploration in Chosen Direction
+
+Targeted follow-up questions ONE AT A TIME. **Only ask what the codebase can't answer.** Subagents from Phase 0 already explored the repo — if the stack is evident (languages, frameworks, DB, infra), state what you found and confirm rather than asking from scratch ("This repo uses TypeScript/Next.js/Prisma — I'll plan around that unless you say otherwise"). Only ask tech questions when the initiative introduces something *new to the repo* (new service, new dependency category, new infrastructure).
+
+Also cover: integration points, scale/performance expectations, UX expectations.
+
+**Challenge assumptions**: if the user's approach has a known pitfall or simpler alternative, surface it ("Have you considered X? It might Y.").
+
+Continue until approach is clear OR user says "proceed."
 
 ### Phase 1: Create the Slug
 
@@ -51,6 +91,16 @@ Create a decision-ready spec artifact for a new initiative.
 7. Draft initial milestone candidates (`M1`, `M2`, ...) with observable outcomes and likely risk hotspots.
 8. Add `Handoff` and initialize `Revision Notes` (append-only).
 
+### Phase 2.5: Interactive Review
+
+After writing the spec draft, run a review loop before classifying:
+
+1. Commit the initial draft: `git add docs/specs/<slug>.md && git commit -m "docs(spec): <slug> draft"`
+2. Summarize spec in 3–5 bullet points highlighting key decisions.
+3. Ask: "Review the spec. What would you change? Or say 'looks good' to proceed."
+4. If changes requested: revise, append revision note, commit the revision (`docs(spec): <slug> revision — <what changed>`), then show the diff (`git diff HEAD~1 -- docs/specs/<slug>.md`) so the user sees exactly what changed.
+5. Repeat until user approves — tight loop, no phase transition. Each round = one commit, so the full revision history is in git.
+
 ### Phase 3: Classify and Finalize
 
 1. Select `plan_mode` in spec frontmatter:
@@ -62,8 +112,13 @@ Create a decision-ready spec artifact for a new initiative.
 ## Progressive Disclosure Rules
 
 - **Always include**: Purpose / Big Picture, Scope, Non-Goals, Risks, Rollout, Validation and Acceptance Signals, Requirements, Success Criteria, Priority, Initial Milestone Candidates, Handoff.
-- **Include only when needed**: Chosen Direction, Alternatives Considered, Key Decisions, Open Questions.
+- **Include only when needed**: Chosen Direction, Alternatives Considered, Key Decisions, Open Questions, Tech Preferences, Reference Artifacts.
 - Keep implementation detail out of intake spec (libraries/endpoints/schema details belong in planning).
+- **Classify open questions** by type to drive routing at transition:
+  - `[research]` — answerable through investigation (route to `he-research`)
+  - `[spike]` — needs hands-on exploration (route to `he-spike`)
+  - `[decision]` — requires human call (surface to user)
+  - `[planning]` — resolve during `he-plan`
 
 ## Spec Template
 
@@ -107,8 +162,10 @@ Use `templates/spec-template.md`.
 
 Always use interactive question tool at transitions (`AskUserQuestion` in Claude Code, `request_user_input` in Codex Plan mode, or equivalent). Offer:
 
-1. Continue to `he-research` when meaningful open questions remain; otherwise continue to `he-plan` (or `he-spike` when `spike_recommended: yes`; for `plan_mode: trivial`, use an abbreviated plan and continue to implement) (recommended)
-2. Run one more build-feedback round in `he-spec`
-3. Handoff/pause with status and explicit next action
+1. Continue to next phase — route based on open question types and `spike_recommended`: `he-research` when `[research]` questions remain, `he-spike` when `spike_recommended: yes`, otherwise `he-plan` (for `plan_mode: trivial`, use an abbreviated plan and continue to implement) (recommended)
+2. Review the spec again (return to Phase 2.5)
+3. Ask more questions (return to Phase 0c for deeper exploration)
+4. Handoff/pause with status and explicit next action
+5. Done for now (spec is parked, no immediate next step)
 
 If running autonomously or no interactive tool is available, continue with the recommended next phase and log an `Autonomous transition` note in `Decision Log` or `Revision Notes`.

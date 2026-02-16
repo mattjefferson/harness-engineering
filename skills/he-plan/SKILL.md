@@ -21,28 +21,54 @@ Convert a spec into a self-contained, novice-guiding execution plan.
 4. **Progress is the only checklist** — narrative sections stay prose-first; living sections stay current.
 5. **Populate missing policy** — ensure relevant domain docs exist and are updated when context is available.
 6. **Runbooks are additive only** — apply any runbook whose frontmatter `called_from` matches this skill (`bash scripts/runbooks/select-runbooks.sh --skill he-plan`), but never waive/override anything codified here.
+7. **One question at a time** — ask a single focused question per turn. User can say "proceed" to accept recommendations.
+8. **User chooses depth** — after confirming approach, ask what detail level: MINIMAL / MORE / A LOT. Overrides agent-classified `plan_mode` for prose depth.
+9. **No code** — he-plan is a planning phase. Do not write, generate, or suggest code. Describe *what* to build and *where*, not the code itself. Implementation belongs in he-implement.
 
 ## Workflow
 
 ### Phase 0: Gather Context
 
-1. Read `docs/specs/<slug>.md`.
+1. Read `docs/specs/<slug>.md`. If invoked with an external document (file path, pasted content) instead of a `docs/specs/<slug>.md` reference:
+   a. Read the external document and extract: purpose, requirements, constraints, tech decisions, open questions.
+   b. If the external doc is rich enough to plan from (has clear requirements + success criteria), proceed directly — don't force the user through he-spec first.
+   c. If the external doc has significant gaps, offer two paths: (a) run he-spec to normalize it first, or (b) fill gaps inline via Phase 0.5 questions and proceed.
+   d. Either way, the plan references the original external doc in its Context and Orientation section alongside any normalized spec.
 2. Read `docs/spikes/<slug>-spike.md` (if a spike was run — fold findings directly into the plan).
 3. Use subagents to gather implementation context in parallel for independent codebase areas (e.g., data, API, UI, infra).
 4. Run `bash scripts/runbooks/select-runbooks.sh --skill he-plan` and read any returned runbooks. Apply their additions throughout — they must not waive or override gates codified here.
 
+### Phase 0.5: Idea Refinement (conditional)
+
+When no spec exists or the spec is thin, ask focused questions ONE AT A TIME until approach is clear or user says "proceed." If questioning reveals significant ambiguity, recommend returning to he-spec.
+
 ### Phase 1: Confirm Approach with User
 
-**Stop and ask the user before proceeding.** Present a concise summary and get explicit approval:
+**Stop and confirm with the user before proceeding.** Present and confirm ONE AT A TIME — not as a single wall of text.
 
-1. **Tech stack / key choices** — languages, frameworks, libraries, infrastructure you plan to use.
-2. **Architecture approach** — high-level shape of the solution (e.g., new service vs. extending existing, database changes, API surface).
+#### Phase 1a: Spec Alignment Check
+
+Verify codebase matches spec assumptions. If divergence found (spec references nonexistent module, API works differently), stop and surface: "The spec assumes X, but the codebase actually Y. How should we handle this?"
+
+#### Phase 1b: Iterative Approach Confirmation
+
+Present and confirm each item ONE AT A TIME:
+
+1. **Tech stack** — state what the codebase already uses and confirm ("The repo uses X/Y/Z — I'll use those") rather than asking open-ended tech questions. Only ask when the initiative introduces dependencies or patterns not already in the repo.
+2. **Architecture approach** — high-level shape of the solution (e.g., new service vs. extending existing, database changes, API surface). State recommendation and ask if user agrees.
 3. **Milestone outline** — proposed milestones with one-line descriptions.
 4. **Open questions** — anything ambiguous in the spec that affects the plan.
 
-Use `AskUserQuestion` (or equivalent interactive tool) to present these and wait for confirmation. Do not proceed to drafting until the user approves or redirects the approach.
+For each item, state your recommendation and ask if user agrees. Escape hatch: "proceed" or "looks good" accepts current state and skips remaining items.
 
 If running autonomously with no interactive tool available, log the proposed approach in `Decision Log` with an `Awaiting confirmation` note and pause.
+
+#### Phase 1c: Detail Level Choice
+
+Ask: "How much detail do you want in the plan?"
+- **MINIMAL** — key milestones + commands only
+- **MORE** — standard (default)
+- **A LOT** — deep guidance, extensive context, step-by-step
 
 ### Phase 2: Domain Doc Check
 
@@ -68,13 +94,28 @@ If running autonomously with no interactive tool available, log the proposed app
 13. Include concise evidence snippets in `Artifacts and Notes` as work progresses.
 14. Add a revision note at the bottom of the plan whenever the plan is revised.
 
+### Phase 3.5: Review Loop
+
+After drafting the plan, run an interactive review loop before tuning depth:
+
+1. Commit the initial draft: `git add docs/plans/active/<slug>.md && git commit -m "docs(plan): <slug> draft"`
+2. Summarize plan in 3–5 bullet points covering key decisions and milestone structure.
+3. Ask: "Review the plan. What would you change?"
+4. If changes requested: revise, append revision note, commit (`docs(plan): <slug> revision — <what changed>`), show diff (`git diff HEAD~1 -- docs/plans/active/<slug>.md`).
+5. **Recommendation logic**:
+   - Critical/High severity issues found and fixed → recommend another review round
+   - Medium/Low only → fix and recommend proceeding to implement
+   - After 3+ review rounds → recommend proceeding: "We've refined this well; further improvement will come from implementation feedback"
+6. Repeat until user approves or accepts recommendation to proceed. Each round = one commit.
+
 ### Phase 4: Tune Depth by Plan Mode
 
-Read `plan_mode` from `docs/specs/<slug>.md` and tune depth, not structure:
+Combine `plan_mode` (structural completeness from spec) with user's `detail_level` choice (prose depth from Phase 1c):
 
-- `trivial`: abbreviated plan that still includes all required sections and enables implement/review/learn gates.
-- `lightweight`: fewer milestones and shorter prose, but still include every required section.
-- `execution`: deeper orientation, milestones, validation detail, and richer decision/evidence updates.
+- **`plan_mode` controls structure**: `trivial` = abbreviated plan, `lightweight` = fewer milestones, `execution` = full depth. All modes include every required section.
+- **`detail_level` controls prose**: `minimal` = terse, `more` = standard, `a_lot` = exhaustive context and step-by-step guidance.
+
+For example, `execution` + `minimal` = full milestone structure but concise prose. `lightweight` + `a_lot` = fewer milestones but deeply explained.
 
 ## Source of Truth
 
@@ -121,11 +162,13 @@ Use `templates/plan-template.md`.
 
 ## Transition Points
 
-After drafting the plan, **present it to the user for final approval**. Use `AskUserQuestion` (or equivalent) to ask the user to review the plan and offer:
+After the review loop, **present the plan to the user for final approval**. Use `AskUserQuestion` (or equivalent) to offer:
 
-1. Approve and continue to `he-implement`
-2. Request changes (specify what to revise)
-3. Handoff/pause with status and explicit next action
+1. Approve and continue to `he-implement` (recommended)
+2. Deepen a specific section (ask which, revise just that section)
+3. Run a technical review (re-examine for gaps, risks, edge cases)
+4. Request changes (return to Phase 3.5)
+5. Handoff/pause with status and explicit next action
 
 **Do not transition out of `he-plan` without explicit user approval of the final plan.** If the user requests changes, revise and re-present until approved.
 
