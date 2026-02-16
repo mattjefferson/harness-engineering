@@ -10,7 +10,7 @@ This repository packages a set of `he-*` skills plus templates that turn "ship s
 - `he-github` helpers for PR lifecycle (open/update/checks/merge) via `gh`
 - `he-bootstrap` templates for `docs/` structure, plans, runbooks, and generated context
 - Parallel review + verify/release gates that produce a written GO/NO-GO decision
-- A compounding learning loop that turns failures into permanent guardrails
+- A compounding learning loop that routes learnings to AGENTS.md, golden principles, or mechanical guardrails (`scripts/ci/` + domain docs)
 - `agent-browser` and `he-video` helpers for capturing agentic E2E evidence
 
 ## Philosophy
@@ -207,10 +207,6 @@ docs/
     core-beliefs.md
   generated/
     README.md
-    db-schema.md
-    api-schema.md
-    component-tree.md
-    dependency-graph.md
     memory.md
   plans/
     README.md
@@ -353,7 +349,7 @@ Records GO/NO-GO in the plan with evidence, rollback readiness, and post-release
 
 ### `he-learn`
 
-Turns execution outcomes into durable guardrails, updates runbooks, processes the scratchpad, and archives the plan.
+Turns execution outcomes into durable improvements via a compound learning loop: AGENTS.md updates (setup/workflow/escalation changes), golden principles (mechanically enforceable invariants), guardrail promotion (rule in domain doc + enforcement in `scripts/ci/`), and runbook updates. Also processes the scratchpad and archives the plan.
 
 ### `he-doc-gardening`
 
