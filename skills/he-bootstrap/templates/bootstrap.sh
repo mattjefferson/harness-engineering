@@ -85,6 +85,21 @@ copy_if_missing "docs/DOMAIN_DOCS.md" "docs/DOMAIN_DOCS.md"
 copy_if_missing "docs/generated/memory.md" "docs/generated/memory.md"
 
 # ---------------------------------------------------------------------------
+# Domain docs (baseline guidance deployed at bootstrap; flesh out on demand)
+# ---------------------------------------------------------------------------
+for dd in \
+  SECURITY.md \
+  RELIABILITY.md \
+  FRONTEND.md \
+  DESIGN.md \
+  PRODUCT_SENSE.md \
+  OBSERVABILITY.md \
+  DATA.md; do
+  copy_if_missing "docs/${dd}" "docs/${dd}"
+done
+copy_if_missing "docs/design-docs/core-beliefs.md" "docs/design-docs/core-beliefs.md"
+
+# ---------------------------------------------------------------------------
 # Runbooks
 # ---------------------------------------------------------------------------
 for rb in \

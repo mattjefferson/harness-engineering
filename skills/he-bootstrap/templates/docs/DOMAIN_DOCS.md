@@ -1,6 +1,6 @@
 # Domain Docs Registry
 
-Reference for agents: what domain docs exist, how to detect relevant content, and when to create or update them. Domain docs are **not** created at bootstrap — they are created on-demand by whichever skill first has real context to populate them.
+Reference for agents: what domain docs exist, how to detect relevant content, and when to create or update them. Domain docs are deployed at bootstrap with baseline guidance. Flesh them out with real, repo-specific content on demand.
 
 ## Domain Docs
 
@@ -24,8 +24,7 @@ Reference for agents: what domain docs exist, how to detect relevant content, an
 
 ## How to Create or Update
 
-1. Check if the domain doc file exists
-2. If missing: create the file at the path above with real content — use auto-detect signals and current context to populate it (don't create empty stubs)
-3. If exists but is effectively empty (frontmatter + headings with no substantive content): populate it with real content
-4. If it has real content: append or revise — never overwrite working policies without replacing them with something better
-5. Preserve section structure (headings stay, content fills in)
+1. Check if the domain doc file exists (bootstrap deploys all baseline docs)
+2. If the doc has only baseline guidance (template defaults): replace with real, repo-specific content using auto-detect signals and current context
+3. If it has real content: append or revise — never overwrite working policies without replacing them with something better
+4. Preserve section structure (headings stay, content fills in)
