@@ -30,7 +30,7 @@ Run the full lifecycle with phase gates and parallel subagents.
 1. Resolve slug from initiative request, existing slug, or active plan path.
 2. Validate workflow structure exists:
    - `docs/specs/`, `docs/spikes/`, `docs/plans/active/`, `docs/plans/completed/`, `docs/generated/`
-3. If required directories are missing, run `he-bootstrap`.
+3. If required directories are missing, run `he-bootstrap`. Bootstrap scaffolding commits directly to the current branch (typically main) — do not create a feature branch for scaffolding.
 4. Run `bash scripts/runbooks/select-runbooks.sh --skill he-workflow` and read any returned runbooks. Apply their additions throughout — they must not waive or override gates codified here.
 
 ### Phase 1: Intake

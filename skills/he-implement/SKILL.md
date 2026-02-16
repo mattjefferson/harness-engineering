@@ -27,10 +27,11 @@ Execute a PLANS-compliant active plan and keep the plan artifact current.
 ### Phase 0: Workspace Isolation Gate
 
 1. Inspect current workspace state (`git status --short --branch`, current branch, worktree detection).
-2. If not already isolated for this initiative, run `he-worktree` to choose and create the workspace.
-3. For non-trivial or long-running work, prefer a dedicated worktree.
-4. Never proceed directly on the default branch without explicit user consent.
-5. Record selected strategy (`worktree` or `branch`), branch name, and workspace directory in `Decision Log` or `Revision Notes`.
+2. Determine if the first milestone is **initial project scaffolding** (generating the app skeleton — e.g., `bun create next-app`, `cargo init`, framework boilerplate). If so, work directly on main — scaffolding is the project baseline, not a feature. Skip to Phase 1.
+3. If not scaffolding and not already isolated for this initiative, run `he-worktree` to choose and create the workspace.
+4. For non-trivial or long-running feature work, prefer a dedicated worktree.
+5. Never proceed directly on the default branch for feature work without explicit user consent.
+6. Record selected strategy (`worktree` or `branch`), branch name, and workspace directory in `Decision Log` or `Revision Notes`.
 
 ### Phase 1: Load Context
 

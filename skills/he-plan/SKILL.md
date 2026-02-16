@@ -31,13 +31,26 @@ Convert a spec into a self-contained, novice-guiding execution plan.
 3. Use subagents to gather implementation context in parallel for independent codebase areas (e.g., data, API, UI, infra).
 4. Run `bash scripts/runbooks/select-runbooks.sh --skill he-plan` and read any returned runbooks. Apply their additions throughout — they must not waive or override gates codified here.
 
-### Phase 1: Domain Doc Check
+### Phase 1: Confirm Approach with User
+
+**Stop and ask the user before proceeding.** Present a concise summary and get explicit approval:
+
+1. **Tech stack / key choices** — languages, frameworks, libraries, infrastructure you plan to use.
+2. **Architecture approach** — high-level shape of the solution (e.g., new service vs. extending existing, database changes, API surface).
+3. **Milestone outline** — proposed milestones with one-line descriptions.
+4. **Open questions** — anything ambiguous in the spec that affects the plan.
+
+Use `AskUserQuestion` (or equivalent interactive tool) to present these and wait for confirmation. Do not proceed to drafting until the user approves or redirects the approach.
+
+If running autonomously with no interactive tool available, log the proposed approach in `Decision Log` with an `Awaiting confirmation` note and pause.
+
+### Phase 2: Domain Doc Check
 
 - Check `docs/DOMAIN_DOCS.md` for domain docs relevant to this initiative.
 - If a relevant domain doc doesn't exist yet, create it with real content using auto-detect signals and planning context.
 - If it exists but is still a stub, populate it.
 
-### Phase 2: Draft the Plan
+### Phase 3: Draft the Plan
 
 1. Read `docs/PLANS.md` in full before writing.
 2. Keep the plan fully self-contained for a novice with only this repo and the single plan file.
@@ -55,7 +68,7 @@ Convert a spec into a self-contained, novice-guiding execution plan.
 13. Include concise evidence snippets in `Artifacts and Notes` as work progresses.
 14. Add a revision note at the bottom of the plan whenever the plan is revised.
 
-### Phase 3: Tune Depth by Plan Mode
+### Phase 4: Tune Depth by Plan Mode
 
 Read `plan_mode` from `docs/specs/<slug>.md` and tune depth, not structure:
 
@@ -87,6 +100,7 @@ Use `templates/plan-template.md`.
 - `Decision Log`, `Surprises & Discoveries`, `Outcomes & Retrospective`, and `Revision Notes` are initialized
 - Domain docs relevant to this initiative exist and have real content (not stubs)
 - Docs commit gate passes
+- **User has explicitly approved the final plan** before any transition
 
 ## When Things Go Wrong
 
@@ -107,10 +121,12 @@ Use `templates/plan-template.md`.
 
 ## Transition Points
 
-Always use interactive question tool at transitions (`AskUserQuestion` in Claude Code, `request_user_input` in Codex Plan mode, or equivalent). Offer:
+After drafting the plan, **present it to the user for final approval**. Use `AskUserQuestion` (or equivalent) to ask the user to review the plan and offer:
 
-1. Continue to `he-implement` (recommended)
-2. Run one more build-feedback round in `he-plan`
+1. Approve and continue to `he-implement`
+2. Request changes (specify what to revise)
 3. Handoff/pause with status and explicit next action
 
-If running autonomously or no interactive tool is available, continue with `he-implement` and log an `Autonomous transition` note in `Decision Log` or `Revision Notes`.
+**Do not transition out of `he-plan` without explicit user approval of the final plan.** If the user requests changes, revise and re-present until approved.
+
+If running autonomously with no interactive tool available, log the plan as `Awaiting user approval` in `Decision Log` and pause. Do not proceed to implementation.

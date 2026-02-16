@@ -15,6 +15,13 @@ Prepare safe workspace isolation before running implementation-heavy phases.
 - Before broad review/refactor passes that may touch many files
 - Any time the current branch/workspace ownership is unclear
 
+## When NOT to Use
+
+- **Bootstrap scaffolding** (`he-bootstrap`) — docs structure commits directly to main
+- **Initial project scaffolding** — generating the app skeleton (e.g., `bun create next-app`, `cargo init`, `rails new`) belongs on main as the baseline. Feature branches start after the foundation exists.
+- **Spec and plan creation** (`he-spec`, `he-plan`) — these are documentation artifacts that belong on main until implementation begins
+- Trivial doc-only changes that don't warrant isolation
+
 ## Key Principles
 
 1. **Isolation first** — avoid collisions with human in-flight changes for non-trivial work.
