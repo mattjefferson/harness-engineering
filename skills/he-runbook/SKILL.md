@@ -49,13 +49,12 @@ Create or update a runbook (process/checklist) that can evolve per project, whil
    - `use_when`: a single-sentence trigger.
    - `called_from`: YAML list of skill names (preferred) and optionally workflow steps. Keep this list minimal and accurate; it controls automatic runbook selection.
 4. Write the body:
-   - Start with the stable invariant: "skill gates still apply; runbook cannot waive them".
+   - Ensure the canonical additive-only statement is present: "This runbook is repo-specific and **additive only**. It must not waive or override any gates enforced by skills."
    - Add the repo-specific checklist/commands in execution order.
-5. Audit against `skills/he-runbook/references/audit-rules.md` — verify no prohibited content (escalation weakening, gate waiving, priority redefinition, evidence weakening, mock allowance, consent bypass).
 
 ### Phase 3: Validate and Link
 
-1. Audit: verify runbook content against `skills/he-runbook/references/audit-rules.md` (no prohibited content).
+1. Audit against `skills/he-runbook/references/audit-rules.md` — verify no prohibited content (escalation weakening, gate waiving, priority redefinition, evidence weakening, mock allowance, consent bypass).
 2. Lint: `bash scripts/ci/he-runbooks-lint.sh`
 3. Verify selection: `bash scripts/runbooks/select-runbooks.sh --skill <skill>` returns the runbook.
 4. If this runbook will be reused, add it to the AGENTS.md runbook index.

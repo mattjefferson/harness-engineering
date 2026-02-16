@@ -1,6 +1,6 @@
 # Runbook Audit Rules
 
-Rules for validating runbook content during Phase 2 (Write) and Phase 3 (Validate). Runbooks are additive — they extend skills, never weaken them.
+Rules for validating runbook content during Phase 3 (Validate). Runbooks are additive — they extend skills, never weaken them.
 
 ## Prohibited Content
 
@@ -54,5 +54,5 @@ Runbooks must not:
 - Provide concrete commands and expected outputs
 - Cross-reference skills via `§ <section>` for immutable rules
 - Use `called_from` frontmatter accurately
-- Start with the standard additive-only statement
+- Start with the canonical additive-only statement: "This runbook is repo-specific and **additive only**. It must not waive or override any gates enforced by skills."
 - Keep scope tight: one runbook, one job
