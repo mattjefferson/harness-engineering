@@ -9,57 +9,20 @@ The system of record is `docs/`. Keep durable knowledge (specs, plans, logs, dec
 ## Golden Principles
 
 - Prove it works: never claim completion without running the most relevant validation (tests, build, or a small end-to-end check) or explicitly recording why it could not be run.
-
-## Session Startup
-
-Before doing any work:
-
-1. Check `docs/plans/active/` for in-progress work.
-2. If a plan exists, open it and read `## Progress`; resume from the first incomplete item.
-3. If no plan exists, ask what initiative to run and start at `docs/specs/<slug>-spec.md`.
+- Keep AGENTS.md minimal and stable; detailed procedure belongs in `docs/runbooks/`.
 
 ## Source Of Truth (Table Of Contents)
 
-- Plan system + artifact contract: `docs/PLANS.md`
-- Architecture (if present): `ARCHITECTURE.md`
-- Runbooks (process + checklists): `docs/runbooks/`
-- AGENTS.md editing guide: `docs/runbooks/update-agents-md.md`
-- Scratchpad (inbox; processed during learn): `docs/generated/memory.md`
+- Workflow contract + artifact rules: `docs/PLANS.md`
 - Specs (intent): `docs/specs/`
-- Spikes (findings): `docs/spikes/`
-- Plans (execution + logs): `docs/plans/`
-- Generated context (refresh as needed): `docs/generated/`
-- Domain guardrails and standards:
-  - `docs/SECURITY.md`
-  - `docs/RELIABILITY.md`
-  - `docs/FRONTEND.md`
-  - `docs/DESIGN.md`
-  - `docs/PRODUCT_SENSE.md`
+- Spikes (investigation findings): `docs/spikes/`
+- Plans (execution + evidence): `docs/plans/`
+- Runbooks (process checklists): `docs/runbooks/`
+- Generated context (scratchpad/reference): `docs/generated/`
+- Architecture (if present): `ARCHITECTURE.md`
 
 ## Workflow (Phases)
 
-intake → spike (optional) → plan → implement → review → verify-release → learn
+intake -> spike (optional) -> plan -> implement -> review -> verify-release -> learn
 
-## Scratchpad (Memory)
-
-Use `docs/generated/memory.md` as an agent scratchpad when something is useful but has no obvious durable home yet.
-
-- Allowed content: temporary notes, commands tried, log snippets, pointers to files, open questions.
-- After any user correction, add a short note capturing the mistake and a prevention rule so it can be processed during `he-learn`.
-- Forbidden content: long-term policy/process, plan progress, or secrets.
-- Processing rule: during `he-learn`, triage everything in this file into a real home under `docs/` or delete it, then clear the file.
-
-## Conventions
-
-- Slug format: `YYYY-MM-DD-<type>-<description>` (types: `feat`, `fix`, `refactor`, `build`, `ci`, `chore`, `docs`, `style`, `perf`, `test`)
-- One slug per initiative across specs/spikes/plans
-
-## Gates (Reminders)
-
-- Plans follow `docs/PLANS.md` literally.
-- `Progress` is the only checklist section and must reflect real current state.
-- `Surprises & Discoveries`, `Decision Log`, `Outcomes & Retrospective`, and `Revision Notes` are append-only.
-- Testing strategy and guardrails default to unit/e2e only with no mocks unless the project documents otherwise.
-- For UI changes, capture agentic E2E evidence (screenshots/recordings/text) and link it in plan artifacts.
-
-If you find yourself adding paragraphs here, move them into `docs/` and link them from this file.
+If this file grows beyond a compact index, move detailed guidance into `docs/` and keep links here.

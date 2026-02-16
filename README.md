@@ -235,6 +235,9 @@ Notes:
 
 - Domain docs like `docs/SECURITY.md` and `docs/RELIABILITY.md` are created on-demand by downstream skills when the repo has real context.
 - `docs/generated/memory.md` is an agent scratchpad and is processed/cleared during `he-learn`.
+- `AGENTS.md` behavior is non-destructive:
+  - if missing, bootstrap creates a minimal template
+  - if present, bootstrap appends one managed block (`<!-- he-bootstrap:start -->` ... `<!-- he-bootstrap:end -->`) and preserves existing content
 
 ### A typical initiative flow
 
@@ -432,6 +435,7 @@ If you are editing `he-bootstrap` templates, also run the template CI scripts lo
 
 ```bash
 # From this repo root (runs in the template tree):
+bash skills/he-bootstrap/templates/scripts/ci/he-bootstrap-agents-lint.sh
 bash skills/he-bootstrap/templates/scripts/ci/he-docs-lint.sh
 bash skills/he-bootstrap/templates/scripts/ci/he-docs-drift.sh || true
 bash skills/he-bootstrap/templates/scripts/ci/he-plans-lint.sh || true

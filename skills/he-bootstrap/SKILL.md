@@ -10,7 +10,7 @@ Initialize the docs structure required by the `he-*` workflow while preserving t
 
 ## Key Principles
 
-1. Minimal impact: create only if missing; never overwrite real content.
+1. Minimal impact: create files only if missing; for existing `AGENTS.md`, append a small managed block once; never overwrite user-authored content.
 2. Templates are contracts: treat `skills/he-bootstrap/templates/**` as API-like surfaces.
 3. Domain docs are on-demand: downstream skills populate them when real context exists.
 4. Structure first: if the docs/workflow layout is wrong, fix it before execution.
@@ -61,6 +61,14 @@ Each created file has a source template in `templates/`:
 - `docs/design-docs/index.md` <- `templates/docs/design-docs/index.md`
 - `docs/PLANS.md` <- `templates/docs/PLANS.md`
 - `docs/DOMAIN_DOCS.md` <- `templates/docs/DOMAIN_DOCS.md`
+
+## AGENTS.md Behavior
+
+- If `AGENTS.md` is missing: create from `templates/AGENTS.md`.
+- If `AGENTS.md` already exists: append one managed block delimited by:
+  - `<!-- he-bootstrap:start -->`
+  - `<!-- he-bootstrap:end -->`
+- Re-running bootstrap is idempotent and must not duplicate the managed block.
 
 Plan templates provided by this skill set:
 

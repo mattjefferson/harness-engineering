@@ -44,6 +44,39 @@ make_executable() {
   fi
 }
 
+AGENTS_MARKER_START="<!-- he-bootstrap:start -->"
+AGENTS_MARKER_END="<!-- he-bootstrap:end -->"
+
+ensure_agents_md() {
+  local agents_path="${TARGET_ROOT}/AGENTS.md"
+
+  if [[ ! -e "$agents_path" ]]; then
+    copy_if_missing "AGENTS.md" "AGENTS.md"
+    return
+  fi
+
+  if grep -Fq "$AGENTS_MARKER_START" "$agents_path" || grep -Fq "$AGENTS_MARKER_END" "$agents_path"; then
+    return
+  fi
+
+  if [[ -s "$agents_path" ]] && [[ "$(tail -c 1 "$agents_path" || true)" != $'\n' ]]; then
+    printf '\n' >> "$agents_path"
+  fi
+
+  cat >> "$agents_path" <<'EOF'
+<!-- he-bootstrap:start -->
+## Harness Workflow Entry Points
+
+- Workflow contract: `docs/PLANS.md`
+- Specs: `docs/specs/`
+- Plans: `docs/plans/`
+- Runbooks: `docs/runbooks/`
+
+Workflow phases: intake -> spike (optional) -> plan -> implement -> review -> verify-release -> learn
+<!-- he-bootstrap:end -->
+EOF
+}
+
 # ---------------------------------------------------------------------------
 # Create baseline directories
 # ---------------------------------------------------------------------------
@@ -64,7 +97,7 @@ done
 # ---------------------------------------------------------------------------
 # Root-level files
 # ---------------------------------------------------------------------------
-copy_if_missing "AGENTS.md" "AGENTS.md"
+ensure_agents_md
 if [[ "$WITH_ARCHITECTURE" == true ]]; then
   copy_if_missing "ARCHITECTURE.md" "ARCHITECTURE.md"
 fi

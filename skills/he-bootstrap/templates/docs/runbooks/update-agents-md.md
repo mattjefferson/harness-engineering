@@ -13,6 +13,13 @@ This runbook is repo-specific and **additive only**. It must not waive or overri
 
 AGENTS.md is the agent-facing README: a predictable place to put the few repo-specific instructions an agent needs to work effectively.
 
+When `he-bootstrap` runs in a repo that already has `AGENTS.md`, it appends a managed block once using:
+
+- `<!-- he-bootstrap:start -->`
+- `<!-- he-bootstrap:end -->`
+
+Do not edit outside your repo's intended scope when touching this managed block.
+
 ## What To Optimize For
 
 - Keep it short and stable (a map, not an encyclopedia).
@@ -38,6 +45,7 @@ AGENTS.md is the agent-facing README: a predictable place to put the few repo-sp
 - Prefer "When X, do Y" over vague guidance.
 - Make requirements verifiable (a command, a file path, an expected output).
 - Avoid duplicating information already in `docs/`; link instead.
+- Keep any `he-bootstrap` managed block concise and link-first to avoid disrupting existing user conventions.
 
 ## Quick Update Checklist
 
