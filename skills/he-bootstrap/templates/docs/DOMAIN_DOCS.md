@@ -17,7 +17,7 @@ Reference for agents: what domain docs exist, how to detect relevant content, an
 
 ## When to Create or Update
 
-- **he-plan**: If domain docs relevant to the plan don't exist or are placeholders, create and populate them using auto-detect signals and planning context
+- **he-plan**: Identify relevant/missing domain docs during planning, then create/populate them at end-of-`he-plan` after final plan approval and before transition
 - **he-implement**: If implementation reveals a missing, wrong, or incomplete domain doc, create or update it in-place and note in Revision Notes
 - **he-learn**: Post-release policy updates from lessons learned
 - **he-doc-gardening**: Flag stale domain docs for refresh

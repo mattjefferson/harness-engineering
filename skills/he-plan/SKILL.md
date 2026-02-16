@@ -19,7 +19,7 @@ Convert a spec into a self-contained, novice-guiding execution plan.
 2. **Self-contained plan** — a novice can implement from the plan alone.
 3. **Observable outcomes** — every milestone has proof commands and behavior-level acceptance.
 4. **Progress is the only checklist** — narrative sections stay prose-first; living sections stay current.
-5. **Populate missing policy** — ensure relevant domain docs exist and are updated when context is available.
+5. **Defer domain-doc population** — identify relevant domain docs during planning, but create/populate them only at the end of `he-plan` after final user approval and before transition.
 6. **Runbooks are additive only** — apply any runbook whose frontmatter `called_from` matches this skill (`bash scripts/runbooks/select-runbooks.sh --skill he-plan`), but never waive/override anything codified here.
 7. **One question at a time** — ask a single focused question per turn. User can say "proceed" to accept recommendations.
 8. **User chooses depth** — after confirming approach, ask what detail level: MINIMAL / MORE / A LOT. Overrides agent-classified `plan_mode` for prose depth.
@@ -70,11 +70,12 @@ Ask: "How much detail do you want in the plan?"
 - **MORE** — standard (default)
 - **A LOT** — deep guidance, extensive context, step-by-step
 
-### Phase 2: Domain Doc Check
+### Phase 2: Domain Doc Scope Check (Read-Only)
 
 - Check `docs/DOMAIN_DOCS.md` for domain docs relevant to this initiative.
-- If a relevant domain doc doesn't exist yet, create it with real content using auto-detect signals and planning context.
-- If it exists but is still a stub, populate it.
+- Identify which domain docs are missing or still stubs.
+- Record pending domain-doc create/populate actions in plan notes or `Decision Log`.
+- Do not create or populate domain docs in this phase.
 
 ### Phase 3: Draft the Plan
 
@@ -100,13 +101,18 @@ After drafting the plan, run an interactive review loop before tuning depth:
 
 1. Commit the initial draft: `git add docs/plans/active/<slug>-plan.md && git commit -m "docs(plan): <slug> draft"`
 2. Summarize plan in 3–5 bullet points covering key decisions and milestone structure.
-3. Ask: "Review the plan. What would you change?"
+3. Present interactive options (one decision) instead of an open-ended-only prompt:
+   - Approve plan and continue (Recommended)
+   - Chat about the plan
+   - Run a technical review pass
+   - Request plan changes
+   - Handoff/pause
 4. If changes requested: revise, append revision note, commit (`docs(plan): <slug> revision — <what changed>`), show diff (`git diff HEAD~1 -- docs/plans/active/<slug>-plan.md`).
 5. **Recommendation logic**:
    - Critical/High severity issues found and fixed → recommend another review round
    - Medium/Low only → fix and recommend proceeding to implement
    - After 3+ review rounds → recommend proceeding: "We've refined this well; further improvement will come from implementation feedback"
-6. Repeat until user approves or accepts recommendation to proceed. Each round = one commit.
+6. Repeat until user explicitly approves the plan. Each round = one commit.
 
 ### Phase 4: Tune Depth by Plan Mode
 
@@ -116,6 +122,15 @@ Combine `plan_mode` (structural completeness from spec) with user's `detail_leve
 - **`detail_level` controls prose**: `minimal` = terse, `more` = standard, `a_lot` = exhaustive context and step-by-step guidance.
 
 For example, `execution` + `minimal` = full milestone structure but concise prose. `lightweight` + `a_lot` = fewer milestones but deeply explained.
+
+### Phase 4.5: End-of-`he-plan` Domain Doc Population
+
+After final user approval and before transition:
+
+1. Create/populate relevant domain docs identified in Phase 2.
+2. Ensure docs contain real policy content (not template placeholders/stubs).
+3. Run docs lint/check commands required by repo policy.
+4. If doc updates fail validation, stay in `he-plan`, fix docs, and re-run checks before transition.
 
 ## Source of Truth
 
@@ -139,7 +154,7 @@ Use `templates/plan-template.md`.
 - Milestones describe observable outcomes and verification
 - Concrete commands and expected behavior are documented
 - `Decision Log`, `Surprises & Discoveries`, `Outcomes & Retrospective`, and `Revision Notes` are initialized
-- Domain docs relevant to this initiative exist and have real content (not stubs)
+- Domain docs relevant to this initiative exist and have real content (not stubs), populated at end-of-`he-plan`
 - Docs commit gate passes
 - **User has explicitly approved the final plan** before any transition
 
@@ -147,7 +162,7 @@ Use `templates/plan-template.md`.
 
 - **Spec is too vague to plan from** — return to `he-spec` or `he-research` for clarification rather than guessing.
 - **Plan exceeds reasonable scope** — split into multiple milestones or recommend splitting the initiative.
-- **Missing domain docs block understanding** — create them with available context; don't wait for perfect information.
+- **Missing domain docs are detected early** — record pending updates and complete them at end-of-`he-plan` after approval.
 - **Spike findings contradict the spec** — update the spec first, then plan from the corrected spec.
 
 ## Anti-Patterns to Avoid
@@ -158,17 +173,19 @@ Use `templates/plan-template.md`.
 | Vague milestones ("implement the feature") | Observable outcomes with proof commands |
 | Checklists outside `## Progress` | Narrative prose for non-progress sections |
 | Implementation-light plan that a novice can't follow | Concrete file paths, commands, expected outputs |
-| Skipping domain doc check | Create/populate domain docs when context is available |
+| Skipping domain doc check | Identify needs early, then populate domain docs at the end-of-`he-plan` gate |
 
 ## Transition Points
 
-After the review loop, **present the plan to the user for final approval**. Use `AskUserQuestion` (or equivalent) to offer:
+After the review loop, **present the plan with explicit next actions**. Use `AskUserQuestion` (or equivalent) to offer:
 
-1. Approve and continue to `he-implement` (recommended)
-2. Deepen a specific section (ask which, revise just that section)
+1. Approve plan and continue to `he-implement` (Recommended)
+2. Chat about the plan (Q&A/tradeoffs, no edits yet)
 3. Run a technical review (re-examine for gaps, risks, edge cases)
-4. Request changes (return to Phase 3.5)
+4. Request plan changes (return to Phase 3.5)
 5. Handoff/pause with status and explicit next action
+
+If the user chooses option 1, complete Phase 4.5 domain-doc population before transition.
 
 **Do not transition out of `he-plan` without explicit user approval of the final plan.** If the user requests changes, revise and re-present until approved.
 

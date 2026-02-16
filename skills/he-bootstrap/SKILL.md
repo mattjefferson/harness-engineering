@@ -114,7 +114,7 @@ test -f docs/DOMAIN_DOCS.md
 
 ## Domain Docs
 
-Domain docs (DESIGN.md, FRONTEND.md, SECURITY.md, etc.) are **not** created at bootstrap. They are created on-demand by downstream skills (`he-plan`, `he-implement`, `he-learn`) when they have real context to populate them. See `docs/DOMAIN_DOCS.md` for the full registry, auto-detect signals, and seed questions.
+Domain docs (DESIGN.md, FRONTEND.md, SECURITY.md, etc.) are **not** created at bootstrap. They are created on-demand by downstream skills (`he-plan`, `he-implement`, `he-learn`) when they have real context to populate them. For `he-plan`, population happens at end-of-plan after final approval and before transition. See `docs/DOMAIN_DOCS.md` for the full registry, auto-detect signals, and seed questions.
 
 ## Next Step
 
