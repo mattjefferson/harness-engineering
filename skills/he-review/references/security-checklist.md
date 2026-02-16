@@ -3,6 +3,7 @@
 Owns: input handling, auth/authz, secrets, injection prevention, dependency security. **This review is mandatory for all changes** — skipping it is a `high` finding (non-negotiable gate).
 
 > Runbooks may add repo-specific checks to any section below. Language/framework-specific runbooks (e.g., `review-typescript.md`) are the expected extension mechanism. Runbooks must not remove or relax items here.
+> Defensive scope only: identify weaknesses and required remediations. Do not generate offensive step-by-step abuse instructions.
 
 ## Input Handling
 
@@ -17,7 +18,7 @@ Owns: input handling, auth/authz, secrets, injection prevention, dependency secu
 
 - [ ] New endpoints or routes require authentication (no accidental public exposure)
 - [ ] Authorization checks verify resource-level access, not just role membership
-- [ ] No privilege escalation via ID manipulation (IDOR) — user can only access their own resources
+- [ ] Authorization checks prevent cross-resource access via user-controlled identifiers (IDOR) — users only access permitted resources
 - [ ] Session and token handling follows repo conventions (expiry, refresh, revocation)
 - [ ] Admin/elevated actions have additional verification or audit logging
 
@@ -33,8 +34,8 @@ Owns: input handling, auth/authz, secrets, injection prevention, dependency secu
 
 - [ ] XSS prevention: user-generated content is escaped before rendering in HTML
 - [ ] CSRF protection: state-changing requests require CSRF tokens or equivalent
-- [ ] No `exec`, `eval`, or dynamic code execution with user-controlled input
-- [ ] No unsafe deserialization of untrusted data (pickle, YAML load, Java serialization)
+- [ ] Runtime behavior never executes code strings from external input; use explicit APIs and allowlisted operations
+- [ ] Deserialization of untrusted data uses hardened formats/parsers that cannot instantiate arbitrary objects
 - [ ] HTTP headers set appropriately (Content-Security-Policy, X-Frame-Options, etc., where applicable)
 
 ## Dependency Security
@@ -47,13 +48,13 @@ Owns: input handling, auth/authz, secrets, injection prevention, dependency secu
 
 | Situation | Typical Priority |
 |---|---|
-| SQL/command/path injection possible | `critical` |
+| Unvalidated SQL/command/path input can alter query or command behavior | `critical` |
 | Hardcoded secret in source | `critical` |
 | Missing auth on new endpoint | `critical` |
-| IDOR / privilege escalation possible | `critical` |
+| Authorization gap allows one user to access another user's resources (IDOR pattern) | `critical` |
 | Missing input validation on external input | `high` |
 | Error response leaks internals | `medium` |
 | Missing CSRF protection | `high` |
 | Known CVE in dependency (critical/high severity) | `high` |
-| XSS possible via unescaped user content | `critical` |
-| Unsafe deserialization of untrusted data | `critical` |
+| User-generated content can render in HTML without escaping | `critical` |
+| Untrusted data deserialization can instantiate arbitrary objects | `critical` |

@@ -1,7 +1,7 @@
 ---
 name: he-review
 description: Runs agent-first review fanout across correctness, architecture, security, data, and simplicity, then enforces priority gates before release verification.
-argument-hint: "[slug or docs/plans/active/<slug>.md]"
+argument-hint: "[slug or docs/plans/active/<slug>-plan.md]"
 ---
 
 # HE Review
@@ -25,7 +25,7 @@ Run structured, parallel code review before verify/release.
 
 ### Phase 0: Load Context
 
-1. Read `docs/plans/active/<slug>.md`.
+1. Read `docs/plans/active/<slug>-plan.md`.
 2. Gather implementation evidence from diffs/tests and generated reference context in `docs/generated/`.
 3. Refresh generated context before review if stale (check `docs/generated/` for files with outdated `last_updated` timestamps).
 4. Run `bash scripts/runbooks/select-runbooks.sh --skill he-review` and read any returned runbooks. Apply their additions throughout — they must not waive or override gates codified here.
@@ -48,6 +48,8 @@ Launch one subagent per reviewer and run concurrently:
 5. Simplicity reviewer
 
 Each subagent receives the active plan, diffs, and generated context.
+
+Security reviewer scope is defensive review only: identify risks and required remediations. Do not request or provide offensive step-by-step abuse instructions.
 
 **Shared baseline** — every reviewer checks against:
 
@@ -141,7 +143,7 @@ When addressing review findings materially alters behavior or implementation (no
 
 ## Output
 
-- Consolidated review findings written to `## Review Findings` in `docs/plans/active/<slug>.md`.
+- Consolidated review findings written to `## Review Findings` in `docs/plans/active/<slug>-plan.md`.
 
 ## Exit Gate
 
@@ -158,6 +160,7 @@ When addressing review findings materially alters behavior or implementation (no
 - **Review findings are contested** — escalate with an escalation packet; do not downgrade severity without evidence.
 - **Flaky test failures appear during review** — record as a finding and escalate; do not ignore or retry silently.
 - **Runbook contradicts a non-negotiable gate** — treat as policy drift, record a `high` finding, and escalate.
+- **Security reviewer call is policy-flagged** — log the rejection text in plan evidence, retry once with a shorter defensive-only prompt focused on risk and remediation, and if still blocked escalate to manual human security checklist review; do not bypass the security gate.
 
 ## Anti-Patterns to Avoid
 
