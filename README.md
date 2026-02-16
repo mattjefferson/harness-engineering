@@ -1,5 +1,7 @@
 # Harness Engineering Skill Pack
 
+> ⚠️ **Note:** This project is an experiment and is not production ready. APIs, skill contracts, and workflows may change without notice.
+
 Artifact-first workflows for agent-driven software delivery.
 
 This repository packages a set of `he-*` skills plus templates that turn "ship software" into a versioned, evidence-backed control loop that both humans and agents can run reliably.
