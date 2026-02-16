@@ -1,15 +1,22 @@
 # Tech Debt Tracker
 
-Track recurring issues as a lifecycle queue. Treat this file as append-and-update (do not delete historical debt rows unless duplicated by mistake).
+General-purpose deferred-work queue. Review findings, cleanup tasks, improvement ideas — anything we want to address later but shouldn't block now. Any skill can append to this file.
+
+Treat this file as append-and-update: do not delete historical rows unless duplicated by mistake. When status changes, update both the index table row and the detail entry.
 
 ## Status Semantics
 
-- `new`: freshly captured, not yet prioritized for execution.
-- `queued`: prioritized and waiting for a concrete execution slot.
-- `in_progress`: actively being addressed in an open spec/plan.
-- `applied`: prevention action implemented, awaiting confirmation over time.
-- `verified`: prevention has held across subsequent changes.
+- `new`: captured, not yet scheduled.
+- `queued`: prioritized for a future slug.
+- `in_progress`: being addressed in an active plan.
+- `resolved`: fixed, evidence linked.
 - `wont_fix`: consciously accepted with documented rationale.
 
-| first_seen | last_seen | slug | issue_pattern | impact | prevention_action | frequency | priority | lesson_applied | next_slug | owner | status | evidence |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|
+## Index
+
+| ID | Date | Priority | Source | Status | Summary |
+|---|---|---|---|---|---|
+
+## Detail Entries
+
+<!-- Append new entries below this line. -->
