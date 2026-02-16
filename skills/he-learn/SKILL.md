@@ -36,22 +36,17 @@ Turn execution outcomes into durable improvements.
 
 For each learning, evaluate the compound learning loop:
 
-1. **AGENTS.md update** — should this pattern update the project's AGENTS.md?
-2. **Golden principle** — should this become a golden principle in AGENTS.md?
-3. **Guardrail promotion** — should this become a lint rule, test, or structural check?
-4. **Runbook update** — should this pattern update a runbook? If yes, update `docs/runbooks/<topic>.md` (or add a new one) and link it from AGENTS.md if it becomes a common workflow. Ensure new/updated runbooks include frontmatter `called_from` so relevant skills pick them up automatically.
-5. **Lesson tracking** — update status in `docs/plans/tech-debt-tracker.md` (set `resolved` with evidence when a learning addresses an existing entry).
+1. **AGENTS.md update** — does this change setup commands, workflow entry points, doc index links, or escalation rules? Updates go in `## Source Of Truth`, `## Gates`, or `## Conventions`. AGENTS.md is a table of contents — if you're writing more than one sentence, it belongs in `docs/` with a link from here.
+2. **Golden principle** — is this a universal invariant the project should never violate? Add it to `AGENTS.md ## Golden Principles`. A golden principle must be enforceable mechanically — if a machine can't check it, it's guidance (belongs in a runbook or domain doc), not a principle.
+3. **Guardrail promotion** — should this become a mechanical enforcement? The rule goes in the appropriate domain doc (`docs/SECURITY.md`, `docs/RELIABILITY.md`, etc.) or runbook (`docs/runbooks/`). The enforcement goes in `scripts/ci/` (lint script or config entry in `he-docs-config.json`). Both are required — a rule without enforcement is just a suggestion.
+4. **Runbook update** — should this pattern update a runbook? If yes, update `docs/runbooks/<topic>.md` (or add a new one). Ensure new/updated runbooks include frontmatter `called_from` so relevant skills pick them up automatically.
 
 Use `templates/learning-entry-template.md`.
 
 ### Phase 2: Update Durable Artifacts
 
-1. Update `docs/plans/tech-debt-tracker.md`:
-   - Add or update an entry in the index table (ID, date, priority, source, status, summary)
-   - Add or update the corresponding detail entry with prevention action, owner, and source slug
-   - Set status to `resolved` and add `Resolved in: <slug>` when a learning addresses an existing entry
-2. Update relevant domain docs per `docs/DOMAIN_DOCS.md` registry if policy changed.
-3. Update or create any affected runbooks in `docs/runbooks/` when learnings change process, checklists, or "how we do it here" guidance.
+1. Update relevant domain docs per `docs/DOMAIN_DOCS.md` registry if policy changed.
+2. Update or create any affected runbooks in `docs/runbooks/` when learnings change process, checklists, or "how we do it here" guidance.
 
 ### Phase 3: Process Scratchpad and Archive
 
