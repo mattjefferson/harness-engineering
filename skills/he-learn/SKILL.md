@@ -40,18 +40,16 @@ For each learning, evaluate the compound learning loop:
 2. **Golden principle** — should this become a golden principle in AGENTS.md?
 3. **Guardrail promotion** — should this become a lint rule, test, or structural check?
 4. **Runbook update** — should this pattern update a runbook? If yes, update `docs/runbooks/<topic>.md` (or add a new one) and link it from AGENTS.md if it becomes a common workflow. Ensure new/updated runbooks include frontmatter `called_from` so relevant skills pick them up automatically.
-5. **Lesson tracking** — record `lesson_applied` status in `docs/plans/tech-debt-tracker.md`.
+5. **Lesson tracking** — update status in `docs/plans/tech-debt-tracker.md` (set `resolved` with evidence when a learning addresses an existing entry).
 
 Use `templates/learning-entry-template.md`.
 
 ### Phase 2: Update Durable Artifacts
 
-1. Update `docs/plans/tech-debt-tracker.md` with:
-   - issue pattern
-   - impact
-   - prevention action
-   - priority
-   - lesson_applied status (`pending|applied`)
+1. Update `docs/plans/tech-debt-tracker.md`:
+   - Add or update an entry in the index table (ID, date, priority, source, status, summary)
+   - Add or update the corresponding detail entry with prevention action, owner, and source slug
+   - Set status to `resolved` and add `Resolved in: <slug>` when a learning addresses an existing entry
 2. Update relevant domain docs per `docs/DOMAIN_DOCS.md` registry if policy changed.
 3. Update or create any affected runbooks in `docs/runbooks/` when learnings change process, checklists, or "how we do it here" guidance.
 
@@ -101,7 +99,8 @@ Use `templates/learning-entry-template.md`.
 Always use interactive question tool at transitions (`AskUserQuestion` in Claude Code, `request_user_input` in Codex Plan mode, or equivalent). Offer:
 
 1. Continue to `he-doc-gardening` (or `he-spec` for the next initiative) (recommended)
-2. Run one more build-feedback round in `he-learn`
-3. Handoff/pause with status and explicit next action
+2. Run `he-triage` if significant new tracker entries were added during this learning cycle
+3. Run one more build-feedback round in `he-learn`
+4. Handoff/pause with status and explicit next action
 
 If running autonomously or no interactive tool is available, continue with the recommended next phase and log an `Autonomous transition` note in `Decision Log` or `Revision Notes`.

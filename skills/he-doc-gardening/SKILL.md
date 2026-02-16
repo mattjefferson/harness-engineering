@@ -107,6 +107,7 @@ This is a minimum baseline. Repos may add additional runbooks; doc-gardening sho
 
 - **Lint scripts are missing or broken** — fall back to subjective scanning but record the tooling gap as a drift finding.
 - **Too many drift findings to queue individually** — group related findings into thematic doc-fix initiatives.
+- **Tracker has > 10 `new` items** — recommend running `he-triage` to prioritize and convert accumulated items into specs.
 - **Critical invariant violation found** — escalate immediately; do not defer to the regular queue.
 - **Runbook conflicts with skill gates** — treat as policy drift; record a `high` finding and queue a fix.
 

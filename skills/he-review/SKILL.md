@@ -1,6 +1,6 @@
 ---
 name: he-review
-description: Runs agent-first review fanout across correctness, architecture, security/data, and simplicity, then enforces priority gates before release verification.
+description: Runs agent-first review fanout across correctness, architecture, security, data, and simplicity, then enforces priority gates before release verification.
 argument-hint: "[slug or docs/plans/active/<slug>.md]"
 ---
 
@@ -15,7 +15,7 @@ Run structured, parallel code review before verify/release.
 
 ## Key Principles
 
-1. **Security/data review is mandatory** — even for trivial changes.
+1. **Security and data reviews are mandatory** — even for trivial changes.
 2. **The priority gate is real** — unresolved `critical`/`high` blocks progression.
 3. **Findings must be actionable** — file/symbol + required action + owner.
 4. **Escalate on judgment** — unclear risk, ambiguous behavior, or flaky failures.
@@ -34,7 +34,7 @@ Run structured, parallel code review before verify/release.
 
 **For `plan_mode: trivial` (fast-track):**
 
-- Run **correctness reviewer** and **security/data reviewer** only.
+- Run **correctness reviewer**, **security reviewer**, and **data reviewer** only.
 - Skip architecture and simplicity reviewers (trivial criteria guarantee low risk and single-file scope).
 
 **For `plan_mode: lightweight` or `execution`:**
@@ -42,42 +42,48 @@ Run structured, parallel code review before verify/release.
 Launch one subagent per reviewer and run concurrently:
 
 1. Correctness reviewer
-2. Architecture/invariants reviewer
-3. Security/data reviewer
-4. Simplicity reviewer
+2. Architecture / invariants reviewer
+3. Security reviewer
+4. Data integrity / privacy reviewer
+5. Simplicity reviewer
 
 Each subagent receives the active plan, diffs, and generated context.
 
-**Review dimensions** — each reviewer checks against:
+**Shared baseline** — every reviewer checks against:
 
-- `Purpose / Big Picture`
-- `Validation and Acceptance`
+- `Purpose / Big Picture` and `Validation and Acceptance` in the active plan
 - Completed vs. open `Progress` items
 - Golden principles defined in AGENTS.md
 - Testing philosophy: mock-based tests are a `high` priority finding
 
+**Dimension-specific checklists** — each reviewer reads and executes its reference checklist:
+
+| Reviewer | Reference | Owns |
+|---|---|---|
+| Correctness | `references/correctness-checklist.md` | Plan fidelity, behavioral correctness, test verification, regression risk |
+| Architecture / invariants | `references/architecture-checklist.md` | Structural integrity, design principles, invariant preservation, dependency management, pattern consistency |
+| Security | `references/security-checklist.md` | Input handling, auth/authz, secrets, injection prevention, dependency security |
+| Data integrity / privacy | `references/data-checklist.md` | Data integrity, transactions, migrations, privacy, retention, persistence-layer correctness |
+| Simplicity | `references/simplicity-checklist.md` | YAGNI violations, complexity, redundancy, readability, change proportionality |
+
+Each subagent must evaluate every item in its checklist against the diff. Items that do not apply should be marked N/A with a one-line rationale, not silently skipped.
+
 ### Phase 2: Consolidate
 
-Write consolidated findings into `## Review Findings` in the active plan, including rationale for accepted medium/low findings.
+Write consolidated findings into `## Review Findings` in the active plan using the format defined in `references/review-output-template.md`.
 
-**Findings format** — each finding includes:
-
-- priority: `critical|high|medium|low`
-- location: file/path + context
-- issue summary
-- required action
-- owner
+**Tech-debt routing** — medium and low findings that do not block the gate are appended to `docs/plans/tech-debt-tracker.md` with status `new`. Each entry references the originating slug and reviewer dimension. These items are reviewed during `he-triage` (monthly or on-demand) or next planning round.
 
 ### Phase 3: Priority Gate
 
 - Any unresolved `critical` or `high` finding blocks progression.
-- `medium` and `low` findings can proceed only if explicitly accepted in writing.
+- `medium` and `low` findings are routed to `docs/plans/tech-debt-tracker.md` with status `new`.
 
 ## Non-Negotiable Gates
 
 Runbooks may add repo-specific checks but must not remove or relax these:
 
-- A security/data review is always performed.
+- Security and data reviews are always performed.
 - Unresolved `critical` or `high` findings block progression.
 - Mock-based tests remain a `high` priority finding unless the repo explicitly documents an exception.
 
@@ -98,7 +104,7 @@ Mock-based tests are a `high` finding unless the repo explicitly documents an ex
 
 ### Mandatory Security Coverage
 
-Missing the security/data review is a `high` finding (non-negotiable gate).
+Missing the security review or data review is a `high` finding (non-negotiable gate).
 
 ## Escalation
 
@@ -157,11 +163,11 @@ When addressing review findings materially alters behavior or implementation (no
 
 | Anti-Pattern | Better Approach |
 |---|---|
-| Skipping security/data review for "small changes" | Security review is mandatory for all changes |
+| Skipping security or data review for "small changes" | Both reviews are mandatory for all changes |
 | Downgrading severity to unblock progression | Escalate honestly; gate is real |
 | Accepting mock-based tests as sufficient | Unit or e2e only; mocks are a `high` finding |
 | Consolidating findings without actionable detail | Every finding needs file/symbol + required action + owner |
-| Silently accepting medium/low findings | Explicitly accept in writing with rationale |
+| Silently accepting medium/low findings | Route to `docs/plans/tech-debt-tracker.md` with status `new` |
 
 ## Transition Points
 
