@@ -46,7 +46,7 @@ Runbooks must not:
 
 Runbooks must not:
 
-- Authorize remote operations (push, merge, PR) without explicit user approval
+- Authorize merge or force-push without explicit user approval, or push directly to main/protected branches
 
 ## What Runbooks Should Do
 
