@@ -8,22 +8,42 @@ argument-hint: "[slug or docs/plans/active/<slug>.md]"
 
 Turn execution outcomes into durable improvements.
 
+## When to Use
+
+- After `he-verify-release` when the initiative is complete (GO decision)
+- After merge to capture learnings before archiving
+
 ## Key Principles
 
-1. Convert failures into guardrails: record prevention actions in the tracker.
-2. Update durable policy: domain docs and runbooks reflect new learnings.
-3. Process the scratchpad: triage and clear `docs/generated/memory.md`.
-4. Archive cleanly: move the plan to completed and keep append-only semantics.
-5. Promote enforcement: repeated issues should become lint/test/CI guardrails.
-6. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `bash scripts/runbooks/select-runbooks.sh --skill <skill>`), but never waive/override anything codified here.
+1. **Convert failures into guardrails** — record prevention actions in the tracker.
+2. **Update durable policy** — domain docs and runbooks reflect new learnings.
+3. **Process the scratchpad** — triage and clear `docs/generated/memory.md`.
+4. **Archive cleanly** — move the plan to completed and keep append-only semantics.
+5. **Promote enforcement** — repeated issues should become lint/test/CI guardrails.
+6. **Runbooks are additive only** — apply any runbook whose frontmatter `called_from` matches this skill (`bash scripts/runbooks/select-runbooks.sh --skill he-learn`), but never waive/override anything codified here.
 
-## Inputs
+## Workflow
 
-- `docs/plans/active/<slug>.md`
-- implementation/review/verify outcomes plus generated context updates (if any)
-- incident or friction notes (if any)
+### Phase 0: Gather Learning Inputs
 
-## Required Outputs
+- Read `docs/plans/active/<slug>.md`.
+- Gather implementation/review/verify outcomes plus generated context updates (if any).
+- Gather incident or friction notes (if any).
+- Use subagents in parallel — e.g., one to analyze review findings and recurring patterns, another to scan implementation friction from `Progress` and `Surprises & Discoveries`.
+
+### Phase 1: Capture Learnings
+
+For each learning, evaluate the compound learning loop:
+
+1. **AGENTS.md update** — should this pattern update the project's AGENTS.md?
+2. **Golden principle** — should this become a golden principle in AGENTS.md?
+3. **Guardrail promotion** — should this become a lint rule, test, or structural check?
+4. **Runbook update** — should this pattern update a runbook? If yes, update `docs/runbooks/<topic>.md` (or add a new one) and link it from AGENTS.md if it becomes a common workflow. Ensure new/updated runbooks include frontmatter `called_from` so relevant skills pick them up automatically.
+5. **Lesson tracking** — record `lesson_applied` status in `docs/plans/tech-debt-tracker.md`.
+
+Use `templates/learning-entry-template.md`.
+
+### Phase 2: Update Durable Artifacts
 
 1. Update `docs/plans/tech-debt-tracker.md` with:
    - issue pattern
@@ -33,31 +53,21 @@ Turn execution outcomes into durable improvements.
    - lesson_applied status (`pending|applied`)
 2. Update relevant domain docs per `docs/DOMAIN_DOCS.md` registry if policy changed.
 3. Update or create any affected runbooks in `docs/runbooks/` when learnings change process, checklists, or "how we do it here" guidance.
-   - ensure new/updated runbooks include frontmatter `called_from` so relevant skills pick them up automatically
-4. Process `docs/generated/memory.md` (scratchpad inbox):
-   - promote keepers to the correct durable location in `docs/` or `docs/runbooks/`
-   - delete anything no longer needed
-   - clear `docs/generated/memory.md` back to an empty scratchpad (keep the header/sections)
-5. Move plan to:
-   - `docs/plans/completed/<slug>.md`
 
-## Subagent Usage
+### Phase 3: Process Scratchpad and Archive
 
-Use subagents to gather learning inputs in parallel — for example, one subagent to analyze review findings and recurring patterns, another to scan implementation friction points from the plan `Progress` and `Surprises & Discoveries` sections.
+1. Process `docs/generated/memory.md` (scratchpad inbox):
+   - Promote keepers to the correct durable location in `docs/` or `docs/runbooks/`.
+   - Delete anything no longer needed.
+   - Clear `docs/generated/memory.md` back to an empty scratchpad (keep the header/sections).
+2. Move plan to `docs/plans/completed/<slug>.md`.
 
-## Compound Learning Loop
+## Output
 
-For each learning captured, explicitly evaluate:
-
-1. **AGENTS.md update**: Should this pattern update the project's AGENTS.md?
-2. **Golden principle**: Should this become a golden principle in AGENTS.md?
-3. **Guardrail promotion**: Should this become a lint rule, test, or structural check?
-4. **Runbook update**: Should this pattern update a runbook? If yes, update `docs/runbooks/<topic>.md` (or add a new one) and link it from AGENTS.md if it becomes a common workflow.
-5. **Lesson tracking**: Record `lesson_applied` status in `docs/plans/tech-debt-tracker.md`.
-
-## Learning Template
-
-Use `templates/learning-entry-template.md`.
+- Updated `docs/plans/tech-debt-tracker.md`
+- Updated domain docs and runbooks as needed
+- Processed `docs/generated/memory.md`
+- Archived plan at `docs/plans/completed/<slug>.md`
 
 ## Exit Gate
 
@@ -68,9 +78,26 @@ Use `templates/learning-entry-template.md`.
 - Active plan is archived to completed
 - Docs commit gate passes
 
-## Transition
+## When Things Go Wrong
 
-Use an interactive question tool at this transition when available (`request_user_input` in Codex Plan mode, `AskUserQuestion` in Claude Code, or equivalent). Offer:
+- **No meaningful learnings found** — this is suspicious; review the `Surprises & Discoveries` and `Review Findings` sections more carefully.
+- **Memory scratchpad is empty or missing** — mark as "not present" and proceed; don't block on it.
+- **Runbook update would conflict with a skill gate** — skill gates win; adjust the runbook to be additive only.
+- **Tech debt tracker doesn't exist yet** — create it from the expected format and populate.
+
+## Anti-Patterns to Avoid
+
+| Anti-Pattern | Better Approach |
+|---|---|
+| Skipping learn phase because "nothing went wrong" | Every initiative has learnings; dig deeper |
+| Recording learnings without prevention actions | Every issue needs a concrete prevention action |
+| Leaving memory scratchpad unprocessed | Promote or delete every item; clear the inbox |
+| Updating runbooks without `called_from` frontmatter | Skills discover runbooks via frontmatter; always include it |
+| Archiving without updating living sections | Ensure plan living sections are final before archiving |
+
+## Transition Points
+
+Always use interactive question tool at transitions (`AskUserQuestion` in Claude Code, `request_user_input` in Codex Plan mode, or equivalent). Offer:
 
 1. Continue to `he-doc-gardening` (or `he-spec` for the next initiative) (recommended)
 2. Run one more build-feedback round in `he-learn`

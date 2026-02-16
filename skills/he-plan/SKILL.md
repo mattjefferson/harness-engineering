@@ -8,39 +8,35 @@ argument-hint: "[slug or docs/specs/<slug>.md]"
 
 Convert a spec into a self-contained, novice-guiding execution plan.
 
+## When to Use
+
+- After `he-spec` (and optionally `he-research`/`he-spike`) when the initiative is ready for planning
+- When an existing plan needs revision after re-entry from review or verify-release
+
 ## Key Principles
 
-1. `docs/PLANS.md` is law: follow it literally.
-2. Self-contained plan: a novice can implement from the plan alone.
-3. Observable outcomes: every milestone has proof commands and behavior-level acceptance.
-4. Progress is the only checklist: narrative sections stay prose-first; living sections stay current.
-5. Populate missing policy: ensure relevant domain docs exist and are updated when context is available.
-6. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `bash scripts/runbooks/select-runbooks.sh --skill <skill>`), but never waive/override anything codified here.
+1. **`docs/PLANS.md` is law** — follow it literally.
+2. **Self-contained plan** — a novice can implement from the plan alone.
+3. **Observable outcomes** — every milestone has proof commands and behavior-level acceptance.
+4. **Progress is the only checklist** — narrative sections stay prose-first; living sections stay current.
+5. **Populate missing policy** — ensure relevant domain docs exist and are updated when context is available.
+6. **Runbooks are additive only** — apply any runbook whose frontmatter `called_from` matches this skill (`bash scripts/runbooks/select-runbooks.sh --skill he-plan`), but never waive/override anything codified here.
 
-## Inputs
+## Workflow
 
-- `docs/specs/<slug>.md`
-- `docs/spikes/<slug>-spike.md` (if a spike was run — fold findings directly into the plan)
+### Phase 0: Gather Context
 
-## Output
+- Read `docs/specs/<slug>.md`.
+- Read `docs/spikes/<slug>-spike.md` (if a spike was run — fold findings directly into the plan).
+- Use subagents to gather implementation context in parallel for independent codebase areas (e.g., data, API, UI, infra).
 
-- `docs/plans/active/<slug>.md`
+### Phase 1: Domain Doc Check
 
-## Source of Truth
+- Check `docs/DOMAIN_DOCS.md` for domain docs relevant to this initiative.
+- If a relevant domain doc doesn't exist yet, create it with real content using auto-detect signals and planning context.
+- If it exists but is still a stub, populate it.
 
-- `docs/PLANS.md` is the instruction contract.
-- Follow it literally when creating and revising plans.
-- Do not modify `docs/PLANS.md` while running `he-plan`.
-
-## Subagent Usage
-
-Use subagents to gather implementation context before drafting the plan. Run parallel subagents for independent codebase areas (for example data, API, UI, infra), then synthesize findings into one coherent plan in the main thread.
-
-## Domain Doc Check
-
-Before drafting the plan, check `docs/DOMAIN_DOCS.md` for domain docs relevant to this initiative. If a relevant domain doc doesn't exist yet, create it with real content using auto-detect signals and planning context. If it exists but is still a stub, populate it. Domain docs are created on-demand — this is often the first skill that has enough context to write them.
-
-## Planning Requirements
+### Phase 2: Draft the Plan
 
 1. Read `docs/PLANS.md` in full before writing.
 2. Keep the plan fully self-contained for a novice with only this repo and the single plan file.
@@ -49,23 +45,7 @@ Before drafting the plan, check `docs/DOMAIN_DOCS.md` for domain docs relevant t
 5. Keep narrative sections prose-first; avoid tables and long enumerations unless clarity requires them.
 6. Use checklists only in `## Progress` (required).
 7. Include all required sections from `docs/PLANS.md`:
-   - `## Purpose / Big Picture`
-   - `## Progress`
-   - `## Surprises & Discoveries`
-   - `## Decision Log`
-   - `## Outcomes & Retrospective`
-   - `## Context and Orientation`
-   - `## Milestones`
-   - `## Plan of Work`
-   - `## Concrete Steps`
-   - `## Validation and Acceptance`
-   - `## Idempotence and Recovery`
-   - `## Artifacts and Notes`
-   - `## Interfaces and Dependencies`
-   - `## Pull Request`
-   - `## Review Findings`
-   - `## Verify/Release Decision`
-   - `## Revision Notes`
+   - `Purpose / Big Picture`, `Progress`, `Surprises & Discoveries`, `Decision Log`, `Outcomes & Retrospective`, `Context and Orientation`, `Milestones`, `Plan of Work`, `Concrete Steps`, `Validation and Acceptance`, `Idempotence and Recovery`, `Artifacts and Notes`, `Interfaces and Dependencies`, `Pull Request`, `Review Findings`, `Verify/Release Decision`, `Revision Notes`
 8. Keep the plan as a living document: update `Progress`, `Surprises & Discoveries`, `Decision Log`, `Outcomes & Retrospective`, and `Revision Notes` as work evolves.
 9. Every `Progress` checkbox entry must include a timestamp and a stable progress ID (`P1`, `P2`, ...).
 10. Milestones must be narrative and independently verifiable, each with observable outcomes.
@@ -74,7 +54,7 @@ Before drafting the plan, check `docs/DOMAIN_DOCS.md` for domain docs relevant t
 13. Include concise evidence snippets in `Artifacts and Notes` as work progresses.
 14. Add a revision note at the bottom of the plan whenever the plan is revised.
 
-## Plan Depth By `plan_mode`
+### Phase 3: Tune Depth by Plan Mode
 
 Read `plan_mode` from `docs/specs/<slug>.md` and tune depth, not structure:
 
@@ -82,9 +62,19 @@ Read `plan_mode` from `docs/specs/<slug>.md` and tune depth, not structure:
 - `lightweight`: fewer milestones and shorter prose, but still include every required section.
 - `execution`: deeper orientation, milestones, validation detail, and richer decision/evidence updates.
 
+## Source of Truth
+
+- `docs/PLANS.md` is the instruction contract.
+- Follow it literally when creating and revising plans.
+- Do not modify `docs/PLANS.md` while running `he-plan`.
+
 ## Plan Template
 
 Use `templates/plan-template.md`.
+
+## Output
+
+- `docs/plans/active/<slug>.md`
 
 ## Exit Gate
 
@@ -97,9 +87,26 @@ Use `templates/plan-template.md`.
 - Domain docs relevant to this initiative exist and have real content (not stubs)
 - Docs commit gate passes
 
-## Transition
+## When Things Go Wrong
 
-Use an interactive question tool at this transition when available (`request_user_input` in Codex Plan mode, `AskUserQuestion` in Claude Code, or equivalent). Offer:
+- **Spec is too vague to plan from** — return to `he-spec` or `he-research` for clarification rather than guessing.
+- **Plan exceeds reasonable scope** — split into multiple milestones or recommend splitting the initiative.
+- **Missing domain docs block understanding** — create them with available context; don't wait for perfect information.
+- **Spike findings contradict the spec** — update the spec first, then plan from the corrected spec.
+
+## Anti-Patterns to Avoid
+
+| Anti-Pattern | Better Approach |
+|---|---|
+| Planning without reading `docs/PLANS.md` | Always read PLANS.md in full before drafting |
+| Vague milestones ("implement the feature") | Observable outcomes with proof commands |
+| Checklists outside `## Progress` | Narrative prose for non-progress sections |
+| Implementation-light plan that a novice can't follow | Concrete file paths, commands, expected outputs |
+| Skipping domain doc check | Create/populate domain docs when context is available |
+
+## Transition Points
+
+Always use interactive question tool at transitions (`AskUserQuestion` in Claude Code, `request_user_input` in Codex Plan mode, or equivalent). Offer:
 
 1. Continue to `he-implement` (recommended)
 2. Run one more build-feedback round in `he-plan`

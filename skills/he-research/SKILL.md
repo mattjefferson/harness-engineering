@@ -10,39 +10,30 @@ Resolve investigatable unknowns before implementation planning.
 
 Use this skill when answers are discoverable through research. For unknowns that must be built and experienced, use `he-spike` instead.
 
-## Key Principles
-
-1. Categorize first: only research questions where the answer can be found.
-2. Evidence-backed: record confidence and source notes; separate fact from inference.
-3. Update the source of truth: write findings into `docs/specs/<slug>.md` with revision notes.
-4. Prefer primary sources: repo evidence and official docs beat summaries.
-5. Do not plan here: research clarifies constraints; planning is `he-plan`.
-6. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `bash scripts/runbooks/select-runbooks.sh --skill <skill>`), but never waive/override anything codified here.
-
-## When To Use
+## When to Use
 
 - After `he-spec` when initiative direction still has open questions
 - Before `he-plan` when requirements or constraints are unclear
 - Standalone when the user asks to research specific questions
 - During re-entry when review or verify finds unresolved context gaps
 
-## Inputs
+## Key Principles
 
-- `docs/specs/<slug>.md` (preferred), or
-- Direct question list from user
+1. **Categorize first** — only research questions where the answer can be found.
+2. **Evidence-backed** — record confidence and source notes; separate fact from inference.
+3. **Update the source of truth** — write findings into `docs/specs/<slug>.md` with revision notes.
+4. **Prefer primary sources** — repo evidence and official docs beat summaries.
+5. **Do not plan here** — research clarifies constraints; planning is `he-plan`.
+6. **Runbooks are additive only** — apply any runbook whose frontmatter `called_from` matches this skill (`bash scripts/runbooks/select-runbooks.sh --skill he-research`), but never waive/override anything codified here.
 
-Optional supporting context:
+## Workflow
 
-- Related completed plans in `docs/plans/completed/`
-- Related spike docs in `docs/spikes/`
-- Relevant generated docs in `docs/generated/`
+### Phase 0: Gather Questions
 
-## Output
+- Read `docs/specs/<slug>.md` (preferred) or direct question list from user.
+- Optionally pull context from `docs/plans/completed/`, `docs/spikes/`, `docs/generated/`.
 
-- Research findings embedded in `docs/specs/<slug>.md` (when spec exists), or
-- A standalone research summary in `docs/specs/<slug>.md` for new initiative intake
-
-## Research Categories
+### Phase 1: Categorize
 
 Classify each question before investigation:
 
@@ -54,28 +45,29 @@ Classify each question before investigation:
 
 Category outcomes:
 
-- 1-3: investigate now
+- 1–3: investigate now
 - 4: redirect to `he-spike`
 - 5: surface decision explicitly to user
 
-## Workflow
+### Phase 2: Investigate in Parallel
 
-1. Gather questions from `Open Questions` (if present) in `docs/specs/<slug>.md`, plus user-provided questions.
-2. Categorize each question using the categories above.
-3. Launch one subagent per investigatable question (categories 1-3) in parallel.
-4. Each subagent returns:
+1. Launch one subagent per investigatable question (categories 1–3).
+2. Each subagent returns:
    - finding summary
    - confidence level (`high|medium|low`)
    - evidence/source notes
    - impact on scope/requirements/risk
-5. Synthesize findings into a single recommendation set.
-6. Update `docs/specs/<slug>.md`:
-   - move answered questions out of open state
-   - update `Requirements`, `Risks`, `Constraints`, or `Boundaries` as needed
-   - append `Revision Notes` describing what changed and why
-7. If questions require spike or user decisions, keep them explicit in the spec and mark follow-up action.
+3. Synthesize findings into a single recommendation set.
 
-## Update Contract For Specs
+### Phase 3: Update Artifacts
+
+1. Update `docs/specs/<slug>.md`:
+   - Move answered questions out of open state.
+   - Update `Requirements`, `Risks`, `Constraints`, or `Boundaries` as needed.
+   - Append `Revision Notes` describing what changed and why.
+2. Keep unresolved items explicit with next action.
+
+## Update Contract for Specs
 
 When a spec exists, keep it as source of truth:
 
@@ -93,11 +85,10 @@ Do not add implementation-level details that belong in `he-plan`.
 - Record confidence for each finding
 - Keep unresolved unknowns explicit; do not guess
 
-## Failure Handling
+## Output
 
-- If no useful evidence is found, mark question unresolved and carry it forward
-- If all questions require spike, stop and transition to `he-spike`
-- If all questions require user decisions, present a concise decision list and stop
+- Research findings embedded in `docs/specs/<slug>.md` (when spec exists), or
+- A standalone research summary in `docs/specs/<slug>.md` for new initiative intake
 
 ## Exit Gate
 
@@ -106,9 +97,26 @@ Do not add implementation-level details that belong in `he-plan`.
 - Follow-up actions are explicit for spike-required or user-decision items
 - Docs commit gate passes
 
-## Transition
+## When Things Go Wrong
 
-Use an interactive question tool at this transition when available (`request_user_input` in Codex Plan mode, `AskUserQuestion` in Claude Code, or equivalent). Offer:
+- **No useful evidence found** — mark question unresolved and carry it forward with explicit next action.
+- **All questions require spike** — stop research and transition to `he-spike`.
+- **All questions require user decisions** — present a concise decision list and stop.
+- **Conflicting evidence across sources** — record both sides with confidence levels; do not pick a winner without evidence.
+
+## Anti-Patterns to Avoid
+
+| Anti-Pattern | Better Approach |
+|---|---|
+| Guessing when evidence is thin | Mark as unresolved with confidence level |
+| Researching questions that need hands-on exploration | Redirect to `he-spike` for experience-dependent unknowns |
+| Adding implementation details to the spec | Keep implementation in `he-plan`; spec is intent only |
+| Treating inference as fact | Always distinguish and label confidence explicitly |
+| Researching in the main thread instead of parallel | Launch one subagent per question for concurrent investigation |
+
+## Transition Points
+
+Always use interactive question tool at transitions (`AskUserQuestion` in Claude Code, `request_user_input` in Codex Plan mode, or equivalent). Offer:
 
 1. Continue to `he-plan` (recommended when sufficient clarity)
 2. Continue to `he-spike` for experience-dependent unknowns

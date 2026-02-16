@@ -8,75 +8,46 @@ argument-hint: "[slug or docs/plans/active/<slug>.md]"
 
 Run structured, parallel code review before verify/release.
 
+## When to Use
+
+- After `he-implement` when code is ready for quality gate
+- After addressing review findings when material behavior changes occurred (re-review gate)
+
 ## Key Principles
 
-1. Security/data review is mandatory (even for trivial changes).
-2. The priority gate is real: unresolved `critical`/`high` blocks progression.
-3. Findings must be actionable: file/symbol + required action + owner.
-4. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `bash scripts/runbooks/select-runbooks.sh --skill <skill>`), but never waive/override any gates codified here.
-5. Escalate on judgment: unclear risk, ambiguous behavior, or flaky failures.
+1. **Security/data review is mandatory** — even for trivial changes.
+2. **The priority gate is real** — unresolved `critical`/`high` blocks progression.
+3. **Findings must be actionable** — file/symbol + required action + owner.
+4. **Escalate on judgment** — unclear risk, ambiguous behavior, or flaky failures.
+5. **Runbooks are additive only** — apply any runbook whose frontmatter `called_from` matches this skill (`bash scripts/runbooks/select-runbooks.sh --skill he-review`), but never waive/override any gates codified here.
 
-## Runbooks
+## Workflow
 
-These runbooks hold the repo-specific procedures that evolve over time:
+### Phase 0: Load Context
 
-- `docs/runbooks/code-review.md`
-- `docs/runbooks/review-findings.md`
-- `docs/runbooks/address-review-findings.md`
+- Read `docs/plans/active/<slug>.md`.
+- Gather implementation evidence from diffs/tests and generated reference context in `docs/generated/`.
+- Refresh generated context before review if stale (`db-schema.md`, `api-schema.md`, `component-tree.md`, `dependency-graph.md`, etc.).
 
-Runbooks are additive only. If a runbook is missing or low-quality, do not block forward progress — proceed using the skill-enforced gates and record the runbook drift for `he-learn`.
+### Phase 1: Review Fanout (Parallel)
 
-In addition to the baseline list above, apply any additional runbooks returned by:
+**For `plan_mode: trivial` (fast-track):**
 
-`bash scripts/runbooks/select-runbooks.sh --skill he-review`
+- Run **correctness reviewer** and **security/data reviewer** only.
+- Skip architecture and simplicity reviewers (trivial criteria guarantee low risk and single-file scope).
 
-## Inputs
+**For `plan_mode: lightweight` or `execution`:**
 
-- `docs/plans/active/<slug>.md`
-- Implementation evidence from diffs/tests and generated reference context in `docs/generated/`
+Launch one subagent per reviewer and run concurrently:
 
-## Generated Context
-
-Refresh generated context before review if stale:
-
-- `docs/generated/db-schema.md` (if present)
-- `docs/generated/api-schema.md` (if present)
-- `docs/generated/component-tree.md` (if present)
-- `docs/generated/dependency-graph.md` (if present)
-
-## Fast-Track Mode (Trivial Changes)
-
-When `plan_mode: trivial`, keep review lightweight but do not waive non-negotiable gates:
-
-- Run **correctness reviewer**
-- Run **security/data reviewer**
-
-Skip architecture and simplicity reviewers — the trivial criteria already guarantee low risk and single-file scope. All other review mechanics (findings format, priority gate, exit gate) still apply.
-
-## Review Fanout (Parallel)
-
-For `plan_mode: lightweight` or `execution`, launch one subagent per reviewer and run concurrently:
-
-1. correctness reviewer
-2. architecture/invariants reviewer
-3. security/data reviewer
-4. simplicity reviewer
+1. Correctness reviewer
+2. Architecture/invariants reviewer
+3. Security/data reviewer
+4. Simplicity reviewer
 
 Each subagent receives the active plan, diffs, and generated context.
 
-## Non-Negotiable Gates
-
-Runbooks are additive guidance only. They may add repo-specific checks, but they must not remove or relax these gates:
-
-- A security/data review is always performed.
-- Unresolved `critical` or `high` findings block progression.
-- Mock-based tests remain a `high` priority finding unless the repo explicitly documents an exception.
-
-If a runbook suggests skipping a non-negotiable gate, treat it as policy drift: record a `high` finding and escalate.
-
-## Review Dimensions
-
-Each reviewer checks against:
+**Review dimensions** — each reviewer checks against:
 
 - `Purpose / Big Picture`
 - `Validation and Acceptance`
@@ -84,15 +55,32 @@ Each reviewer checks against:
 - Golden principles defined in AGENTS.md
 - Testing philosophy: mock-based tests are a `high` priority finding
 
-## Findings Format
+### Phase 2: Consolidate
 
-Each finding includes:
+Write consolidated findings into `## Review Findings` in the active plan, including rationale for accepted medium/low findings.
+
+**Findings format** — each finding includes:
 
 - priority: `critical|high|medium|low`
 - location: file/path + context
 - issue summary
 - required action
 - owner
+
+### Phase 3: Priority Gate
+
+- Any unresolved `critical` or `high` finding blocks progression.
+- `medium` and `low` findings can proceed only if explicitly accepted in writing.
+
+## Non-Negotiable Gates
+
+Runbooks may add repo-specific checks but must not remove or relax these:
+
+- A security/data review is always performed.
+- Unresolved `critical` or `high` findings block progression.
+- Mock-based tests remain a `high` priority finding unless the repo explicitly documents an exception.
+
+If a runbook suggests skipping a non-negotiable gate, treat it as policy drift: record a `high` finding and escalate.
 
 ## Priority Rubric (Canonical)
 
@@ -110,15 +98,6 @@ Mock-based tests are a `high` finding unless the repo explicitly documents an ex
 ### Mandatory Security Coverage
 
 Missing the security/data review is a `high` finding (non-negotiable gate).
-
-## Consolidation
-
-Write consolidated findings into `## Review Findings` in the active plan, including rationale for accepted medium/low findings.
-
-## Priority Gate
-
-- Any unresolved `critical` or `high` finding blocks progression.
-- `medium` and `low` findings can proceed only if explicitly accepted in writing.
 
 ## Escalation
 
@@ -153,6 +132,10 @@ When review reveals a design-level issue:
 
 When addressing review findings materially alters behavior or implementation (not just style/formatting fixes), re-run `he-review` before proceeding to `he-verify-release`. This is a gate, not optional guidance.
 
+## Output
+
+- Consolidated review findings written to `## Review Findings` in `docs/plans/active/<slug>.md`.
+
 ## Exit Gate
 
 - Review findings recorded in active plan
@@ -161,9 +144,27 @@ When addressing review findings materially alters behavior or implementation (no
 - If fundamental design issue found: re-entry to `he-plan` identified
 - Docs commit gate passes
 
-## Transition
+## When Things Go Wrong
 
-Use an interactive question tool at this transition when available (`request_user_input` in Codex Plan mode, `AskUserQuestion` in Claude Code, or equivalent). Offer:
+- **Reviewer subagent returns ambiguous findings** — request clarification with specific file/line references before consolidating.
+- **All reviewers surface the same issue** — deduplicate into one finding with the highest applicable priority.
+- **Review findings are contested** — escalate with an escalation packet; do not downgrade severity without evidence.
+- **Flaky test failures appear during review** — record as a finding and escalate; do not ignore or retry silently.
+- **Runbook contradicts a non-negotiable gate** — treat as policy drift, record a `high` finding, and escalate.
+
+## Anti-Patterns to Avoid
+
+| Anti-Pattern | Better Approach |
+|---|---|
+| Skipping security/data review for "small changes" | Security review is mandatory for all changes |
+| Downgrading severity to unblock progression | Escalate honestly; gate is real |
+| Accepting mock-based tests as sufficient | Unit or e2e only; mocks are a `high` finding |
+| Consolidating findings without actionable detail | Every finding needs file/symbol + required action + owner |
+| Silently accepting medium/low findings | Explicitly accept in writing with rationale |
+
+## Transition Points
+
+Always use interactive question tool at transitions (`AskUserQuestion` in Claude Code, `request_user_input` in Codex Plan mode, or equivalent). Offer:
 
 1. Continue to `he-verify-release` (recommended when not blocked)
 2. Run one more build-feedback round in `he-review`

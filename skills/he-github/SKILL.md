@@ -8,67 +8,52 @@ argument-hint: "[slug, docs/plans/active/<slug>.md, or PR number/url]"
 
 Drive the PR lifecycle end-to-end with `gh`, while keeping harness artifacts (spec/plan/evidence) as the system of record.
 
+## When to Use
+
+- After `he-implement` when code is ready for a PR
+- When CI fails and needs triage
+- When PR feedback arrives and needs a response
+- When `he-verify-release` decision is GO and merge is approved
+
 ## Key Principles
 
-1. **Consent gate for remote ops**: do not push, open a PR, request review, or merge without explicit user approval.
-2. **One PR per initiative slug**: the PR title/body should reference the same slug used in `docs/specs/` and `docs/plans/`.
-3. **Plan is canonical**: the PR description links to the active plan and key evidence; it does not replace it.
-4. **CI is evidence**: treat failing checks as signal; follow `docs/runbooks/ci-failures.md`.
-5. **Feedback loop**: respond to review comments by updating code + plan + evidence, then push and re-check.
-6. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `bash scripts/runbooks/select-runbooks.sh --skill <skill>`).
+1. **Consent gate for remote ops** — do not push, open a PR, request review, or merge without explicit user approval.
+2. **One PR per initiative slug** — the PR title/body should reference the same slug used in `docs/specs/` and `docs/plans/`.
+3. **Plan is canonical** — the PR description links to the active plan and key evidence; it does not replace it.
+4. **CI is evidence** — treat failing checks as signal; follow `docs/runbooks/ci-failures.md`.
+5. **Feedback loop** — respond to review comments by updating code + plan + evidence, then push and re-check.
+6. **Runbooks are additive only** — apply any runbook whose frontmatter `called_from` matches this skill (`bash scripts/runbooks/select-runbooks.sh --skill he-github`).
 
-## Runbooks
+## Workflow
 
-Runbooks are additive (not required). A bootstrapped repo usually includes:
+### Phase 0: Preflight
 
-- `docs/runbooks/pull-request.md`
-- `docs/runbooks/respond-to-feedback.md`
-- `docs/runbooks/ci-failures.md`
-- `docs/runbooks/merge-change.md`
+- Read `docs/plans/active/<slug>.md` or accept initiative slug/PR reference.
+- Verify current git workspace context (branch/worktree) from `he-worktree`.
+- Run and record results in plan `Artifacts and Notes` or `Decision Log`:
+  - `git status --short --branch`
+  - `git remote -v`
+  - `gh auth status`
 
-In addition, apply any runbooks returned by:
+### Phase 1: Open or Update PR (Consent Required)
 
-`bash scripts/runbooks/select-runbooks.sh --skill he-github`
+**Creating a new PR:**
 
-## Inputs
-
-- Initiative slug or active plan path: `docs/plans/active/<slug>.md`
-- Current git workspace context (branch/worktree) from `he-worktree`
-- GitHub CLI auth context (`gh auth status`)
-
-## Preflight
-
-Run and record results (in plan `Artifacts and Notes` or `Decision Log`):
-
-- `git status --short --branch`
-- `git remote -v`
-- `gh auth status`
-
-## Open Or Update PR (Consent Required)
-
-When approved:
-
-1. Push the branch:
-   - `git push -u origin HEAD`
-2. Create a PR if none exists:
-   - `gh pr create --fill`
+1. Push the branch: `git push -u origin HEAD`
+2. Create a PR: `gh pr create --fill`
 3. Ensure the PR body links:
    - spec: `docs/specs/<slug>.md`
    - plan: `docs/plans/active/<slug>.md`
    - evidence: paths under `docs/artifacts/<slug>/` (if any)
-4. Update the active plan `## Pull Request` section with:
-   - pr URL
-   - branch name
-   - current commit SHA
-   - CI link/status (as available)
+4. Update the active plan `## Pull Request` section with pr URL, branch name, current commit SHA, CI link/status.
 
-If a PR already exists:
+**Updating an existing PR:**
 
 - Update body/checklist links: `gh pr edit --body-file <file>`
 - Re-check CI: `gh pr checks`
-- Ensure `docs/plans/active/<slug>.md` `## Pull Request` stays current.
+- Ensure `## Pull Request` in the plan stays current.
 
-## Respond To Feedback
+### Phase 2: Respond to Feedback
 
 1. Fetch comments and requested changes:
    - `gh pr view --comments`
@@ -79,15 +64,15 @@ If a PR already exists:
    - `git push`
    - `gh pr checks`
 
-## Detect And Remediate Build Failures
+### Phase 3: Detect and Remediate Build Failures
 
 - Use `gh pr checks` to identify failing jobs quickly.
-- Use `gh run view --log-failed` (or the repo’s equivalent) to pull actionable logs.
+- Use `gh run view --log-failed` (or the repo's equivalent) to pull actionable logs.
 - Follow `docs/runbooks/ci-failures.md` for triage order and escalation.
 
-## Merge (Consent + GO Required)
+### Phase 4: Merge (Consent + GO Required)
 
-Preconditions (canonical — runbooks may add repo-specific items but must not remove these):
+**Merge preconditions** (canonical — runbooks may add repo-specific items but must not remove these):
 
 - `he-verify-release` decision is `GO` in the active plan.
 - All required checks are green (local and/or CI).
@@ -95,3 +80,35 @@ Preconditions (canonical — runbooks may add repo-specific items but must not r
 - No unresolved `critical` or `high` review findings.
 
 When approved, merge using the repo policy in `docs/runbooks/merge-change.md` (often via `gh pr merge`).
+
+## Output
+
+- PR opened/updated on GitHub.
+- `## Pull Request` section in the active plan kept current.
+
+## Exit Gate
+
+- PR state matches the current phase (opened, updated, merged, or feedback addressed)
+- Plan `## Pull Request` section reflects current PR metadata
+- CI status is recorded
+
+## When Things Go Wrong
+
+- **`gh auth status` fails** — auth must be resolved before any remote ops; do not proceed unauthenticated.
+- **CI fails after push** — triage using `docs/runbooks/ci-failures.md`; do not merge with failing checks.
+- **PR feedback contradicts the plan** — update the plan first, then the code; plan is canonical.
+- **Merge conflicts** — resolve before merge; never force-push without explicit consent.
+
+## Anti-Patterns to Avoid
+
+| Anti-Pattern | Better Approach |
+|---|---|
+| Pushing without user consent | Consent gate for all remote operations |
+| PR description replaces the plan | PR links to the plan; plan is the system of record |
+| Merging with failing CI | CI is evidence; failures must be resolved |
+| Force-pushing without explicit approval | Always get consent for destructive remote ops |
+| Ignoring PR feedback | Respond by updating code + plan + evidence |
+
+## Transition Points
+
+This skill is typically invoked from within the workflow rather than transitioning to a next phase. After merge, the workflow continues to `he-learn`.
