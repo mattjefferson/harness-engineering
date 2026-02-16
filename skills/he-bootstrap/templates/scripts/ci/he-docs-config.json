@@ -17,7 +17,6 @@
     "docs/runbooks/verify-release.md",
     "docs/runbooks/record-evidence.md",
     "docs/runbooks/ci-failures.md",
-    "docs/runbooks/escalation.md",
     "docs/runbooks/merge-change.md"
   ],
   "domain_docs": [

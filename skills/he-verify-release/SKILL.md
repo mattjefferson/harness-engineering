@@ -24,7 +24,6 @@ These runbooks hold the repo-specific procedures that evolve over time:
 - `docs/runbooks/verify-release.md`
 - `docs/runbooks/record-evidence.md`
 - `docs/runbooks/ci-failures.md`
-- `docs/runbooks/escalation.md`
 - `docs/runbooks/merge-change.md`
 
 Runbooks are additive only. If a runbook is missing or low-quality, do not block forward progress — proceed using the skill-enforced gates and record the runbook drift for `he-learn`.
@@ -63,14 +62,24 @@ Fill in `## Verify/Release Decision` in `docs/plans/active/<slug>.md`.
 - `GO` only with complete evidence and explicit rollback path.
 - **Default safe action**: when uncertain, the decision is `NO-GO`. Record the re-entry target (`he-implement` or `he-plan`) and list the missing evidence. Do not default to `GO` with caveats.
 
-## Judgment Required (Escalate)
+## Escalation
 
-Stop and escalate via `docs/runbooks/escalation.md` when:
+Escalate early when the risk is unclear or when correctness cannot be demonstrated with evidence. Stop and escalate when:
 
 - Failures are flaky/non-deterministic
 - Rollback is missing or unclear
 - Evidence is incomplete but a decision is being requested
 - Risk to users/data is unclear
+
+### Escalation Packet
+
+Provide at minimum:
+
+- Current decision request: what you want approved (`GO` vs `NO-GO`, or which re-entry phase)
+- Evidence: commands run + short outputs + screenshots/recordings if applicable
+- Risk assessment: what could break, who is affected, severity
+- Rollback plan: what to revert and how to verify recovery
+- Open questions: the smallest set of choices needed to proceed
 
 ## Re-entry on NO-GO
 

@@ -13,7 +13,7 @@ called_from:
 1. Triage findings by priority.
 2. For each `critical`/`high`, do one of:
    - fix it (preferred), or
-   - escalate via `docs/runbooks/escalation.md` if behavior is ambiguous or risk is unclear.
+   - escalate per `he-review` SKILL.md § Escalation if behavior is ambiguous or risk is unclear.
 3. For `medium`/`low`, either:
    - fix it, or
    - accept it explicitly in the plan with rationale and follow-up link.

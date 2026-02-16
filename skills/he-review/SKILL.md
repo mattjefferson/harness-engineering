@@ -23,7 +23,6 @@ These runbooks hold the repo-specific procedures that evolve over time:
 - `docs/runbooks/code-review.md`
 - `docs/runbooks/review-findings.md`
 - `docs/runbooks/address-review-findings.md`
-- `docs/runbooks/escalation.md`
 
 Runbooks are additive only. If a runbook is missing or low-quality, do not block forward progress — proceed using the skill-enforced gates and record the runbook drift for `he-learn`.
 
@@ -121,14 +120,24 @@ Write consolidated findings into `## Review Findings` in the active plan, includ
 - Any unresolved `critical` or `high` finding blocks progression.
 - `medium` and `low` findings can proceed only if explicitly accepted in writing.
 
-## Judgment Required (Escalate)
+## Escalation
 
-Stop and escalate via `docs/runbooks/escalation.md` when:
+Escalate early when the risk is unclear or when correctness cannot be demonstrated with evidence. Stop and escalate when:
 
 - Expected behavior is ambiguous or disputed
 - Risk to users/data is unclear
 - Failures are flaky/non-deterministic
 - A "fix" would weaken the evidence or remove meaningful assertions
+
+### Escalation Packet
+
+Provide at minimum:
+
+- Current decision request: what you want approved and which re-entry phase
+- Evidence: commands run + short outputs + screenshots/recordings if applicable
+- Risk assessment: what could break, who is affected, severity
+- Rollback plan: what to revert and how to verify recovery
+- Open questions: the smallest set of choices needed to proceed
 
 ## Re-entry Rules
 

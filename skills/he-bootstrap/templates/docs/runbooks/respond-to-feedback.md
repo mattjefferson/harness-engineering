@@ -15,7 +15,7 @@ Treat feedback as new requirements. The objective is to address comments with th
 
 1. Group comments by theme (correctness, security/data, architecture, taste).
 2. Identify which comments require code changes vs explanation-only.
-3. For any comment that is ambiguous or high risk, escalate (see `docs/runbooks/escalation.md`).
+3. For any comment that is ambiguous or high risk, escalate per `he-review` SKILL.md § Escalation.
 
 ## Commands (Recommended)
 

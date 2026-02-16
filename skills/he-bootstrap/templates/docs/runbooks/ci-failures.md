@@ -29,7 +29,7 @@ Treat CI failures as signal. The goal is not to make CI green by any means; it i
 
 - If you can reproduce locally, fix like deterministic.
 - If you cannot reproduce:
-  - mark as `judgment required` and escalate with evidence (see `docs/runbooks/escalation.md`)
+  - mark as `judgment required` and escalate with evidence per the calling skill's § Escalation
   - do not disable tests silently
 
 ## Tooling Failures

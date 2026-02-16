@@ -36,4 +36,4 @@ Keep this list short and concrete:
 
 ## Escalation
 
-If review requires judgment (risk unclear, expected behavior ambiguous, flaky failures), stop and escalate using `docs/runbooks/escalation.md`.
+If review requires judgment (risk unclear, expected behavior ambiguous, flaky failures), stop and escalate per `he-review` SKILL.md § Escalation.

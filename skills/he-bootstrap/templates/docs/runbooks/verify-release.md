@@ -64,7 +64,7 @@ Record the minimum set of checks to run after merge/release:
 
 ## Escalation Triggers
 
-If any of these apply, stop and escalate (see `docs/runbooks/escalation.md`):
+If any of these apply, stop and escalate per `he-verify-release` SKILL.md § Escalation:
 
 - Unclear risk to users/data
 - Flaky or non-deterministic failures
