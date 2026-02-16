@@ -15,7 +15,7 @@ Create a decision-ready spec artifact for a new initiative.
 3. Concrete success: requirements and success criteria must be testable/observable.
 4. Route unknowns: investigatable questions go to `he-research`; experience-dependent unknowns go to `he-spike`.
 5. No fake certainty: capture ambiguity explicitly instead of guessing.
-6. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `python scripts/runbooks/select-runbooks.py --skill <skill>`), but never waive/override anything codified here.
+6. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `bash scripts/runbooks/select-runbooks.sh --skill <skill>`), but never waive/override anything codified here.
 
 ## Output
 

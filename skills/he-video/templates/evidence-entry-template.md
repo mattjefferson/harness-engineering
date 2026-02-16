@@ -7,13 +7,13 @@
 - manifest: `docs/artifacts/<slug>/browser/<scenario-id>/manifest.tsv`
 - capture commands:
 
-    python skills/he-video/scripts/record-browser-evidence.py \
+    bash skills/he-video/scripts/record-browser-evidence.sh \
       --slug <slug> \
       --scenario <scenario-id> \
       --phase failure \
       --flow-script <flow-script-path>
 
-    python skills/he-video/scripts/record-browser-evidence.py \
+    bash skills/he-video/scripts/record-browser-evidence.sh \
       --slug <slug> \
       --scenario <scenario-id> \
       --phase resolution \

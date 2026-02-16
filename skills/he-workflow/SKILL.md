@@ -15,7 +15,7 @@ Run the full lifecycle with phase gates and parallel subagents.
 3. Re-entry is explicit: update plan living sections when returning to earlier phases.
 4. Evidence-based transitions: progress only when gates pass; otherwise stop and record blockers.
 5. Prefer autonomy with traceability: auto-transitions are logged in artifacts.
-6. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `python scripts/runbooks/select-runbooks.py --skill <skill>`), but never waive/override anything codified here.
+6. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `bash scripts/runbooks/select-runbooks.sh --skill <skill>`), but never waive/override anything codified here.
 
 ## Inputs
 

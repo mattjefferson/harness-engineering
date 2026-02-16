@@ -15,7 +15,7 @@ Initialize the docs structure required by the `he-*` workflow while preserving t
 3. Domain docs are on-demand: downstream skills populate them when real context exists.
 4. Structure first: if the docs/workflow layout is wrong, fix it before execution.
 5. Verify bootstrap: run the post-bootstrap validation checks.
-6. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `python scripts/runbooks/select-runbooks.py --skill <skill>`), but never waive/override anything codified here.
+6. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `bash scripts/runbooks/select-runbooks.sh --skill <skill>`), but never waive/override anything codified here.
 
 ## Inputs
 
@@ -81,18 +81,18 @@ Optional:
 
 ## Bootstrap Commands
 
-Run `templates/bootstrap.py` from the target repo root.
+Run `templates/bootstrap.sh` from the target repo root.
 
 Example:
 
 ```bash
-python skills/he-bootstrap/templates/bootstrap.py
+bash skills/he-bootstrap/templates/bootstrap.sh
 ```
 
 With architecture template:
 
 ```bash
-python skills/he-bootstrap/templates/bootstrap.py --with-architecture
+bash skills/he-bootstrap/templates/bootstrap.sh --with-architecture
 ```
 
 ## Post-Bootstrap Validation

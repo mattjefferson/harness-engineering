@@ -15,7 +15,7 @@ Turn execution outcomes into durable improvements.
 3. Process the scratchpad: triage and clear `docs/generated/memory.md`.
 4. Archive cleanly: move the plan to completed and keep append-only semantics.
 5. Promote enforcement: repeated issues should become lint/test/CI guardrails.
-6. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `python scripts/runbooks/select-runbooks.py --skill <skill>`), but never waive/override anything codified here.
+6. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `bash scripts/runbooks/select-runbooks.sh --skill <skill>`), but never waive/override anything codified here.
 
 ## Inputs
 

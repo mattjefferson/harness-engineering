@@ -20,7 +20,7 @@ This skill is first-party and uses `agent-browser` as the execution engine.
 3. Keep clips reviewable: short, focused captures beat long walkthroughs.
 4. Do not "fix the repro" silently: any changes to the flow must be explicit and explained.
 5. Evidence is a gate: missing paired videos for a UI bug fix implies `NO-GO`.
-6. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `python scripts/runbooks/select-runbooks.py --skill <skill>`), but never waive/override anything codified here.
+6. Runbooks are additive only: apply any runbook whose frontmatter `called_from` matches this skill (see `bash scripts/runbooks/select-runbooks.sh --skill <skill>`), but never waive/override anything codified here.
 
 ## Inputs
 
@@ -46,7 +46,7 @@ Artifacts are written to:
 Record pre-fix failure evidence:
 
 ```bash
-python skills/he-video/scripts/record-browser-evidence.py \
+bash skills/he-video/scripts/record-browser-evidence.sh \
   --slug 2026-02-15-login-timeout \
   --scenario login-timeout \
   --phase failure \
@@ -56,7 +56,7 @@ python skills/he-video/scripts/record-browser-evidence.py \
 Record post-fix resolution evidence:
 
 ```bash
-python skills/he-video/scripts/record-browser-evidence.py \
+bash skills/he-video/scripts/record-browser-evidence.sh \
   --slug 2026-02-15-login-timeout \
   --scenario login-timeout \
   --phase resolution \
