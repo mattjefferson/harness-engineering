@@ -27,7 +27,7 @@ Run structured, parallel code review before verify/release.
 
 1. Read `docs/plans/active/<slug>.md`.
 2. Gather implementation evidence from diffs/tests and generated reference context in `docs/generated/`.
-3. Refresh generated context before review if stale (`db-schema.md`, `api-schema.md`, `component-tree.md`, `dependency-graph.md`, etc.).
+3. Refresh generated context before review if stale (check `docs/generated/` for files with outdated `last_updated` timestamps).
 4. Run `bash scripts/runbooks/select-runbooks.sh --skill he-review` and read any returned runbooks. Apply their additions throughout — they must not waive or override gates codified here.
 
 ### Phase 1: Review Fanout (Parallel)

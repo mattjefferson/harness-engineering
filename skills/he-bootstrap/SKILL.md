@@ -42,10 +42,6 @@ Create these only if missing:
 - `docs/spikes/README.md`
 - `docs/plans/README.md`
 - `docs/generated/README.md`
-- `docs/generated/db-schema.md`
-- `docs/generated/api-schema.md`
-- `docs/generated/component-tree.md`
-- `docs/generated/dependency-graph.md`
 - `docs/design-docs/index.md`
 - `docs/PLANS.md`
 - `docs/DOMAIN_DOCS.md`
@@ -62,10 +58,6 @@ Each created file has a source template in `templates/`:
 - `docs/spikes/README.md` <- `templates/docs/spikes/README.md`
 - `docs/plans/README.md` <- `templates/docs/plans/README.md`
 - `docs/generated/README.md` <- `templates/docs/generated/README.md`
-- `docs/generated/db-schema.md` <- `templates/docs/generated/db-schema.md`
-- `docs/generated/api-schema.md` <- `templates/docs/generated/api-schema.md`
-- `docs/generated/component-tree.md` <- `templates/docs/generated/component-tree.md`
-- `docs/generated/dependency-graph.md` <- `templates/docs/generated/dependency-graph.md`
 - `docs/design-docs/index.md` <- `templates/docs/design-docs/index.md`
 - `docs/PLANS.md` <- `templates/docs/PLANS.md`
 - `docs/DOMAIN_DOCS.md` <- `templates/docs/DOMAIN_DOCS.md`
@@ -106,7 +98,7 @@ test -d docs/design-docs &&
 test -d docs/generated &&
 test -f AGENTS.md &&
 test -f docs/plans/tech-debt-tracker.md &&
-test -f docs/generated/db-schema.md &&
+test -f docs/generated/README.md &&
 test -f docs/DOMAIN_DOCS.md
 ```
 
