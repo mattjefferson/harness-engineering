@@ -252,6 +252,19 @@ Notes:
 
 ## Workflow Model
 
+```mermaid
+flowchart TD
+    A["Phase 0: Initialize<br/>resolve slug, validate docs/, run he-bootstrap if needed"] --> B["Phase 1: Intake<br/>he-spec -> optional he-research -> optional he-spike"]
+    B --> C["Phase 2: Plan<br/>he-plan + PLANS section/gate validation"]
+    C --> D["Phase 3: Execute<br/>he-implement (+ optional he-github)"]
+    D --> E["Phase 4: Quality Gate<br/>he-review (+ he-verify-release unless plan_mode=trivial)"]
+    E -->|GO| F["Phase 5: Close<br/>he-learn + archive plan"]
+    F --> G["Completed artifact<br/>docs/plans/completed/<slug>.md"]
+
+    E -->|NO-GO / blocking findings| R["Re-entry required<br/>update Progress + Decision Log + Revision Notes"]
+    R --> C
+```
+
 ### Slug convention
 
 All initiative artifacts share one slug:
